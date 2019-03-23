@@ -1,0 +1,157 @@
+body {
+    background-color: #B0E0E6;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: small;
+    margin: 0px;
+}
+header.top {
+    background-color: #f3f3f3;
+    /*margin: 10px;*/
+    margin: 10px 10px 0px 10px;
+    height: auto;
+}
+
+nav {
+    background-color: #f3f3f3;
+    margin: 10px 10px 0px 10px;
+}
+nav ul {
+    margin: 0px;
+    list-style-type: none;
+    padding: 5px 0px 5px 0px;
+    cursor: pointer;
+}
+.sel {
+    display: inline;
+    padding: 5px 10px 5px 10px;
+    color: #03437d;
+    border-bottom: none;
+    font-weight: bold;
+    text-decoration: underline;
+
+}
+
+
+#selected {
+    background-color: #C0C0C0;
+}
+
+footer {
+    background-color: #f3f3f3;
+    color: #03437d;
+    text-align: center;
+    padding: 15px;
+    margin: 0px 10px 10px 10px;
+    font-size: 90%;
+}
+
+aside{
+    display: table-cell;
+    background: #f3f3f3;
+    font-size: 105%;
+    padding: 15px;
+    margin: 0px 10px 10px 10px;
+    vertical-align: top;
+    horiz-align: right;
+    width: 380px;
+}
+
+#div_hide{
+    visibility: hidden;
+}
+
+#span1, #span2{
+    font-weight: bold;
+}
+
+#prim{
+    height: 200px;
+    width: 250px;
+}
+
+#prim, #prim2{
+    display: none;
+}
+
+
+div#tableContainer {
+    display: table;
+    border-spacing: 10px;
+}
+
+div#tableRow {
+    display: table-row;
+}
+
+section#main {
+    display: table-cell;
+    background: #f3f3f3;
+    font-size: 105%;
+    padding: 15px;
+    /*margin: 0px 10px 10px 10px;*/
+    vertical-align: top;
+    width: auto;
+}
+
+#contact, #list{
+    background-color: #f3f3f3;
+    font-size: 150%;
+    color: #03437d;
+    line-height: 1.3em;
+    font-family: serif;
+}
+
+#zag{
+    color: #191970;
+}
+
+table {
+    margin-left: 20px;
+    margin-right: 20px;
+    border: thin solid black;
+    caption-side: bottom;
+    /*border-spacing: 0px;*/
+    border-collapse: collapse;
+}
+
+td, th {
+    border: thin dotted gray;
+    padding: 5px;
+
+}
+
+.my_href, td{
+    font-size: 0.7em;
+}
+
+.my_href{
+    text-decoration: underline;
+}
+
+.hide_span{
+    visibility: hidden;
+}
+
+form {
+    display: table;
+    padding: 10px;
+    border: thin dotted #7e7e7e;
+    background-color: #B0E0E6;
+}
+
+div.tableRow {
+    display: table-row;
+}
+
+div.tableRow p {
+    display: table-cell;
+    vertical-align: top;
+    padding: 3px;
+}
+div.tableRow p:first-child {
+    text-align: right;
+}
+p.heading {
+    font-weight: bold;
+}
+
