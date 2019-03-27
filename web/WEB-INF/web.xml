@@ -30,11 +30,22 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
-        <url-pattern>*.js</url-pattern>
-        <url-pattern>*.png</url-pattern>
-        <url-pattern>*.jpg</url-pattern>
-        <!--<url-pattern>*.html</url-pattern>-->
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
+
+        <!--<url-pattern>*.html</url-pattern>-->
+
 
     <filter>
         <filter-name>encodingFilter</filter-name>

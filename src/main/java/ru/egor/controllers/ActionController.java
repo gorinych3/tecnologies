@@ -2,9 +2,7 @@ package ru.egor.controllers;
 
 
 import com.google.gson.Gson;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.util.EncodingUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.egor.entity.Element;
-import ru.egor.entity.Machine;
-import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
 import ru.egor.service.ElementService;
 
@@ -158,14 +154,11 @@ public class ActionController {
         return "redirect: elements";
     }
 
-    @RequestMapping(value = "/plates"/*, produces = "application/json; charset=UTF-8"*/)
-    //@ResponseBody
+    @RequestMapping(value = "/plates" , produces = "application/json; charset=UTF-8")
     public String selectAllPlates(Model model){
         System.out.println("Запуск сервлета selectAllPlates");
         List<Plate> plates;
         plates = elementService.showPlates();
-//        String js_plates = gson.toJson(plates);
-//        System.out.println(js_plates);
         model.addAttribute("plates",plates);
         return "plates";
     }
@@ -176,12 +169,37 @@ public class ActionController {
         return "addPlates";
     }
 
-    @RequestMapping(value = "/addPlates", method = RequestMethod.POST)
-    public String addPlates(@RequestBody String data){
+    @RequestMapping(value = "/addPlates", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public String addPlates(@RequestBody String data, Model model){
         System.out.println("Запуск сервлета addPlates");
         Plate plate = gson.fromJson(data, Plate.class);
-        elementService.addPlate(plate);
-        return "addPlates";
+        try {
+            elementService.addPlate(plate);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+            String error = ex.getMessage();
+            return gson.toJson(error);
+        }
+        String message = gson.toJson("success");
+        return message;
+    }
+
+    @RequestMapping(value = "/ajaxtest",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+    @ResponseBody
+    public String ajaxTest() {
+        System.out.println("Запуск сервлета ajaxtest");
+        List<Plate> plates;
+        plates = elementService.showPlates();
+        String js_plates = gson.toJson(plates);
+        //System.out.println(js_plates);
+        return js_plates;
+    }
+
+    @RequestMapping("/errorPage")
+    public String errorPage(){
+        System.out.println("Запуск сервлета errorPage");
+        return "errorPage";
     }
 
 }

@@ -4,6 +4,28 @@ body {
     font-size: small;
     margin: 0px;
 }
+
+.button2, .button3 {
+    background-color: #B0E0E6;
+    border: 1px solid #000080;
+    border-radius: 3px;
+    color: #03437d;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 20px;
+    cursor: pointer;
+}
+
+.button2{
+    display: block;
+}
+
+.button3{
+    display: none;
+}
+
 header.top {
     background-color: #f3f3f3;
     /*margin: 10px;*/
@@ -153,5 +175,18 @@ div.tableRow p:first-child {
 }
 p.heading {
     font-weight: bold;
+}
+
+#add_hide{
+    display: none;
+}
+
+#err{
+    display: none;
+}
+
+#erMessage{
+    color: red;
+    font-size: 1em;
 }
 

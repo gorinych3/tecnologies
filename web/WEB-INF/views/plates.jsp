@@ -23,31 +23,37 @@
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
     </ul>
 </nav>
-
 <div id="tableContainer">
     <div id="tableRow">
         <section id="main">
             <table id="list">
+                <tbody>
                 <tr id="zag">
                     <th>Наименование</th>
                     <th>Модель (по паспорту)</th>
                     <th>Тип</th>
                     <th>Фото</th>
                 </tr>
-                <jsp:useBean id="plates" scope="request" type="java.util.List"/>
-                <c:forEach items="${plates}" var="p">
-                    <tr>
-                        <td class="my_href">${p.name}</td>
-                        <td>${p.model}</td>
-                        <td>${p.type}</td>
-                        <td>${p.photo}</td>
-                    </tr>
-                </c:forEach>
+                <form id="formPlate" name="formPlate" action="${pageContext.request.contextPath}/addPlates">
+                <tr id="add_hide">
+                    <td><input type="text" name="name" value=""></td>
+                    <td><input type="text" name="model" value=""></td>
+                    <td><input type="text" name="type" value=""></td>
+                    <td><input type="text" name="photo" value=""></td>
+                </tr>
+                </form>
+                </tbody>
             </table>
+            <input class="button2" type="button" value="Добавить">
+            <input class="button3" type="button" value="Принять">
+
 
         </section>
 
         <aside>
+            <div id="err">
+                <p id="erMessage"></p>
+            </div>
             <div id="div_hide">
                 <img id="prim" src="">
                 <p id="prim2"></p>
@@ -55,6 +61,7 @@
         </aside>
     </div>
 </div>
+
 
 <footer>
     Copyright © 2019 gorinych3 <br>
