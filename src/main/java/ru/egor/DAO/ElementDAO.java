@@ -2,6 +2,7 @@ package ru.egor.DAO;
 
 import ru.egor.entity.Element;
 import ru.egor.entity.MyTool;
+import ru.egor.entity.Path;
 import ru.egor.entity.Plate;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface ElementDAO {
     List<Plate> showPlates();
 
     void addPlate(Plate plate);
+
+    Plate getPlateByModel(String model);
+
+    void addPathPlate(Path path);
 }

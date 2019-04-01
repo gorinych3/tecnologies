@@ -39,7 +39,7 @@
                     <td><input type="text" name="name" value=""></td>
                     <td><input type="text" name="model" value=""></td>
                     <td><input type="text" name="type" value=""></td>
-                    <td><input type="text" name="photo" value=""></td>
+                    <td><input id="files" type="file" accept="image/*" multiple name="photo"></td>
                 </tr>
                 </form>
                 </tbody>

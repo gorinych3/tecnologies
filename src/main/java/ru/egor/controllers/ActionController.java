@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import ru.egor.entity.Element;
 import ru.egor.entity.Plate;
+import ru.egor.entity.PredPlate;
 import ru.egor.service.ElementService;
 
 import java.io.UnsupportedEncodingException;
@@ -174,6 +176,7 @@ public class ActionController {
     public String addPlates(@RequestBody String data, Model model){
         System.out.println("Запуск сервлета addPlates");
         Plate plate = gson.fromJson(data, Plate.class);
+        System.out.println(plate.toString());
         try {
             elementService.addPlate(plate);
         }catch (Exception ex){

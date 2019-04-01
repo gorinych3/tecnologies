@@ -3,6 +3,7 @@ package ru.egor.service;
 import ru.egor.entity.Element;
 import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
+import ru.egor.entity.PredPlate;
 
 import java.util.List;
 

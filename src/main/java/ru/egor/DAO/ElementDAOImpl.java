@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.egor.entity.Element;
 import ru.egor.entity.MyTool;
+import ru.egor.entity.Path;
 import ru.egor.entity.Plate;
 
 import java.util.List;
@@ -68,5 +69,19 @@ public class ElementDAOImpl implements ElementDAO {
     @Override
     public void addPlate(Plate plate) {
         sessionFactory.getCurrentSession().save(plate);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Plate getPlateByModel(String model) {
+        Query<Plate> plate = sessionFactory.getCurrentSession().createQuery("from Plate where model = :paramName");
+        plate.setParameter("paramName", model);
+        return plate.getSingleResult();
+    }
+
+    @Override
+    public void addPathPlate(Path path) {
+        String insert = "insert into Path (plateId, pathName) select path.plateId, path.pathName from Path";
+        sessionFactory.getCurrentSession().createQuery(insert);
     }
 }

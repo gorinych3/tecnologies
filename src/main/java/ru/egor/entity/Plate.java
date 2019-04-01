@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -51,6 +52,7 @@ public class Plate {
 //    @Setter
 //    private Set<MyTool> tools;
 
+
     @Override
     public String toString() {
         return "Plate{" +
@@ -58,9 +60,7 @@ public class Plate {
                 ", name='" + name + '\'' +
                 ", model='" + model + '\'' +
                 ", type='" + type + '\'' +
-                ", photo='" + photo + '\'' +
-//                ", elements=" + elements +
-//                ", tools=" + tools +
+                ", photo=" + photo +
                 '}';
     }
 }

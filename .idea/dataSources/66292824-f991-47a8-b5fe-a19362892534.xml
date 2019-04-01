@@ -76,7 +76,7 @@
     <schema id="17" parent="3" name="public">
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
-      <IntrospectionTimestamp>2019-03-18.17:20:03.999</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2019-03-28.11:57:50.545</IntrospectionTimestamp>
       <IntrospectionStateNumber>980</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
@@ -123,15 +123,7 @@
       <HandlerId>335</HandlerId>
       <Type>index</Type>
     </access-method>
-    <sequence id="24" parent="17" name="plates_plateid_seq">
-      <ObjectId>33265</ObjectId>
-      <StateNumber>965</StateNumber>
-      <SequenceIdentity>1..2147483647</SequenceIdentity>
-      <BelongsToColumn>1</BelongsToColumn>
-      <CacheSize>1</CacheSize>
-      <DataType>integer</DataType>
-    </sequence>
-    <sequence id="25" parent="17" name="elements_elid_seq">
+    <sequence id="24" parent="17" name="elements_elid_seq">
       <ObjectId>33232</ObjectId>
       <StateNumber>952</StateNumber>
       <SequenceIdentity>1..2147483647</SequenceIdentity>
@@ -139,9 +131,17 @@
       <CacheSize>1</CacheSize>
       <DataType>integer</DataType>
     </sequence>
-    <sequence id="26" parent="17" name="machines_machid_seq">
+    <sequence id="25" parent="17" name="machines_machid_seq">
       <ObjectId>33243</ObjectId>
       <StateNumber>959</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="26" parent="17" name="plates_plateid_seq">
+      <ObjectId>33265</ObjectId>
+      <StateNumber>965</StateNumber>
       <SequenceIdentity>1..2147483647</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
       <CacheSize>1</CacheSize>
