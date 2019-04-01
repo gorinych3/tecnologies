@@ -94,7 +94,7 @@ $(document).ready(function () {
                         console.log(res);
                         var lastEl = new Plate(null, dataName, dataModel, dataType, dataPhoto);
                         addRow(lastEl);
-
+                        uplaod();
                     } else {
                         console.log("Error: " + res);
                         $("#err").css("display", "block");
@@ -112,4 +112,31 @@ $(document).ready(function () {
     $("#err").click(function () {
         $(this).css("display", "none");
     })
+
+    uplaod = function(){
+
+        var data = new FormData();
+        jQuery.each(jQuery('#files')[0].files, function(i, file) {
+            data.append('file-'+i, file);
+        });
+
+        $.ajax({
+            url:'/uploadImages',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type:'POST',
+            success: function(response){
+                if(response.Status === 200){
+                    alert(response.SucessfulList);
+                }else{
+                    alert('Error');
+                }
+
+
+            }
+        });
+
+    }
 });

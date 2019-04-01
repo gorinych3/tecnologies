@@ -47,14 +47,6 @@
             <input class="button2" type="button" value="Добавить">
             <input class="button3" type="button" value="Принять">
 
-            <form id="uploadForm" action="imageUpload" method="post" enctype="multipart/form-data">
-                <div>
-                    <input type="file" id="fileData" name="fileData" />
-                    <input type="submit" id="submitContent"  value="upload" />
-                </div>
-            </form>
-
-
         </section>
 
         <aside>
