@@ -94,6 +94,7 @@ $(document).ready(function () {
                         console.log(res);
                         var lastEl = new Plate(null, dataName, dataModel, dataType, dataPhoto);
                         addRow(lastEl);
+
                     } else {
                         console.log("Error: " + res);
                         $("#err").css("display", "block");
@@ -101,6 +102,7 @@ $(document).ready(function () {
                     }
                 }
             });
+
 
         } else {
             alert("Заполните все поля");

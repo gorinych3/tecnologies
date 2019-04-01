@@ -5,16 +5,19 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.entity.Element;
 import ru.egor.entity.Plate;
 import ru.egor.entity.PredPlate;
 import ru.egor.service.ElementService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -204,5 +207,35 @@ public class ActionController {
         System.out.println("Запуск сервлета errorPage");
         return "errorPage";
     }
+
+    @RequestMapping(value="/uploadImages", method = RequestMethod.GET)
+    public String addFiles(){
+
+        return "uploadImages";
+    }
+
+    @RequestMapping(value="/uploadImages", method = RequestMethod.POST)
+    public @ResponseBody Map<String,Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<String> fileUploadedList = new ArrayList<String>();
+        Iterator<String> itr =  request.getFileNames();
+        MultipartFile mpf = null;
+
+        while(itr.hasNext()){
+            mpf = request.getFile(itr.next());
+            try{
+//				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(context.getRealPath("/resources")+"/"+mpf.getOriginalFilename().replace(" ", "-")));
+                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("C:/SaveImagesFromTechnology/Images"+"/"+mpf.getOriginalFilename().replace(" ", "-")));
+                fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        map.put("Status", 200);
+        map.put("SucessfulList", fileUploadedList);
+        return map;
+    }
+
 
 }

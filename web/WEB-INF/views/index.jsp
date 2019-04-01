@@ -18,6 +18,7 @@
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/contacts'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" onclick="location.href='/uploadImages'">TestUploadFiles</li>
     </ul>
 </nav>
 
