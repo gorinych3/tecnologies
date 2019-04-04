@@ -67,8 +67,10 @@ public class ElementDAOImpl implements ElementDAO {
     }
 
     @Override
-    public void addPlate(Plate plate) {
-        sessionFactory.getCurrentSession().save(plate);
+    public int addPlate(Plate plate) {
+       sessionFactory.getCurrentSession().save(plate);
+        //System.out.println(plate.getPlateId());
+        return plate.getPlateId();
     }
 
     @SuppressWarnings("unchecked")
@@ -81,7 +83,8 @@ public class ElementDAOImpl implements ElementDAO {
 
     @Override
     public void addPathPlate(Path path) {
-        String insert = "insert into Path (plateId, pathName) select path.plateId, path.pathName from Path";
-        sessionFactory.getCurrentSession().createQuery(insert);
+        //String insert = "insert into Path (plateId, pathName) select path.plateId, path.pathName from Path";
+        //sessionFactory.getCurrentSession().createQuery(insert);
+        sessionFactory.getCurrentSession().save(path);
     }
 }

@@ -2,8 +2,8 @@ package ru.egor.service;
 
 import ru.egor.entity.Element;
 import ru.egor.entity.MyTool;
+import ru.egor.entity.Path;
 import ru.egor.entity.Plate;
-import ru.egor.entity.PredPlate;
 
 import java.util.List;
 
@@ -23,5 +23,7 @@ public interface ElementService {
 
     List<Plate> showPlates();
 
-    void addPlate(Plate plate);
+    int addPlate(Plate plate);
+
+    void addPlatePath(Path path);
 }

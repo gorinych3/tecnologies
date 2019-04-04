@@ -23,7 +23,7 @@ public interface ElementDAO {
 
     List<Plate> showPlates();
 
-    void addPlate(Plate plate);
+    int addPlate(Plate plate);
 
     Plate getPlateByModel(String model);
 

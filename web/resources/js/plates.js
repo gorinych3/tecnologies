@@ -90,15 +90,16 @@ $(document).ready(function () {
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function (res) {
-                    if(res === "success"){
-                        console.log(res);
+                    console.log("My message "+ res.message+" my id "+res.id);
+                    if(res.message === "success"){
                         var lastEl = new Plate(null, dataName, dataModel, dataType, dataPhoto);
+                        //addRow(lastEl);
+                        uplaod(dataModel, res.id);
                         addRow(lastEl);
-                        uplaod();
                     } else {
-                        console.log("Error: " + res);
+                        console.log("Error: " + res.message);
                         $("#err").css("display", "block");
-                        $("#erMessage").html("Error: " + res);
+                        $("#erMessage").html("Error: " + res.message);
                     }
                 }
             });
@@ -111,13 +112,16 @@ $(document).ready(function () {
 
     $("#err").click(function () {
         $(this).css("display", "none");
-    })
+    });
 
-    uplaod = function(){
-
+    uplaod = function(model, id){
+        //var fileName = model+"_"+id;
         var data = new FormData();
         jQuery.each(jQuery('#files')[0].files, function(i, file) {
-            data.append('file-'+i, file);
+            //console.log("file name "+file.name);
+            var fileExtension = '.' + file.name.split('.').pop();
+            var fileName = model+"-"+i+"_"+id;
+            data.append('file-'+i, file, fileName.concat(fileExtension));
         });
 
         $.ajax({
@@ -129,14 +133,16 @@ $(document).ready(function () {
             type:'POST',
             success: function(response){
                 if(response.Status === 200){
-                    alert(response.SucessfulList);
+                    console.log(response.SucessfulList);
                 }else{
-                    alert('Error');
+                    console.log('Error');
                 }
 
 
             }
         });
 
-    }
+    };
+
+
 });

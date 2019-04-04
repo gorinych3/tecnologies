@@ -1,4 +1,4 @@
-package ru.egor.entity;
+package ru.egor.OtherClasses;
 
 import lombok.Getter;
 import lombok.Setter;

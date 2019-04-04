@@ -9,12 +9,12 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import ru.egor.OtherClasses.MyMessage;
 import ru.egor.entity.Element;
+import ru.egor.entity.Path;
 import ru.egor.entity.Plate;
-import ru.egor.entity.PredPlate;
 import ru.egor.service.ElementService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -177,18 +177,19 @@ public class ActionController {
     @RequestMapping(value = "/addPlates", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
     public String addPlates(@RequestBody String data, Model model){
+        int id = 0;
         System.out.println("Запуск сервлета addPlates");
         Plate plate = gson.fromJson(data, Plate.class);
         System.out.println(plate.toString());
         try {
-            elementService.addPlate(plate);
+            id = elementService.addPlate(plate);
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            String error = ex.getMessage();
+            MyMessage error = new MyMessage(ex.getMessage());
             return gson.toJson(error);
         }
-        String message = gson.toJson("success");
-        return message;
+        MyMessage myMessage = new MyMessage("success", id);
+        return gson.toJson(myMessage);
     }
 
     @RequestMapping(value = "/ajaxtest",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
@@ -220,13 +221,24 @@ public class ActionController {
         List<String> fileUploadedList = new ArrayList<String>();
         Iterator<String> itr =  request.getFileNames();
         MultipartFile mpf = null;
+        String fileName = "";
+        int plate_id;
+        String newFileName = "";
+        Path path = new Path();
 
         while(itr.hasNext()){
             mpf = request.getFile(itr.next());
             try{
+                fileName = mpf.getOriginalFilename();
+                plate_id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('_')+1,fileName.lastIndexOf('.')));
+                newFileName = "C:/SaveImagesFromTechnology/Images"+"/"+fileName.replace(" ", "-");
 //				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(context.getRealPath("/resources")+"/"+mpf.getOriginalFilename().replace(" ", "-")));
-                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("C:/SaveImagesFromTechnology/Images"+"/"+mpf.getOriginalFilename().replace(" ", "-")));
+                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
                 fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
+                path.setPathId(0);
+                path.setPathName(newFileName);
+                path.setPlateId(plate_id);
+                elementService.addPlatePath(path);
             }catch(IOException e){
                 e.printStackTrace();
             }

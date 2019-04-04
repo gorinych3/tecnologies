@@ -54,7 +54,7 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public void addPlate(Plate plate) {
+    public int addPlate(Plate plate) {
         //добавляем в бд пластину
 //        Plate plate = new Plate();
 //        plate.setName(predPlate.getName());
@@ -73,9 +73,12 @@ public class ElementServiceImpl implements ElementService {
 //        }
 
         //тут будут записываться файлы в файловую систему
-        elementDAO.addPlate(plate);
+        return elementDAO.addPlate(plate);
 
     }
 
-
+    @Override
+    public void addPlatePath(Path path) {
+        elementDAO.addPathPlate(path);
+    }
 }
