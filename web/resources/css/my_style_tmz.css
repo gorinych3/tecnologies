@@ -115,13 +115,18 @@ section#main {
     width: auto;
 }
 
-#contact, #list{
+#contact, #list, #formtable{
+    width: 90%;
     background-color: #f3f3f3;
     font-size: 150%;
     color: #03437d;
     line-height: 1.3em;
     font-family: serif;
+    padding-right: 30px;
 }
+
+th{width: 25%}
+td{width: 25%}
 
 #zag{
     color: #191970;
@@ -140,6 +145,19 @@ td, th {
     border: thin dotted gray;
     padding: 5px;
 
+}
+
+#list{
+    border-bottom: thin solid black;
+}
+
+
+#formtable{
+    border-top: none;
+}
+
+#add_hide td{
+    border-top: none;
 }
 
 .my_href, td{

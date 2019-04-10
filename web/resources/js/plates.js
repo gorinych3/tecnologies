@@ -1,5 +1,7 @@
+
 $(document).ready(function () {
     $("#main").width($(window).width()-400);
+    
 
     function Plate(plateId, name, model, type, photo) {
         this.plateId = plateId;
@@ -29,6 +31,17 @@ $(document).ready(function () {
             for ( var i=0;i<arrObj.length;i++){
                 addRow(arrObj[i]);
             }
+
+            // var insertForm = "<form id='formPlate' name='formPlate' action='${pageContext.request.contextPath}/addPlates'></form>";
+            // $('tbody').append(insertForm);
+            //
+            // var fieldForm = "<tr id=\"add_hide\">+" +
+            //     "<td><input type=\"text\" name=\"name\" value=\"\"></td>\n" +
+            //     "<td><input type=\"text\" name=\"model\" value=\"\"></td>\n" +
+            //     "<td><input type=\"text\" name=\"type\" value=\"\"></td>\n" +
+            //     "<td><input id=\"files\" type=\"file\" accept=\"image/*\" multiple name=\"photo\"></td>\n" +
+            //     "</tr>";
+            // $('#formPlate').append(fieldForm);
         });
 
     }
@@ -42,7 +55,8 @@ $(document).ready(function () {
                 "<td>" + lastElement.type + "</td>" +
                 "<td><a href='"+lastElement.photo+"'>фото</a></td>" +
                 "</tr>";
-            $(insert).insertAfter($("tr:first"));
+            //$(insert).insertAfter($("tr:first"));
+            $('#list> tbody').append(insert);
         }
         lastElement = 0;
     }
@@ -57,12 +71,14 @@ $(document).ready(function () {
         $("#add_hide").css("display", "table-row");
         $(".button2").css("display", "none");
         $(".button3").css("display", "block");
+        $("#list").css("border-bottom", "none");
     });
 
     $(".button3").click(function () {
         $("#add_hide").css("display", "none");
         $(".button3").css("display", "none");
         $(".button2").css("display", "block");
+        $("#list").css("border-bottom", "thin solid black");
 
         var dataName = $('input[name="name"]').val();
         var dataModel = $('input[name="model"]').val();
