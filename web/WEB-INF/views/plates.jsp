@@ -52,20 +52,9 @@
                     <th>Фото</th>
                 </tr>
                 </thead>
-
                 <tbody>
 
                 </tbody>
-                <%--<tfoot>--%>
-                <%--<form id="formPlate" name="formPlate" action="${pageContext.request.contextPath}/addPlates">--%>
-                    <%--<tr id="add_hide">--%>
-                        <%--<td><input type="text" name="name" value=""></td>--%>
-                        <%--<td><input type="text" name="model" value=""></td>--%>
-                        <%--<td><input type="text" name="type" value=""></td>--%>
-                        <%--<td><input id="files" type="file" accept="image/*" multiple name="photo"></td>--%>
-                    <%--</tr>--%>
-                <%--</form>--%>
-                <%--</tfoot>--%>
             </table>
             <table id="formtable">
                 <form id="formPlate" name="formPlate" action="${pageContext.request.contextPath}/addPlates">

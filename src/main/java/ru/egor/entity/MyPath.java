@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "path")
-public class Path {
+public class MyPath {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -3,6 +3,12 @@ package ru.egor.controllers;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -11,18 +17,21 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.OtherClasses.MyMessage;
 import ru.egor.entity.Element;
-import ru.egor.entity.Path;
+import ru.egor.entity.MyPath;
 import ru.egor.entity.Plate;
 import ru.egor.service.ElementService;
 
+import java.io.*;
+import java.nio.file.Files;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
 public class ActionController {
+
+    private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Images/model-0_202.jpg";
 
     Gson gson = new Gson();
 
@@ -48,44 +57,6 @@ public class ActionController {
         return "elements";
     }
 
-//    @RequestMapping(value = "/addElement", method = RequestMethod.GET)
-//    public String addElementGet(Model model){
-//        System.out.println("Запуск сервлета addElementGet");
-//        List<MyTool> tools = elementService.getMyTools();
-//        model.addAttribute("tools",tools);
-//        return "addElement";
-//    }
-//
-//    @RequestMapping(value = "/addElement", method = {RequestMethod.POST})
-//    public String addElementPost(Element element , List<MyTool> tools,/*MyTool tool,/* Plate plate, Machine machine,*/ Model model){
-//        System.out.println("Запуск сервлета addElementPost");
-//        String operation = "add element";
-//        String errorMessage = "empty fields";
-//        model.addAttribute("operationName", operation);
-//        model.addAttribute("errorMessage", errorMessage);
-//        for(int i = 0; i < tools.size(); i++){
-//            System.out.println(tools.get(i));
-//        }
-////        System.out.println(tool.getName());
-//        System.out.println(element.toString());
-//        if(!element.getNameElement().isEmpty()) {
-//            //List<MyTool> tools = new ArrayList<>();
-////            tools.add(tool);
-////            element.setTools(tools);
-//            System.out.println(element.toString());
-////            Set<Plate> plates = element.getPlates();
-////            plates.add(plate);
-////            element.setPlates(plates);
-////            Set<Machine> machines = element.getMachines();
-////            machines.add(machine);
-////            element.setMachines(machines);
-////            model.addAttribute("element", element);
-//            return "redirect: listElements";
-//        }else {
-//            System.out.println("trabla");
-//            return "errorPage";
-//        }
-//    }
 
         @RequestMapping(value = "/addElement", method = RequestMethod.GET)
     public String addElementGet(){
@@ -94,14 +65,6 @@ public class ActionController {
         return "addElement";
     }
 
-//    @RequestMapping(value = "/addElement", method = RequestMethod.POST)
-//    public @ResponseBody String addElementGet(Element element ,@RequestBody String string, Model model) throws Exception {
-//        System.out.println("запуск метода POST");
-//        System.out.println(element.toString());
-//        System.out.println(string);
-//
-//        return "addElement";
-//    }
 
         @RequestMapping(value = "/addElement", method = {RequestMethod.POST})
     public String addElementPost(Element element ,@RequestBody String string, Model model){
@@ -110,13 +73,7 @@ public class ActionController {
         String errorMessage = "empty fields";
         model.addAttribute("operationName", operation);
         model.addAttribute("errorMessage", errorMessage);
-        System.out.println(element.toString());
-            System.out.println(string);
-
-
             return "redirect: addElement";
-
-
         }
 
     @RequestMapping(value = "/contacts")
@@ -180,7 +137,7 @@ public class ActionController {
         int id = 0;
         System.out.println("Запуск сервлета addPlates");
         Plate plate = gson.fromJson(data, Plate.class);
-        System.out.println(plate.toString());
+        //System.out.println(plate.toString());
         try {
             id = elementService.addPlate(plate);
         }catch (Exception ex){
@@ -203,11 +160,6 @@ public class ActionController {
         return js_plates;
     }
 
-    @RequestMapping("/errorPage")
-    public String errorPage(){
-        System.out.println("Запуск сервлета errorPage");
-        return "errorPage";
-    }
 
     @RequestMapping(value="/uploadImages", method = RequestMethod.GET)
     public String addFiles(){
@@ -217,6 +169,7 @@ public class ActionController {
 
     @RequestMapping(value="/uploadImages", method = RequestMethod.POST)
     public @ResponseBody Map<String,Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
+        System.out.println("Запуск сервлета uploadFiles");
         Map<String,Object> map = new HashMap<String,Object>();
         List<String> fileUploadedList = new ArrayList<String>();
         Iterator<String> itr =  request.getFileNames();
@@ -224,7 +177,7 @@ public class ActionController {
         String fileName = "";
         int plate_id;
         String newFileName = "";
-        Path path = new Path();
+        MyPath path = new MyPath();
 
         while(itr.hasNext()){
             mpf = request.getFile(itr.next());
@@ -248,6 +201,37 @@ public class ActionController {
         map.put("SucessfulList", fileUploadedList);
         return map;
     }
+
+
+    @PostMapping("/download")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@RequestBody String filename) {
+        System.out.println(filename);
+        Resource file = null;
+        if(filename.equals("")||filename.isEmpty()){
+
+        }else {
+            file = elementService.loadAsResource(filename);
+        }
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+
+    // Using ResponseEntity<InputStreamResource>
+    @GetMapping("/download1")
+    public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
+
+        File file = new File(FILE_PATH);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=" + file.getName())
+                .contentType(MediaType.IMAGE_JPEG).contentLength(file.length())
+                .body(resource);
+    }
+
 
 
 }

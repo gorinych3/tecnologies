@@ -1,13 +1,18 @@
 package ru.egor.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import ru.egor.DAO.ElementDAO;
+import java.nio.file.Path;
 import ru.egor.DAO.ElementDAOImpl;
+import ru.egor.OtherClasses.StorageFileNotFoundException;
 import ru.egor.entity.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Service
@@ -78,7 +83,41 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public void addPlatePath(Path path) {
+    public void addPlatePath(MyPath path) {
         elementDAO.addPathPlate(path);
+    }
+
+    @Override
+    public Resource loadAsResource(String filename) {
+        try {
+            Path file = load(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            }
+            else {
+                throw new StorageFileNotFoundException(
+                        "Could not read file: " + filename);
+
+            }
+        }
+        catch (MalformedURLException e) {
+            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
+    }
+
+    @Override
+    public Path load(String filename) {
+        return null;
+    }
+
+    @Override
+    public List<MyPath> getMypathForOneElement(int plateId) {
+        return elementDAO.getMypathForOneElement(plateId);
+    }
+
+    @Override
+    public List<MyPath> getMypathAll() {
+        return elementDAO.getMypathAll();
     }
 }
