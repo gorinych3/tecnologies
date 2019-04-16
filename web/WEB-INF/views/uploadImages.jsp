@@ -11,11 +11,15 @@
 <ul>
     <%--<li><a id="d1" href="">Download File 1</a></li>--%>
     <li><img id="d2" src="">
+
+
 </ul>
 <script src="../../resources/js/jquery.js"></script>
 <script>
     $(document).ready(function () {
-        var down1 = "download1";
+        var fileName = "ISCAR-16.04.2019";
+        var newFileName = fileName.replace(/[.]/g,'-');
+        var down1 = "download1/"+newFileName;
         // $("#d1").attr("href", down1);
         $("#d2").attr("src", down1);
     });

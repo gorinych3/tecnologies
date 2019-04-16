@@ -24,7 +24,6 @@ $(document).ready(function () {
                     my_date.push(val[key1]);
                 }
                 arrObj.push(new Plate(my_date[0], my_date[1], my_date[2], my_date[3], my_date[4]));
-                //arrObj.reverse();
                 my_date.length = 0;
             });
 
@@ -32,16 +31,6 @@ $(document).ready(function () {
                 addRow(arrObj[i]);
             }
 
-            // var insertForm = "<form id='formPlate' name='formPlate' action='${pageContext.request.contextPath}/addPlates'></form>";
-            // $('tbody').append(insertForm);
-            //
-            // var fieldForm = "<tr id=\"add_hide\">+" +
-            //     "<td><input type=\"text\" name=\"name\" value=\"\"></td>\n" +
-            //     "<td><input type=\"text\" name=\"model\" value=\"\"></td>\n" +
-            //     "<td><input type=\"text\" name=\"type\" value=\"\"></td>\n" +
-            //     "<td><input id=\"files\" type=\"file\" accept=\"image/*\" multiple name=\"photo\"></td>\n" +
-            //     "</tr>";
-            // $('#formPlate').append(fieldForm);
         });
 
     }
@@ -49,11 +38,12 @@ $(document).ready(function () {
     //функция построения таблицы по одному объекту
     function addRow(lastElement){
         if(lastElement!==0) {
+
             var insert = "<tr class='my_href' class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.name + "</td>" +
                 "<td>" + lastElement.model + "</td>" +
                 "<td>" + lastElement.type + "</td>" +
-                "<td><a href='"+lastElement.photo+"'>фото</a></td>" +
+                "<td><div class='foto'>фото</div></td>" +
                 "</tr>";
             //$(insert).insertAfter($("tr:first"));
             $('#list> tbody').append(insert);
@@ -108,7 +98,7 @@ $(document).ready(function () {
                 success: function (res) {
                     console.log("My message "+ res.message+" my id "+res.id);
                     if(res.message === "success"){
-                        var lastEl = new Plate(null, dataName, dataModel, dataType, dataPhoto);
+                        var lastEl = new Plate(res.id, dataName, dataModel, dataType, dataPhoto);
                         //addRow(lastEl);
                         uplaod(dataModel, res.id);
                         addRow(lastEl);

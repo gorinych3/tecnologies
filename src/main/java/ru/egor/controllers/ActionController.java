@@ -31,7 +31,8 @@ import java.util.*;
 @Controller
 public class ActionController {
 
-    private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Images/model-0_202.jpg";
+    private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Images/";
+    private static final String SUFFIX_PATH = ".jpg";
 
     Gson gson = new Gson();
 
@@ -155,6 +156,9 @@ public class ActionController {
         System.out.println("Запуск сервлета ajaxtest");
         List<Plate> plates;
         plates = elementService.showPlates();
+        for (Plate pl : plates){
+            System.out.println(pl.toString());
+        }
         String js_plates = gson.toJson(plates);
         //System.out.println(js_plates);
         return js_plates;
@@ -184,7 +188,7 @@ public class ActionController {
             try{
                 fileName = mpf.getOriginalFilename();
                 plate_id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('_')+1,fileName.lastIndexOf('.')));
-                newFileName = "C:/SaveImagesFromTechnology/Images"+"/"+fileName.replace(" ", "-");
+                newFileName = FILE_PATH+fileName.replace(" ", "-");
 //				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(context.getRealPath("/resources")+"/"+mpf.getOriginalFilename().replace(" ", "-")));
                 FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
                 fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
@@ -219,10 +223,12 @@ public class ActionController {
 
 
     // Using ResponseEntity<InputStreamResource>
-    @GetMapping("/download1")
-    public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
+    @GetMapping("/download1/{fileName}")
+    public ResponseEntity<InputStreamResource> downloadFile1(@PathVariable String fileName) throws IOException {
+        System.out.println("new fileName = " + fileName);
+        //int id =  Integer.parseInt(fileName.substring(fileName.lastIndexOf('_')+1,fileName.lastIndexOf('.')));
 
-        File file = new File(FILE_PATH);
+        File file = new File(FILE_PATH+fileName+SUFFIX_PATH);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
