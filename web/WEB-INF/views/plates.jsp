@@ -82,10 +82,7 @@
             <div id="err">
                 <p id="erMessage"></p>
             </div>
-            <div id="div_hide">
                 <img id="prim" src="">
-                <p id="prim2"></p>
-            </div>
         </aside>
     </div>
 </div>

@@ -1,7 +1,12 @@
 
 $(document).ready(function () {
     $("#main").width($(window).width()-400);
-    
+
+    // $('.mytranslit').bind('change keyup input click', function(){
+    //     $('.mytranslitto').val(urlLit($('.mytranslit').val(),0))
+    // });
+
+
 
     function Plate(plateId, name, model, type, photo) {
         this.plateId = plateId;
@@ -39,11 +44,17 @@ $(document).ready(function () {
     function addRow(lastElement){
         if(lastElement!==0) {
 
-            var insert = "<tr class='my_href' class='del' style='font-size: 1em'>" +
+                var newFileName = (lastElement.model + "-"+"0"+"_"+lastElement.plateId).trim();
+               // var newFileName2 = newFileName.split(' ').join('-');
+                var newFileName2 = newFileName.split('.').join("-");
+                newFileName2 = urlLit(newFileName2,0);
+                console.log("добавление в таблицу спан "+newFileName2);
+
+            var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.name + "</td>" +
-                "<td>" + lastElement.model + "</td>" +
+                "<td style='cursor: pointer; text-decoration: underline'><span style='display: none'>" + newFileName2 + "</span>"+ lastElement.model+"</td>" +
                 "<td>" + lastElement.type + "</td>" +
-                "<td><div class='foto'>фото</div></td>" +
+                "<td style='cursor: pointer; text-decoration: underline'>фото</td>" +
                 "</tr>";
             //$(insert).insertAfter($("tr:first"));
             $('#list> tbody').append(insert);
@@ -84,8 +95,6 @@ $(document).ready(function () {
             photo: dataPhoto
         };
 
-        //dataPhoto = "фото "+dataPhoto;
-
         var url = $("#formPlate").attr("action");
 
         if(!empty) {
@@ -100,8 +109,10 @@ $(document).ready(function () {
                     if(res.message === "success"){
                         var lastEl = new Plate(res.id, dataName, dataModel, dataType, dataPhoto);
                         //addRow(lastEl);
+                        dataModel = urlLit(dataModel,0);
                         uplaod(dataModel, res.id);
                         addRow(lastEl);
+                        console.log(lastEl.plateId + " "+ lastEl.name + " "+ lastEl.model);
                     } else {
                         console.log("Error: " + res.message);
                         $("#err").css("display", "block");
@@ -109,8 +120,6 @@ $(document).ready(function () {
                     }
                 }
             });
-
-
         } else {
             alert("Заполните все поля");
         }
@@ -121,12 +130,11 @@ $(document).ready(function () {
     });
 
     uplaod = function(model, id){
-        //var fileName = model+"_"+id;
         var data = new FormData();
         jQuery.each(jQuery('#files')[0].files, function(i, file) {
             //console.log("file name "+file.name);
             var fileExtension = '.' + file.name.split('.').pop();
-            var fileName = model+"-"+i+"_"+id;
+            var fileName = model+"-"+i+"-"+id;
             data.append('file-'+i, file, fileName.concat(fileExtension));
         });
 
@@ -143,12 +151,27 @@ $(document).ready(function () {
                 }else{
                     console.log('Error');
                 }
-
-
             }
         });
 
     };
 
+    $('#list').on('click', 'tbody tr td:last-child', function(e) {
+        var text = $(this).siblings('td').find('span').text();
+        console.log("Передаем в контроллер имя файла  "+text);
+        var down1 = "download1/".concat(text);
+        console.log("Передаем в контроллер address  "+down1);
+         $("#prim").attr('src', down1);
+         $("#prim").css('display','block');
+    });
+
+    function urlLit(w,v) {
+        var tr='a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
+        var ww=''; w=w.toLowerCase();
+        for(i=0; i<w.length; ++i) {
+            cc=w.charCodeAt(i); ch=(cc>=1072?tr[cc-1072]:w[i]);
+            if(ch.length<3) ww+=ch; else ww+=eval(ch)[v];}
+        return(ww.replace(/[^a-zA-Z0-9\-]/g,'-').replace(/[-]{2,}/gim, '-').replace( /^\-+/g, '').replace( /\-+$/g, ''));
+    }
 
 });

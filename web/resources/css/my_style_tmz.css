@@ -87,8 +87,8 @@ aside{
 }
 
 #prim{
-    height: 200px;
-    width: 250px;
+    height: 350px;
+    width: 350px;
 }
 
 #prim, #prim2{
@@ -206,5 +206,11 @@ p.heading {
 #erMessage{
     color: red;
     font-size: 1em;
+}
+
+table tbody tr td .hand{
+    cursor: pointer;
+    text-decoration: underline;
+
 }
 

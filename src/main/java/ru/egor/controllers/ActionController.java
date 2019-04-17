@@ -156,11 +156,7 @@ public class ActionController {
         System.out.println("Запуск сервлета ajaxtest");
         List<Plate> plates;
         plates = elementService.showPlates();
-        for (Plate pl : plates){
-            System.out.println(pl.toString());
-        }
         String js_plates = gson.toJson(plates);
-        //System.out.println(js_plates);
         return js_plates;
     }
 
@@ -187,7 +183,7 @@ public class ActionController {
             mpf = request.getFile(itr.next());
             try{
                 fileName = mpf.getOriginalFilename();
-                plate_id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('_')+1,fileName.lastIndexOf('.')));
+                plate_id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
                 newFileName = FILE_PATH+fileName.replace(" ", "-");
 //				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(context.getRealPath("/resources")+"/"+mpf.getOriginalFilename().replace(" ", "-")));
                 FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
@@ -225,9 +221,7 @@ public class ActionController {
     // Using ResponseEntity<InputStreamResource>
     @GetMapping("/download1/{fileName}")
     public ResponseEntity<InputStreamResource> downloadFile1(@PathVariable String fileName) throws IOException {
-        System.out.println("new fileName = " + fileName);
-        //int id =  Integer.parseInt(fileName.substring(fileName.lastIndexOf('_')+1,fileName.lastIndexOf('.')));
-
+        System.out.println("Запуск download");
         File file = new File(FILE_PATH+fileName+SUFFIX_PATH);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
