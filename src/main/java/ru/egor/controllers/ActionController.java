@@ -23,6 +23,7 @@ import ru.egor.service.ElementService;
 
 import java.io.*;
 import java.nio.file.Files;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -203,20 +204,6 @@ public class ActionController {
     }
 
 
-    @PostMapping("/download")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@RequestBody String filename) {
-        System.out.println(filename);
-        Resource file = null;
-        if(filename.equals("")||filename.isEmpty()){
-
-        }else {
-            file = elementService.loadAsResource(filename);
-        }
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
 
     // Using ResponseEntity<InputStreamResource>
     @GetMapping("/download1/{fileName}")
@@ -232,6 +219,34 @@ public class ActionController {
                 .body(resource);
     }
 
+//    @RequestMapping(value = "/plate/{id}",  method = RequestMethod.GET)
+//    public String showOnePlate(@PathVariable String id, Model model){
+//        System.out.println("Запуск сервлета showOnePlate get");
+//        return "plate/"+id;
+//    }
+
+    @RequestMapping(value = "/getplate/{id}",  method = RequestMethod.GET)
+    public String showOnePlate(@PathVariable String id, Model model, HttpServletRequest request){
+        System.out.println("Запуск сервлета showOnePlate post");
+        System.out.println(id);
+        int plateId = Integer.parseInt(id);
+        Plate plate = elementService.getPlateById(plateId);
+        System.out.println(plate.toString());
+        request.getSession().setAttribute("myPlate", plate);
+        //model.addAttribute("myPlate", plate);
+        return "forward:/plate";
+    }
+
+    @RequestMapping(value = "/plate",  method = RequestMethod.GET)
+    public String showOnePlate(HttpServletRequest request, Model model){
+        System.out.println("Запуск сервлета showOnePlate get");
+        Plate plate = (Plate) request.getSession().getAttribute("myPlate");
+        List <MyPath> pathes = elementService.getMypathForOneElement(plate.getPlateId());
+        System.out.println("count = "+pathes.size());
+        model.addAttribute("currentPlate", plate);
+        model.addAttribute("countPath", pathes.size());
+        return "plate";
+    }
 
 
 }

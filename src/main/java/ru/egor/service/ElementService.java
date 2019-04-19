@@ -36,4 +36,8 @@ public interface ElementService {
     List<MyPath> getMypathForOneElement(int plateId);
 
     List<MyPath> getMypathAll();
+
+    Plate getPlateByModel(String model);
+
+    Plate getPlateById(int id);
 }

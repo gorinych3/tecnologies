@@ -120,4 +120,14 @@ public class ElementServiceImpl implements ElementService {
     public List<MyPath> getMypathAll() {
         return elementDAO.getMypathAll();
     }
+
+    @Override
+    public Plate getPlateByModel(String model) {
+        return elementDAO.getPlateByModel(model);
+    }
+
+    @Override
+    public Plate getPlateById(int id) {
+        return elementDAO.getPlateById(id);
+    }
 }

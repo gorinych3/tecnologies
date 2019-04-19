@@ -214,3 +214,20 @@ table tbody tr td .hand{
 
 }
 
+#plateInfo{
+    margin: 10px;
+    background-color: #f3f3f3;
+    font-size: 1.5em;
+    color: #03437d;
+}
+
+.info{
+    color: black;
+    font-weight: bolder;
+}
+
+.bigImg{
+    border: 2px solid blue;
+    margin: 10px;
+}
+

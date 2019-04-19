@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     $("#main").width($(window).width()-400);
 
@@ -48,7 +47,8 @@ $(document).ready(function () {
                // var newFileName2 = newFileName.split(' ').join('-');
                 var newFileName2 = newFileName.split('.').join("-");
                 newFileName2 = urlLit(newFileName2,0);
-                console.log("добавление в таблицу спан "+newFileName2);
+                //console.log("добавление в таблицу спан "+newFileName2);
+                var location = '/plate/'+lastElement.model;
 
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.name + "</td>" +
@@ -164,6 +164,21 @@ $(document).ready(function () {
          $("#prim").attr('src', down1);
          $("#prim").css('display','block');
     });
+
+    $('#list').on('click', 'tbody tr td:nth-child(2)', function(e) {
+        var text = $(this).html();
+        console.log("text second child  "+text);
+        var number_first = text.lastIndexOf('-');
+        var number_last = text.lastIndexOf('<');
+        var id = text.substring(number_first+1, number_last);
+        console.log(id);
+        window.location.href="/getplate/".concat(id);
+        //window.location.href="/plate";
+    });
+
+
+
+
 
     function urlLit(w,v) {
         var tr='a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');

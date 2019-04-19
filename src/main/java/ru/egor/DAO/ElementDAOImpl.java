@@ -101,4 +101,12 @@ public class ElementDAOImpl implements ElementDAO {
     public List<MyPath> getMypathAll() {
         return sessionFactory.getCurrentSession().createQuery("from MyPath").list();
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Plate getPlateById(int id) {
+        Query<Plate> plate = sessionFactory.getCurrentSession().createQuery("from Plate where plateId = :paramName");
+        plate.setParameter("paramName", id);
+        return plate.getSingleResult();
+    }
 }

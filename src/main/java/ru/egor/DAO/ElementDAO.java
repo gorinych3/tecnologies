@@ -32,4 +32,6 @@ public interface ElementDAO {
     List<MyPath> getMypathForOneElement(int plateId);
 
     List<MyPath> getMypathAll();
+
+    Plate getPlateById(int id);
 }
