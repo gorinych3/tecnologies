@@ -3,9 +3,7 @@ package ru.egor.controllers;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +20,9 @@ import ru.egor.entity.Plate;
 import ru.egor.service.ElementService;
 
 import java.io.*;
-import java.nio.file.Files;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
@@ -106,17 +102,6 @@ public class ActionController {
         return "redirect: getElement";
     }
 
-    @RequestMapping(value = "/addElements", method = RequestMethod.GET)
-    public String addElemenst(Model model){
-        System.out.println("Запуск сервлета addElements");
-        return "addElements";
-    }
-
-    @RequestMapping(value = "/addElements", method = RequestMethod.POST)
-    public String addElemenst(@RequestBody Element element){
-        System.out.println("Запуск сервлета addElements");
-        return "redirect: elements";
-    }
 
     @RequestMapping(value = "/plates" , produces = "application/json; charset=UTF-8")
     public String selectAllPlates(Model model){
@@ -127,48 +112,32 @@ public class ActionController {
         return "plates";
     }
 
-    @RequestMapping(value = "/addPlates", method = RequestMethod.GET)
-    public String addPlates(Model model){
-        System.out.println("Запуск сервлета addPlates");
-        return "addPlates";
-    }
 
     @RequestMapping(value = "/addPlates", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public String addPlates(@RequestBody String data, Model model){
+    public String addPlates(@RequestBody String data){
         int id = 0;
         System.out.println("Запуск сервлета addPlates");
         Plate plate = gson.fromJson(data, Plate.class);
-        //System.out.println(plate.toString());
         try {
             id = elementService.addPlate(plate);
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            MyMessage error = new MyMessage(ex.getMessage());
-            return gson.toJson(error);
+            return gson.toJson(new MyMessage(ex.getMessage()));
         }
-        MyMessage myMessage = new MyMessage("success", id);
-        return gson.toJson(myMessage);
+        return gson.toJson(new MyMessage("success", id));
     }
 
-    @RequestMapping(value = "/ajaxtest",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+    @RequestMapping(value = "/downloadtxt",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public String ajaxTest() {
-        System.out.println("Запуск сервлета ajaxtest");
+        System.out.println("Запуск сервлета downloadtxt");
         List<Plate> plates;
         plates = elementService.showPlates();
-        String js_plates = gson.toJson(plates);
-        return js_plates;
+        return gson.toJson(plates);
     }
 
-
-    @RequestMapping(value="/uploadImages", method = RequestMethod.GET)
-    public String addFiles(){
-
-        return "uploadImages";
-    }
-
-    @RequestMapping(value="/uploadImages", method = RequestMethod.POST)
+    @RequestMapping(value="/uploadFiles")
     public @ResponseBody Map<String,Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
         System.out.println("Запуск сервлета uploadFiles");
         Map<String,Object> map = new HashMap<String,Object>();
@@ -197,7 +166,6 @@ public class ActionController {
                 e.printStackTrace();
             }
         }
-
         map.put("Status", 200);
         map.put("SucessfulList", fileUploadedList);
         return map;
@@ -219,21 +187,13 @@ public class ActionController {
                 .body(resource);
     }
 
-//    @RequestMapping(value = "/plate/{id}",  method = RequestMethod.GET)
-//    public String showOnePlate(@PathVariable String id, Model model){
-//        System.out.println("Запуск сервлета showOnePlate get");
-//        return "plate/"+id;
-//    }
 
     @RequestMapping(value = "/getplate/{id}",  method = RequestMethod.GET)
     public String showOnePlate(@PathVariable String id, Model model, HttpServletRequest request){
         System.out.println("Запуск сервлета showOnePlate post");
-        System.out.println(id);
         int plateId = Integer.parseInt(id);
         Plate plate = elementService.getPlateById(plateId);
-        System.out.println(plate.toString());
         request.getSession().setAttribute("myPlate", plate);
-        //model.addAttribute("myPlate", plate);
         return "forward:/plate";
     }
 
@@ -242,7 +202,6 @@ public class ActionController {
         System.out.println("Запуск сервлета showOnePlate get");
         Plate plate = (Plate) request.getSession().getAttribute("myPlate");
         List <MyPath> pathes = elementService.getMypathForOneElement(plate.getPlateId());
-        System.out.println("count = "+pathes.size());
         model.addAttribute("currentPlate", plate);
         model.addAttribute("countPath", pathes.size());
         return "plate";

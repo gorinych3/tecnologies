@@ -66,7 +66,6 @@
                     </tr>
                 </form>
             </table>
-
             <div class="pagination-container">
                 <nav>
                     <ul class="pagination justify-content-center"></ul>
@@ -74,8 +73,6 @@
             </div>
             <input class="button2" type="button" value="Добавить">
             <input class="button3" type="button" value="Принять">
-
-
         </section>
 
         <aside>
@@ -135,15 +132,6 @@
             })
         })
     });
-    // $(function () {
-    //     $('table tr:eq(0)').prepend('<th>ID</th>');
-    //     var id = 0;
-    //     $('table tr:gt(0)').each(function () {
-    //         id++;
-    //         $(this).prepend('<td>'+id+'</td>');
-    //     })
-    // });
-
 </script>
 </body>
 </html>

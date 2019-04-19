@@ -1,12 +1,6 @@
 $(document).ready(function () {
     $("#main").width($(window).width()-400);
 
-    // $('.mytranslit').bind('change keyup input click', function(){
-    //     $('.mytranslitto').val(urlLit($('.mytranslit').val(),0))
-    // });
-
-
-
     function Plate(plateId, name, model, type, photo) {
         this.plateId = plateId;
         this.name = name;
@@ -16,12 +10,12 @@ $(document).ready(function () {
     }
 
     getJsonAddToArray();
-    // функция получает json, создает массив принимаемых объектов
-    //и передает массив в функцию построения таблицы
+// функция получает json, создает массив принимаемых объектов
+//и передает массив в функцию построения таблицы
     function getJsonAddToArray() {
         var arrObj = [];
         var my_date = [];
-        $.get("/ajaxtest", function (data1, status) {
+        $.get("/downloadtxt", function (data1, status) {
             console.log("Status: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -30,36 +24,24 @@ $(document).ready(function () {
                 arrObj.push(new Plate(my_date[0], my_date[1], my_date[2], my_date[3], my_date[4]));
                 my_date.length = 0;
             });
-
             for ( var i=0;i<arrObj.length;i++){
                 addRow(arrObj[i]);
             }
-
         });
-
     }
 
-    //функция построения таблицы по одному объекту
+//функция построения таблицы по одному объекту
     function addRow(lastElement){
         if(lastElement!==0) {
-
-                var newFileName = (lastElement.model + "-"+"0"+"_"+lastElement.plateId).trim();
-               // var newFileName2 = newFileName.split(' ').join('-');
-                var newFileName2 = newFileName.split('.').join("-");
-                newFileName2 = urlLit(newFileName2,0);
-                //console.log("добавление в таблицу спан "+newFileName2);
-                var location = '/plate/'+lastElement.model;
-
+            var newFileName = urlLit(((lastElement.model + "-"+"0"+"_"+lastElement.plateId).trim()).split('.').join("-"),0);
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.name + "</td>" +
-                "<td style='cursor: pointer; text-decoration: underline'><span style='display: none'>" + newFileName2 + "</span>"+ lastElement.model+"</td>" +
+                "<td style='cursor: pointer; text-decoration: underline'><span style='display: none'>" + newFileName + "</span>"+ lastElement.model+"</td>" +
                 "<td>" + lastElement.type + "</td>" +
                 "<td style='cursor: pointer; text-decoration: underline'>фото</td>" +
                 "</tr>";
-            //$(insert).insertAfter($("tr:first"));
             $('#list> tbody').append(insert);
         }
-        lastElement = 0;
     }
 //-----------------------------------------------------------------
 
@@ -82,7 +64,7 @@ $(document).ready(function () {
         $("#list").css("border-bottom", "thin solid black");
 
         var dataName = $('input[name="name"]').val();
-        var dataModel = $('input[name="model"]').val();
+        var dataModel = ($('input[name="model"]').val()).split('№').join('No.');
         var dataType = $('input[name="type"]').val();
         var dataPhoto = $('input[name="photo"]').val();
 
@@ -95,8 +77,10 @@ $(document).ready(function () {
             photo: dataPhoto
         };
 
+//отправка данных на сервер
         var url = $("#formPlate").attr("action");
 
+//отправка текстовой информации
         if(!empty) {
             $.ajax({
                 url: url,
@@ -106,9 +90,14 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (res) {
                     console.log("My message "+ res.message+" my id "+res.id);
+
+//если текст обработан и занесен в бд, сервер возвращает номер id для формирования уникального имени файла,
+//по которому будет сформирован путь к данному файлу в файловой системе сервера
+//в теории, можно было не передавать строкой id, а воспользоваться на сервере request.getSession().setAttribute();
+//происходит загрузка файлов
+//если загрузка прошла успешно, то последний элемент отображаем на странице
                     if(res.message === "success"){
                         var lastEl = new Plate(res.id, dataName, dataModel, dataType, dataPhoto);
-                        //addRow(lastEl);
                         dataModel = urlLit(dataModel,0);
                         uplaod(dataModel, res.id);
                         addRow(lastEl);
@@ -124,22 +113,21 @@ $(document).ready(function () {
             alert("Заполните все поля");
         }
     });
-
     $("#err").click(function () {
         $(this).css("display", "none");
     });
 
+//функция отправки файлов серверу
     uplaod = function(model, id){
         var data = new FormData();
         jQuery.each(jQuery('#files')[0].files, function(i, file) {
-            //console.log("file name "+file.name);
             var fileExtension = '.' + file.name.split('.').pop();
             var fileName = model+"-"+i+"-"+id;
             data.append('file-'+i, file, fileName.concat(fileExtension));
         });
 
         $.ajax({
-            url:'/uploadImages',
+            url:'/uploadFiles',
             data: data,
             cache: false,
             contentType: false,
@@ -153,40 +141,34 @@ $(document).ready(function () {
                 }
             }
         });
-
     };
 
+//при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
     $('#list').on('click', 'tbody tr td:last-child', function(e) {
         var text = $(this).siblings('td').find('span').text();
         console.log("Передаем в контроллер имя файла  "+text);
         var down1 = "download1/".concat(text);
         console.log("Передаем в контроллер address  "+down1);
-         $("#prim").attr('src', down1);
-         $("#prim").css('display','block');
+        $("#prim").attr('src', down1);
+        $("#prim").css('display','block');
     });
 
+//блок перехода по ссылке на страницу полной информации об объекте
     $('#list').on('click', 'tbody tr td:nth-child(2)', function(e) {
         var text = $(this).html();
-        console.log("text second child  "+text);
         var number_first = text.lastIndexOf('-');
         var number_last = text.lastIndexOf('<');
         var id = text.substring(number_first+1, number_last);
-        console.log(id);
         window.location.href="/getplate/".concat(id);
-        //window.location.href="/plate";
     });
 
-
-
-
-
+//функция транслитерации для формирования имени файла и пути к нему
     function urlLit(w,v) {
         var tr='a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
         var ww=''; w=w.toLowerCase();
-        for(i=0; i<w.length; ++i) {
-            cc=w.charCodeAt(i); ch=(cc>=1072?tr[cc-1072]:w[i]);
+        for(var i=0; i<w.length; ++i) {
+            var cc=w.charCodeAt(i); var ch=(cc>=1072?tr[cc-1072]:w[i]);
             if(ch.length<3) ww+=ch; else ww+=eval(ch)[v];}
         return(ww.replace(/[^a-zA-Z0-9\-]/g,'-').replace(/[-]{2,}/gim, '-').replace( /^\-+/g, '').replace( /\-+$/g, ''));
     }
-
 });
