@@ -36,7 +36,7 @@ $(document).ready(function () {
             var newFileName = urlLit(((lastElement.model + "-"+"0"+"_"+lastElement.plateId).trim()).split('.').join("-"),0);
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.name + "</td>" +
-                "<td style='cursor: pointer; text-decoration: underline'><span style='display: none'>" + newFileName + "</span>"+ lastElement.model+"</td>" +
+                "<td class='model' style='cursor: pointer; text-decoration: underline'><span style='display: none'>" + newFileName + "</span>"+ lastElement.model+"</td>" +
                 "<td>" + lastElement.type + "</td>" +
                 "<td style='cursor: pointer; text-decoration: underline'>фото</td>" +
                 "</tr>";
@@ -67,6 +67,22 @@ $(document).ready(function () {
         var dataModel = ($('input[name="model"]').val()).split('№').join('No.');
         var dataType = $('input[name="type"]').val();
         var dataPhoto = $('input[name="photo"]').val();
+
+
+        $('.model').each(function () {
+            var new_text = $(this).html();
+            new_text = new_text.substring(new_text.lastIndexOf('>')+1);
+            if(new_text===dataModel){
+                alert("Такая пластина уже существует. Измените модель или редактируйте существующую. Вы можете выбрать" +
+                    "ее из списка");
+                $('.button2').trigger('click', function() {
+                    $(this).closest('form')[0].reset();
+                    input.val('');
+                });
+                dataModel = '';
+                return false;
+            }
+        });
 
         var empty = (dataName===''||dataModel===''||dataType===''||dataPhoto==='');
 
@@ -146,9 +162,7 @@ $(document).ready(function () {
 //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
     $('#list').on('click', 'tbody tr td:last-child', function(e) {
         var text = $(this).siblings('td').find('span').text();
-        console.log("Передаем в контроллер имя файла  "+text);
         var down1 = "download1/".concat(text);
-        console.log("Передаем в контроллер address  "+down1);
         $("#prim").attr('src', down1);
         $("#prim").css('display','block');
     });

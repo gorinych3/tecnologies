@@ -231,3 +231,9 @@ table tbody tr td .hand{
     margin: 10px;
 }
 
+.mySearch{
+    width: 300px;
+    margin: 40px 10px 10px 0;
+    float: right;
+}
+

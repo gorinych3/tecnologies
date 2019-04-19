@@ -30,6 +30,10 @@
 <div id="tableContainer">
     <div id="tableRow">
         <section id="main">
+            <div style="display: inline">
+                <div class="form-group mySearch">
+                    <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
+                </div>
             <h4>Отображать по</h4>
             <div class="form-group">
                 <select name="state" id="maxRows" class="form-control" style="width:150px;">
@@ -42,6 +46,7 @@
                     <option value="75">75</option>
                     <option value="100">100</option>
                 </select>
+            </div>
             </div>
             <table id="list">
                 <thead>
@@ -60,7 +65,7 @@
                 <form id="formPlate" name="formPlate" action="${pageContext.request.contextPath}/addPlates">
                     <tr id="add_hide">
                         <td><input type="text" name="name" value=""></td>
-                        <td><input type="text" name="model" value=""></td>
+                        <td><input id="inMod" type="text" name="model" value="" placeholder=""></td>
                         <td><input type="text" name="type" value=""></td>
                         <td><input id="files" type="file" accept="image/*" multiple name="photo"></td>
                     </tr>
@@ -131,6 +136,21 @@
                 }
             })
         })
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $("#search").keyup(function(){
+            _this = this;
+
+            $.each($("#list tbody tr"), function() {
+                if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+        });
+        });
     });
 </script>
 </body>
