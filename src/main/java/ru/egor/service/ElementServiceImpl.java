@@ -1,24 +1,35 @@
 package ru.egor.service;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.DAO.ElementDAO;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import ru.egor.DAO.ElementDAOImpl;
 import ru.egor.OtherClasses.StorageFileNotFoundException;
 import ru.egor.entity.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.MalformedURLException;
-import java.util.List;
+import java.util.*;
 
 @Service
 @EnableTransactionManagement
 @Transactional
 public class ElementServiceImpl implements ElementService {
+
+    private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Images/";
+    private final static Logger logger = Logger.getLogger(ElementServiceImpl.class);
 
     @Autowired
     private ElementDAO elementDAO;
@@ -60,24 +71,6 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public int addPlate(Plate plate) {
-        //добавляем в бд пластину
-//        Plate plate = new Plate();
-//        plate.setName(predPlate.getName());
-//        plate.setModel(predPlate.getModel());
-//        plate.setType(predPlate.getType());
-//        plate.setPhoto(predPlate.getName()+"_фото");
-//        elementDAO.addPlate(plate);
-//
-//        //добавляем в бд пути к файлам по имени файла (переделать на абсолютный путь)
-//        int plateId = elementDAO.getPlateByModel(plate.getModel()).getPlateId();
-//        Path path = new Path();
-//        path.setPlateId(plateId);
-//        for(int i = 0; i < predPlate.getPhoto().size(); i++){
-//            path.setPathName(predPlate.getPhoto().get(i).getName());
-//            elementDAO.addPathPlate(path);
-//        }
-
-        //тут будут записываться файлы в файловую систему
         return elementDAO.addPlate(plate);
 
     }
@@ -87,24 +80,6 @@ public class ElementServiceImpl implements ElementService {
         elementDAO.addPathPlate(path);
     }
 
-    @Override
-    public Resource loadAsResource(String filename) {
-        try {
-            Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            }
-            else {
-                throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
-
-            }
-        }
-        catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
-        }
-    }
 
     @Override
     public Path load(String filename) {
@@ -129,5 +104,37 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Plate getPlateById(int id) {
         return elementDAO.getPlateById(id);
+    }
+
+    @Override
+    public Map<String, Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response) {
+        logger.info("Start service 'fileUpload'");
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<String> fileUploadedList = new ArrayList<String>();
+        Iterator<String> itr =  request.getFileNames();
+        MultipartFile mpf = null;
+        String fileName = "";
+        int plate_id = 0;
+        String newFileName = "";
+
+        while(itr.hasNext()){
+            MyPath path = new MyPath();
+            mpf = request.getFile(itr.next());
+            try{
+                fileName = mpf.getOriginalFilename();
+                plate_id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
+                newFileName = FILE_PATH+fileName.replace(" ", "-");
+                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
+                fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
+                path.setPathName(newFileName);
+                path.setPlateId(plate_id);
+                addPlatePath(path);
+            }catch(IOException e){
+                logger.error(e);
+            }
+        }
+        map.put("Status", 200);
+        map.put("SucessfulList", fileUploadedList);
+        return map;
     }
 }
