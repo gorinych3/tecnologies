@@ -43,4 +43,6 @@ public interface ElementService {
     Plate getPlateById(int id);
 
     Map<String,Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response);
+
+    void deletePlateById(int plateId);
 }

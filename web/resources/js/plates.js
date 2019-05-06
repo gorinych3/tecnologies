@@ -170,9 +170,9 @@ $(document).ready(function () {
 //блок перехода по ссылке на страницу полной информации об объекте
     $('#list').on('click', 'tbody tr td:nth-child(2)', function(e) {
         var text = $(this).html();
-        var number_first = text.lastIndexOf('-');
-        var number_last = text.lastIndexOf('<');
-        var id = text.substring(number_first+1, number_last);
+        var span = text.substring(text.indexOf('>')+1, text.lastIndexOf('<'));
+        var number_first = span.lastIndexOf('-');
+        var id = span.substring(number_first+1);
         window.location.href="/getplate/".concat(id);
     });
 

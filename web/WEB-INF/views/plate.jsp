@@ -43,7 +43,11 @@
 
     <div id="fotos">
     </div>
+
+    <button id="del" class="button2" type="button">Удалить</button>
 </div>
+
+
 
 
 
@@ -76,6 +80,12 @@
             if(ch.length<3) ww+=ch; else ww+=eval(ch)[v];}
         return(ww.replace(/[^a-zA-Z0-9\-]/g,'-').replace(/[-]{2,}/gim, '-').replace( /^\-+/g, '').replace( /\-+$/g, ''));
     }
+
+    $("#del").click(function () {
+        if(confirm("Вы точно хотите удалить данную пластину? Вся информация о ней будет удалена!!")){
+        window.location.href="/deletePlate/".concat(${currentPlate.plateId});
+        }
+    })
     });
 </script>
 

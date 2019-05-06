@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://www.springframework.org/schema/security"
+         xsi:schemaLocation="
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<http auto-config="true">-->
+        <!--<intercept-url pattern="/" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
+        <!--<intercept-url pattern="/list" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
+        <!--<intercept-url pattern="/selectAll" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
+        <!--<intercept-url pattern="/search*" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
+        <!--<intercept-url pattern="/add*" access="hasRole('ROLE_ADMIN')"/>-->
+        <!--<intercept-url pattern="/update*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>-->
+        <!--<intercept-url pattern="/delete*" access="hasRole('ROLE_ADMIN')"/>-->
+        <!--<anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />-->
+    <!--</http>-->
+
+
+    <!--<authentication-manager>-->
+        <!--<authentication-provider>-->
+            <!--<user-service>-->
+                <!--<user name="admin" password="admin" authorities="ROLE_ADMIN"/>-->
+                <!--<user name="user" password="user" authorities="ROLE_USER"/>-->
+            <!--</user-service>-->
+        <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
+</b:beans>

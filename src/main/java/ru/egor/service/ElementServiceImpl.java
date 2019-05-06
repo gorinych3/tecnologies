@@ -137,4 +137,9 @@ public class ElementServiceImpl implements ElementService {
         map.put("SucessfulList", fileUploadedList);
         return map;
     }
+
+    @Override
+    public void deletePlateById(int plateId) {
+        elementDAO.deletePlateById(plateId);
+    }
 }

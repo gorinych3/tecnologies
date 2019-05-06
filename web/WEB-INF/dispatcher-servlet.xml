@@ -10,8 +10,6 @@
 
     <context:component-scan base-package="ru.egor" />
     <mvc:annotation-driven />
-    <!--<tx:annotation-driven/>-->
-
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="WEB-INF/views/"/>
@@ -19,7 +17,6 @@
     </bean>
 
     <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-
 
     <mvc:resources mapping="/resources/**" location="resources" />
 

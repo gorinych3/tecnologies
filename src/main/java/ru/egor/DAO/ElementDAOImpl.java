@@ -5,17 +5,20 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.egor.OtherClasses.StorageFileNotFoundException;
 import ru.egor.entity.Element;
 import ru.egor.entity.MyTool;
 import ru.egor.entity.MyPath;
 import ru.egor.entity.Plate;
 
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 
 @Repository
 @Transactional
 public class ElementDAOImpl implements ElementDAO {
+
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -108,5 +111,23 @@ public class ElementDAOImpl implements ElementDAO {
         Query<Plate> plate = sessionFactory.getCurrentSession().createQuery("from Plate where plateId = :paramName");
         plate.setParameter("paramName", id);
         return plate.getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void deletePlateById(int plateId) {
+       Plate plate = getPlateById(plateId);
+       //plate = getPlateById(plateId);
+       sessionFactory.getCurrentSession().delete(plate);
+       List <MyPath> pathes = getMypathForOneElement(plateId);
+       for(MyPath path : pathes){
+           File file = new File(path.getPathName());
+           if(file.delete()) {
+               sessionFactory.getCurrentSession().delete(path);
+           }
+           else new StorageFileNotFoundException("Ошибка при удалении файла");
+       }
+
+
     }
 }
