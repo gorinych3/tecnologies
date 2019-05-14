@@ -1,24 +1,38 @@
 package ru.egor.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.DAO.ElementDAO;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
-import ru.egor.DAO.ElementDAOImpl;
-import ru.egor.OtherClasses.StorageFileNotFoundException;
+
 import ru.egor.entity.*;
 
-import java.net.MalformedURLException;
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Service
 @EnableTransactionManagement
 @Transactional
 public class ElementServiceImpl implements ElementService {
+
+    private static final String FILE_PATH_PLATES = "C:/SaveImagesFromTechnology/Images/Plates/";
+    private static final String FILE_PATH_TOOLS = "C:/SaveImagesFromTechnology/Images/Tools/";
+    private final static Logger logger = Logger.getLogger(ElementServiceImpl.class);
+
+    Gson gson = new Gson();
 
     @Autowired
     private ElementDAO elementDAO;
@@ -49,8 +63,8 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public List<MyTool> getMyTools() {
-        return elementDAO.getMyTools();
+    public String getMyTools() {
+        return gson.toJson(elementDAO.getMyTools());
     }
 
     @Override
@@ -60,24 +74,6 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public int addPlate(Plate plate) {
-        //добавляем в бд пластину
-//        Plate plate = new Plate();
-//        plate.setName(predPlate.getName());
-//        plate.setModel(predPlate.getModel());
-//        plate.setType(predPlate.getType());
-//        plate.setPhoto(predPlate.getName()+"_фото");
-//        elementDAO.addPlate(plate);
-//
-//        //добавляем в бд пути к файлам по имени файла (переделать на абсолютный путь)
-//        int plateId = elementDAO.getPlateByModel(plate.getModel()).getPlateId();
-//        Path path = new Path();
-//        path.setPlateId(plateId);
-//        for(int i = 0; i < predPlate.getPhoto().size(); i++){
-//            path.setPathName(predPlate.getPhoto().get(i).getName());
-//            elementDAO.addPathPlate(path);
-//        }
-
-        //тут будут записываться файлы в файловую систему
         return elementDAO.addPlate(plate);
 
     }
@@ -87,24 +83,6 @@ public class ElementServiceImpl implements ElementService {
         elementDAO.addPathPlate(path);
     }
 
-    @Override
-    public Resource loadAsResource(String filename) {
-        try {
-            Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            }
-            else {
-                throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
-
-            }
-        }
-        catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
-        }
-    }
 
     @Override
     public Path load(String filename) {
@@ -130,4 +108,68 @@ public class ElementServiceImpl implements ElementService {
     public Plate getPlateById(int id) {
         return elementDAO.getPlateById(id);
     }
+
+    @Override
+    public Map<String, Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response, String filePath, String className) {
+        logger.info("Start service 'fileUpload'");
+        System.out.println(filePath);
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<String> fileUploadedList = new ArrayList<String>();
+        Iterator<String> itr =  request.getFileNames();
+        MultipartFile mpf = null;
+        String fileName = "";
+        int some_id = 0;
+        String newFileName = "";
+
+        while(itr.hasNext()){
+            MyPath path = new MyPath();
+            mpf = request.getFile(itr.next());
+            try{
+                fileName = mpf.getOriginalFilename();
+                some_id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
+                newFileName = filePath+fileName.replace(" ", "-");
+                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
+                fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
+                path.setPathName(newFileName);
+                if(className.equals("plate")) {
+                    path.setPlateId(some_id);
+                }
+                if(className.equals("tool")){
+                    path.setMytoolId(some_id);
+                }
+                addPlatePath(path);
+            }catch(IOException e){
+                logger.error(e);
+            }
+        }
+        map.put("Status", 200);
+        map.put("SucessfulList", fileUploadedList);
+        return map;
+    }
+
+    @Override
+    public void deletePlateById(int plateId) {
+        elementDAO.deletePlateById(plateId);
+    }
+
+    @Override
+    public int addTool(String data) {
+        logger.info("Start service 'addTool'");
+        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
+        MyTool myTool = new MyTool();
+        myTool.setName(jsonObject.get("name").getAsString());
+        myTool.setModel(jsonObject.get("model").getAsString());
+        myTool.setType(jsonObject.get("type").getAsString());
+        myTool.setPhoto(jsonObject.get("photo").getAsString());
+        JsonArray plateNames = jsonObject.get("platesId").getAsJsonArray();
+        Set<Plate> plates = new HashSet<>();
+        for (int i = 0; i < plateNames.size(); i++){
+            Plate plate = getPlateById(plateNames.get(i).getAsInt());
+            plates.add(plate);
+        }
+        myTool.setPlates(plates);
+        return elementDAO.addTool(myTool);
+    }
+
+
 }

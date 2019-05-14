@@ -105,7 +105,7 @@ div#tableRow {
     display: table-row;
 }
 
-section#main {
+section.main {
     display: table-cell;
     background: #f3f3f3;
     font-size: 105%;
@@ -115,7 +115,7 @@ section#main {
     width: auto;
 }
 
-#contact, #list, #formtable{
+#contact, .list, .formtable, .listTools{
     width: 90%;
     background-color: #f3f3f3;
     font-size: 150%;
@@ -125,10 +125,12 @@ section#main {
     padding-right: 30px;
 }
 
-th{width: 25%}
-td{width: 25%}
+th{width: 20%}
+td{width: 20%}
 
-#zag{
+
+
+.zag{
     color: #191970;
 }
 
@@ -147,12 +149,12 @@ td, th {
 
 }
 
-#list{
+.list{
     border-bottom: thin solid black;
 }
 
 
-#formtable{
+.formtable{
     border-top: none;
 }
 
@@ -219,6 +221,7 @@ table tbody tr td .hand{
     background-color: #f3f3f3;
     font-size: 1.5em;
     color: #03437d;
+    padding-bottom: 10px;
 }
 
 .info{
@@ -231,3 +234,23 @@ table tbody tr td .hand{
     margin: 10px;
 }
 
+.mySearch{
+    width: 300px;
+    margin: 40px 10px 10px 0;
+    float: right;
+}
+
+.fixForm {
+    position: fixed;
+    top: 250px;
+    left:350px;
+    height: 800px;
+    width: 800px;
+
+}
+
+#formTool{
+    display: none;
+    border: 2px solid blue;
+    border-radius: 10px;
+}

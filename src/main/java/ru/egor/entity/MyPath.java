@@ -24,5 +24,15 @@ public class MyPath {
     @Column
     @Getter
     @Setter
+    private int mytoolId;
+
+    @Column
+    @Getter
+    @Setter
+    private int elementId;
+
+    @Column
+    @Getter
+    @Setter
     private String pathName;
 }

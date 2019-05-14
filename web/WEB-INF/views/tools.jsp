@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Егор
+  Date: 06.05.2019
+  Time: 15:18
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -5,12 +12,13 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
-    <title>Пластины</title>
+    <title>Инструмент</title>
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
 
 </head>
 <body>
+
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
 </header>
@@ -18,8 +26,8 @@
     <ul>
         <li class="sel" onclick="location.href='../..'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/tools'">Инструмент</li>
-        <li class="sel" id="selected" onclick="location.href='/plates'">Пластины</li>
+        <li class="sel" id="selected" onclick="location.href='/tools'">Инструмент</li>
+        <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/contacts'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
     </ul>
@@ -33,26 +41,27 @@
                 <div class="form-group mySearch">
                     <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
                 </div>
-            <h4>Отображать по</h4>
-            <div class="form-group">
-                <select name="state" id="maxRows" class="form-control" style="width:150px;">
-                    <option value="5000">Показать все</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="75">75</option>
-                    <option value="100">100</option>
-                </select>
+                <h4>Отображать по</h4>
+                <div class="form-group">
+                    <select name="state" id="maxRows" class="form-control" style="width:150px;">
+                        <option value="5000">Показать все</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
             </div>
-            </div>
-            <table class="list">
+            <table class="listTools">
                 <thead>
                 <tr class="zag">
                     <th>Наименование</th>
                     <th>Модель (по паспорту)</th>
                     <th>Тип</th>
+                    <th>Пластины</th>
                     <th>Фото</th>
                 </tr>
                 </thead>
@@ -60,34 +69,80 @@
 
                 </tbody>
             </table>
-            <table class="formtable">
-                <form id="formPlate" name="formPlate" action="${pageContext.request.contextPath}/addPlates">
-                    <tr id="add_hide">
-                        <td><input type="text" name="name" value=""></td>
-                        <td><input id="inMod" type="text" name="model" value="" placeholder=""></td>
-                        <td><input type="text" name="type" value=""></td>
-                        <td><input id="files" type="file" accept="image/*" multiple name="photo"></td>
-                    </tr>
-                </form>
-            </table>
             <div class="pagination-container">
                 <nav>
                     <ul class="pagination justify-content-center"></ul>
                 </nav>
             </div>
             <input class="button2" type="button" value="Добавить">
-            <input class="button3" type="button" value="Принять">
+
         </section>
 
         <aside>
             <div id="err">
                 <p id="erMessage"></p>
             </div>
-                <img id="prim" src="">
+            <img id="prim" src="">
         </aside>
     </div>
 </div>
+<div class="fixForm">
+    <form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addTool">
+        <div class="tableRow">
+            <p>Наименование:</p>
+            <p>
+                <input type="text" name="name" value="">
+            </p>
+        </div>
+        <div class="tableRow">
+            <p>Модель:</p>
+            <p>
+                <input id="inMod" type="text" name="model" value="" placeholder="">
+            </p>
+        </div>
+        <div class="tableRow">
+            <p>
+                Выберите тип:
+            </p>
+            <p>
+                <select id="type">
+                    <option disabled>Выберите тип</option>
+                    <option value="Правый">Правый</option>
+                    <option value="Левый">Левый</option>
+                    <option value="Универсальный">Универсальный</option>
+                </select>
+            </p>
+        </div>
 
+        <div class="tableRow">
+            <p>
+                Выберите пластины:
+            </p>
+            <p>
+                <select id="addOptions" multiple name="plates[]">
+                    <option disabled>Выберите пластины</option>
+
+                </select>
+            </p>
+        </div>
+
+        <div class="tableRow">
+            <p>Фото:</p>
+            <p>
+                <input id="files" type="file" accept="image/*" multiple name="photo">
+            </p>
+        </div>
+
+        <div class="tableRow">
+            <p>
+                <input class="button3" type="button" value="Принять">
+            </p>
+        </div>
+
+
+    </form>
+
+</div>
 
 
 
@@ -97,9 +152,9 @@
 </footer>
 <script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../resources/js/plates.js"></script>
+<script src="../../resources/js/my_tools.js"></script>
 <script>
-    var table = '.list';
+    var table = '.listTools';
     $('#maxRows').on('change', function () {
         $('.pagination').html('');
         var trnum = 0;
@@ -142,13 +197,13 @@
         $("#search").keyup(function(){
             _this = this;
 
-            $.each($(".list tbody tr"), function() {
+            $.each($(".listTools tbody tr"), function() {
                 if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1) {
                     $(this).hide();
                 } else {
                     $(this).show();
                 }
-        });
+            });
         });
     });
 </script>

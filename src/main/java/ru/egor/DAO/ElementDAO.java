@@ -34,4 +34,8 @@ public interface ElementDAO {
     List<MyPath> getMypathAll();
 
     Plate getPlateById(int id);
+
+    void deletePlateById(int plateId);
+
+    int addTool(MyTool myTool);
 }
