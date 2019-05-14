@@ -14,7 +14,7 @@
     <ul>
         <li class="sel" id="selected" onclick="location.href='../..'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/contacts'">Инструмент</li>
+        <li class="sel" onclick="location.href='/tools'">Инструмент</li>
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/contacts'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
@@ -24,7 +24,7 @@
 
 <div id="tableContainer">
     <div id="tableRow">
-        <section id="main">
+        <section class="main">
             <div>
                 <p>Данная программа предназначена для работы с технологиями всех деталей, которые изготавливаются на
                     участках ЧПУ-2 и ЧПУ-3. Программа позволяет добавлять технологию детали, редактировать (изменять),

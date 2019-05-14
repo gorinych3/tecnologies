@@ -36,4 +36,6 @@ public interface ElementDAO {
     Plate getPlateById(int id);
 
     void deletePlateById(int plateId);
+
+    int addTool(MyTool myTool);
 }

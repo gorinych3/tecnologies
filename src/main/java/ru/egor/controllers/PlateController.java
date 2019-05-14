@@ -27,7 +27,7 @@ import java.util.Map;
 @Controller
 public class PlateController {
 
-    private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Images/";
+    private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Images/Plates/";
     private static final String SUFFIX_PATH = ".jpg";
     private final static Logger logger = Logger.getLogger(ElementController.class);
 
@@ -51,10 +51,10 @@ public class PlateController {
         return gson.toJson(new MyMessage("success", id));
     }
 
-    @RequestMapping(value = "/downloadtxt",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+    @RequestMapping(value = "/getTxtDataPlate",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public String downloadTxt() {
-        logger.info("Start servlet '/downloadtxt'");
+        logger.info("Start servlet '/getTxtDataPlate'");
         List<Plate> plates;
         plates = elementService.showPlates();
         return gson.toJson(plates);
@@ -64,7 +64,7 @@ public class PlateController {
     public @ResponseBody
     Map<String,Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
         logger.info("Start servlet '/uploadFiles'");
-        return elementService.fileUpload(request, response);
+        return elementService.fileUpload(request, response, FILE_PATH, "plate");
     }
 
 

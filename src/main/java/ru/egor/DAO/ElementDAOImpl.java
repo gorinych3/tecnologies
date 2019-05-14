@@ -59,8 +59,7 @@ public class ElementDAOImpl implements ElementDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<MyTool> getMyTools() {
-        List<MyTool> tools = (List<MyTool>) sessionFactory.getCurrentSession().createQuery("from MyTool").list();
-        return tools;
+        return sessionFactory.getCurrentSession().createQuery("from MyTool").list();
     }
 
     @SuppressWarnings("unchecked")
@@ -127,7 +126,11 @@ public class ElementDAOImpl implements ElementDAO {
            }
            else new StorageFileNotFoundException("Ошибка при удалении файла");
        }
+    }
 
-
+    @Override
+    public int addTool(MyTool myTool) {
+        sessionFactory.getCurrentSession().save(myTool);
+        return myTool.getToolId();
     }
 }

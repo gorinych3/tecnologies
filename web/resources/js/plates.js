@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#main").width($(window).width()-400);
+    $(".main").width($(window).width()-400);
 
     function Plate(plateId, name, model, type, photo) {
         this.plateId = plateId;
@@ -15,7 +15,7 @@ $(document).ready(function () {
     function getJsonAddToArray() {
         var arrObj = [];
         var my_date = [];
-        $.get("/downloadtxt", function (data1, status) {
+        $.get("/getTxtDataPlate", function (data1, status) {
             console.log("Status: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -40,7 +40,7 @@ $(document).ready(function () {
                 "<td>" + lastElement.type + "</td>" +
                 "<td style='cursor: pointer; text-decoration: underline'>фото</td>" +
                 "</tr>";
-            $('#list> tbody').append(insert);
+            $('.list> tbody').append(insert);
         }
     }
 //-----------------------------------------------------------------
@@ -54,14 +54,14 @@ $(document).ready(function () {
         $("#add_hide").css("display", "table-row");
         $(".button2").css("display", "none");
         $(".button3").css("display", "block");
-        $("#list").css("border-bottom", "none");
+        $(".list").css("border-bottom", "none");
     });
 
     $(".button3").click(function () {
         $("#add_hide").css("display", "none");
         $(".button3").css("display", "none");
         $(".button2").css("display", "block");
-        $("#list").css("border-bottom", "thin solid black");
+        $(".list").css("border-bottom", "thin solid black");
 
         var dataName = $('input[name="name"]').val();
         var dataModel = ($('input[name="model"]').val()).split('№').join('No.');
@@ -160,7 +160,7 @@ $(document).ready(function () {
     };
 
 //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
-    $('#list').on('click', 'tbody tr td:last-child', function(e) {
+    $('.list').on('click', 'tbody tr td:last-child', function(e) {
         var text = $(this).siblings('td').find('span').text();
         var down1 = "download1/".concat(text);
         $("#prim").attr('src', down1);
@@ -168,7 +168,7 @@ $(document).ready(function () {
     });
 
 //блок перехода по ссылке на страницу полной информации об объекте
-    $('#list').on('click', 'tbody tr td:nth-child(2)', function(e) {
+    $('.list').on('click', 'tbody tr td:nth-child(2)', function(e) {
         var text = $(this).html();
         var span = text.substring(text.indexOf('>')+1, text.lastIndexOf('<'));
         var number_first = span.lastIndexOf('-');

@@ -47,12 +47,12 @@ public class MyTool {
     @Setter
     private Set<Plate> plates;
 
-    @ManyToMany
-    @JoinTable(name = "element_tool", joinColumns = @JoinColumn(name = "toolId"),
-            inverseJoinColumns = @JoinColumn(name = "elId"))
-    @Getter
-    @Setter
-    private Set<Element> elements;
+//    @ManyToMany
+//    @JoinTable(name = "element_tool", joinColumns = @JoinColumn(name = "toolId"),
+//            inverseJoinColumns = @JoinColumn(name = "elId"))
+//    @Getter
+//    @Setter
+//    private Set<Element> elements;
 
     @Override
     public String toString() {
@@ -63,8 +63,8 @@ public class MyTool {
                 ", type='" + type + '\'' +
                 ", photo='" + photo + '\'' +
 //                ", plate=" + plateOne +
-                ", plates=" + plates +
-                ", elements=" + elements +
+                ", plates=" + getPlates() +
+               // ", elements=" + elements +
                 '}';
     }
 }
