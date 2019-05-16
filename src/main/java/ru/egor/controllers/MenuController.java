@@ -40,4 +40,10 @@ public class MenuController {
         logger.info("Start servlet '/contacts'");
         return "contacts";
     }
+
+    @RequestMapping(value = "/drills")
+    public String selectAllDriils(){
+        logger.info("Start servlet '/drills'");
+        return "drills";
+    }
 }

@@ -90,8 +90,8 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public List<MyPath> getMypathForOneElement(int plateId) {
-        return elementDAO.getMypathForOneElement(plateId);
+    public List<MyPath> getMypathForOnePlate(int plateId) {
+        return elementDAO.getMypathForOnePlate(plateId);
     }
 
     @Override
@@ -112,7 +112,6 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Map<String, Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response, String filePath, String className) {
         logger.info("Start service 'fileUpload'");
-        System.out.println(filePath);
         Map<String,Object> map = new HashMap<String,Object>();
         List<String> fileUploadedList = new ArrayList<String>();
         Iterator<String> itr =  request.getFileNames();
@@ -171,5 +170,31 @@ public class ElementServiceImpl implements ElementService {
         return elementDAO.addTool(myTool);
     }
 
+    @Override
+    public MyTool getToolById(int id) {
+        return elementDAO.getToolById(id);
+    }
 
+    @Override
+    public List<MyPath> getMypathForOneTool(int toolId) {
+        return elementDAO.getMypathForOneTool(toolId);
+    }
+
+    @Override
+    public void deleteToolById(int toolId) {
+        elementDAO.deleteToolById(toolId);
+    }
+
+    @Override
+    public int addDrill(String data) {
+        logger.info("Start service 'addDrill'");
+        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
+        MyTool myTool = new MyTool();
+        myTool.setName(jsonObject.get("name").getAsString());
+        myTool.setModel(jsonObject.get("model").getAsString());
+        myTool.setType(jsonObject.get("type").getAsString());
+        myTool.setPhoto(jsonObject.get("photo").getAsString());
+        myTool.setPlates(null);
+        return elementDAO.addTool(myTool);
+    }
 }

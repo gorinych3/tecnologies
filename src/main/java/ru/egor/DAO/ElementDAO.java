@@ -29,7 +29,7 @@ public interface ElementDAO {
 
     void addPathPlate(MyPath path);
 
-    List<MyPath> getMypathForOneElement(int plateId);
+    List<MyPath> getMypathForOnePlate(int plateId);
 
     List<MyPath> getMypathAll();
 
@@ -38,4 +38,10 @@ public interface ElementDAO {
     void deletePlateById(int plateId);
 
     int addTool(MyTool myTool);
+
+    MyTool getToolById(int id);
+
+    List<MyPath> getMypathForOneTool(int toolId);
+
+    void deleteToolById(int toolId);
 }

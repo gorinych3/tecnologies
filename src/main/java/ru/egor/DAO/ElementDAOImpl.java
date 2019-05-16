@@ -12,6 +12,7 @@ import ru.egor.entity.MyPath;
 import ru.egor.entity.Plate;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -92,7 +93,7 @@ public class ElementDAOImpl implements ElementDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<MyPath> getMypathForOneElement(int plateId) {
+    public List<MyPath> getMypathForOnePlate(int plateId) {
         Query<MyPath> path = sessionFactory.getCurrentSession().createQuery("from MyPath where plateId = :paramName");
         path.setParameter("paramName", plateId);
         return path.getResultList();
@@ -116,21 +117,47 @@ public class ElementDAOImpl implements ElementDAO {
     @Override
     public void deletePlateById(int plateId) {
        Plate plate = getPlateById(plateId);
-       //plate = getPlateById(plateId);
        sessionFactory.getCurrentSession().delete(plate);
-       List <MyPath> pathes = getMypathForOneElement(plateId);
-       for(MyPath path : pathes){
-           File file = new File(path.getPathName());
-           if(file.delete()) {
-               sessionFactory.getCurrentSession().delete(path);
-           }
-           else new StorageFileNotFoundException("Ошибка при удалении файла");
-       }
+       List <MyPath> pathes = getMypathForOnePlate(plateId);
+       deletePathes(pathes);
     }
 
     @Override
     public int addTool(MyTool myTool) {
         sessionFactory.getCurrentSession().save(myTool);
         return myTool.getToolId();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyTool getToolById(int id) {
+        Query<MyTool> myTool = sessionFactory.getCurrentSession().createQuery("from MyTool where toolId = :paramName");
+        myTool.setParameter("paramName", id);
+        return myTool.getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<MyPath> getMypathForOneTool(int toolId) {
+        Query<MyPath> path = sessionFactory.getCurrentSession().createQuery("from MyPath where mytoolId = :paramName");
+        path.setParameter("paramName", toolId);
+        return path.getResultList();
+    }
+
+    @Override
+    public void deleteToolById(int toolId) {
+        MyTool myTool = getToolById(toolId);
+        sessionFactory.getCurrentSession().delete(myTool);
+        List <MyPath> pathes = getMypathForOneTool(toolId);
+        deletePathes(pathes);
+    }
+
+    public void deletePathes(List<MyPath> paths){
+        for(MyPath path : paths){
+            File file = new File(path.getPathName());
+            if(file.delete()) {
+                sessionFactory.getCurrentSession().delete(path);
+            }
+        }
     }
 }

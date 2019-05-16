@@ -97,10 +97,9 @@ public class PlateController {
     public String showOnePlate(HttpServletRequest request, Model model){
         logger.info("Start servlet '/plate'");
         Plate plate = (Plate) request.getSession().getAttribute("myPlate");
-        List <MyPath> pathes = elementService.getMypathForOneElement(plate.getPlateId());
+        List <MyPath> pathes = elementService.getMypathForOnePlate(plate.getPlateId());
         model.addAttribute("currentPlate", plate);
         model.addAttribute("countPath", pathes.size());
-        logger.info("countPath  " + pathes.size());
         return "plate";
     }
 

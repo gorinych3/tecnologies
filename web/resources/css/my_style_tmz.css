@@ -5,7 +5,7 @@ body {
     margin: 0px;
 }
 
-.button2, .button3 {
+.button2, .button3, .button4 {
     background-color: #B0E0E6;
     border: 1px solid #000080;
     border-radius: 3px;
@@ -25,6 +25,10 @@ body {
 .button3{
     display: none;
 }
+
+
+
+
 
 header.top {
     background-color: #f3f3f3;
@@ -97,8 +101,10 @@ aside{
 
 
 div#tableContainer {
+    position: relative;
     display: table;
     border-spacing: 10px;
+    z-index: 1;
 }
 
 div#tableRow {
@@ -115,7 +121,7 @@ section.main {
     width: auto;
 }
 
-#contact, .list, .formtable, .listTools{
+#contact, .list, .formtable, .listTools, .listDriil{
     width: 90%;
     background-color: #f3f3f3;
     font-size: 150%;
@@ -253,4 +259,13 @@ table tbody tr td .hand{
     display: none;
     border: 2px solid blue;
     border-radius: 10px;
+}
+
+.ssylka{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.fixForm{
+    z-index: 0;
 }

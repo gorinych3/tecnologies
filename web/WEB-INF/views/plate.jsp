@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
-    <title>Детали</title>
+    <title>Пластина</title>
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
 
@@ -18,7 +18,7 @@
     <ul>
         <li class="sel" onclick="location.href='../..'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/contacts'">Инструмент</li>
+        <li class="sel" onclick="location.href='/tools'">Инструменты</li>
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" id="selected" onclick="location.href='/plate'">Пластина</li>
         <li class="sel" onclick="location.href='/contacts'">Станки</li>

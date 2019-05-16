@@ -3,6 +3,7 @@ package ru.egor.service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.entity.Element;
 import ru.egor.entity.MyPath;
+import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,7 @@ public interface ElementService {
 
     Path load(String filename);
 
-    List<MyPath> getMypathForOneElement(int plateId);
+    List<MyPath> getMypathForOnePlate(int plateId);
 
     List<MyPath> getMypathAll();
 
@@ -45,4 +46,12 @@ public interface ElementService {
     void deletePlateById(int plateId);
 
     int addTool(String data);
+
+    MyTool getToolById(int id);
+
+    List<MyPath> getMypathForOneTool(int toolId);
+
+    void deleteToolById(int toolId);
+
+    int addDrill(String data);
 }

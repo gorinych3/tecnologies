@@ -16,10 +16,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.OtherClasses.MyMessage;
+import ru.egor.entity.MyPath;
 import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
 import ru.egor.service.ElementService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,7 +60,6 @@ public class ToolsController {
     public String getListMyTools() {
         logger.info("Start servlet '/getTxtDataTools'");
         String listTools = elementService.getMyTools();
-        System.out.println(listTools);
         return listTools;
     }
 
@@ -82,5 +83,36 @@ public class ToolsController {
                 .contentType(MediaType.IMAGE_JPEG).contentLength(file.length())
                 .body(resource);
     }
+
+    @RequestMapping(value = "/gettool/{id}",  method = RequestMethod.GET)
+    public String showOneTool(@PathVariable String id, HttpServletRequest request){
+        logger.info("Start servlet '/gettool/{id}'");
+        int toolId = Integer.parseInt(id);
+        MyTool myTool = elementService.getToolById(toolId);
+        request.getSession().setAttribute("myTool", myTool);
+        request.getSession().setAttribute("myPlates", myTool.getPlates());
+        return "forward:/tool";
+    }
+
+    @RequestMapping(value = "/tool",  method = RequestMethod.GET)
+    public String showOneTool(HttpServletRequest request, Model model){
+        logger.info("Start servlet '/tool'");
+        MyTool myTool = (MyTool) request.getSession().getAttribute("myTool");
+        Set<Plate> plates = (Set<Plate>) request.getSession().getAttribute("myPlates");
+        List <MyPath> pathes = elementService.getMypathForOneTool(myTool.getToolId());
+        model.addAttribute("currentTool", myTool);
+        model.addAttribute("currentPlates", plates);
+        model.addAttribute("countPath", pathes.size());
+        logger.info("countPath  " + pathes.size());
+        return "tool";
+    }
+
+    @RequestMapping(value = "/deleteTool/{id}")
+    public String deleteOneTool(@PathVariable String id){
+        logger.info("Start servlet '/deleteTool/{id}'");
+        elementService.deleteToolById(Integer.parseInt(id));
+        return "redirect:/tools";
+    }
+
 
 }

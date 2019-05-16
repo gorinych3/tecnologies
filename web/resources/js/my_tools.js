@@ -37,8 +37,11 @@ $(document).ready(function () {
                 for(var j = my_dateTools[5].length-1; j >= 0; j--){
                     name_plate = my_dateTools[5][j].name;
                 }
-
-                addRow(new MyTool(my_dateTools[0], my_dateTools[1], my_dateTools[2], my_dateTools[3], my_dateTools[4],arrPlate), name_plate);
+                console.log("name = "+my_dateTools[1]);
+                if(!(my_dateTools[1] === "Центровка" || my_dateTools[1] === "Сверло" || my_dateTools[1] === "Развертка"
+                    || my_dateTools[1] === "Фреза")) {
+                    addRow(new MyTool(my_dateTools[0], my_dateTools[1], my_dateTools[2], my_dateTools[3], my_dateTools[4], arrPlate), name_plate);
+                }
                 my_dateTools.length = 0;
                 arrPlate.length = 0;
             });
@@ -53,10 +56,10 @@ $(document).ready(function () {
             // var newFileName = urlLit(((lastElement.model + "-"+"0"+"_"+lastElement.plateId).trim()).split('.').join("-"),0);
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.tool_name + "</td>" +
-                "<td class='model' style='cursor: pointer; text-decoration: underline'>"+ lastElement.tool_model+"</td>" +
+                "<td class='model ssylka'>"+ lastElement.tool_model+"</td>" +
                 "<td>" + lastElement.tool_type + "</td>" +
                 "<td>" + name_plate + "</td>" +
-                "<td style='cursor: pointer; text-decoration: underline'>фото</td>" +
+                "<td class='ssylka' style='cursor: pointer'><span>фото</span></td>" +
                 "</tr>";
             $('.listTools> tbody').append(insert);
         }
@@ -102,7 +105,16 @@ $(document).ready(function () {
         $("#add_hide").css("display", "table-row");
         $(".button3").css("display", "block");
         $("#formTool").css("display", "block");
+        $("#tableContainer").css("position", "static");
         getJsonAddToArray();
+    });
+
+
+    $(".button4").click(function () {
+        $("#add_hide").css("display", "none");
+        $("#formTool").css("display", "none");
+        $(".button2").css("display", "block");
+        $("#tableContainer").css("position", "relative");
     });
 
 
@@ -111,6 +123,7 @@ $(document).ready(function () {
         $("#add_hide").css("display", "none");
         $("#formTool").css("display", "none");
         $(".button2").css("display", "block");
+        $("#tableContainer").css("position", "relative");
 
         var dataPlatesId  = new Array();
         var dataPlateName;
@@ -228,7 +241,7 @@ uplaod = function(model, id){
     });
 
     //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
-    $('.listTools').on('click', 'tbody tr td:last-child', function(e) {
+    $('.listTools').on('click', 'tbody tr td:nth-child(5)', function(e) {
         var text = $(this).siblings('td:nth-child(2)').text();
         console.log("text = "+text);
         var id;
@@ -247,12 +260,18 @@ uplaod = function(model, id){
     });
 
 //блок перехода по ссылке на страницу полной информации об объекте
-    $('.list').on('click', 'tbody tr td:nth-child(2)', function(e) {
+    $('.listTools').on('click', 'tbody tr td:nth-child(2)', function(e) {
         var text = $(this).html();
-        var span = text.substring(text.indexOf('>')+1, text.lastIndexOf('<'));
-        var number_first = span.lastIndexOf('-');
-        var id = span.substring(number_first+1);
-        window.location.href="/getplate/".concat(id);
+        var id;
+        for(var n = 0; n < asslist.length; n++){
+            console.log("assList.model = "+asslist[n].model);
+            console.log("assList.id = " + asslist[n].id);
+            if(asslist[n].model === text){
+                id = asslist[n].id;
+            }
+        }
+        console.log("id для отправки = " + id);
+        window.location.href="/gettool/".concat(id);
     });
 //-----------------------------------------------------------------
 

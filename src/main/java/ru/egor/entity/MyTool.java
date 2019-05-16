@@ -40,7 +40,7 @@ public class MyTool {
 //    @Setter
 //    private Plate plateOne;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tool_plate", joinColumns = @JoinColumn(name = "toolId"),
             inverseJoinColumns = @JoinColumn(name = "plateId"))
     @Getter
