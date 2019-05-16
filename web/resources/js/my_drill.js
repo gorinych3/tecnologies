@@ -23,7 +23,6 @@ $(document).ready(function () {
                 for (var key1 in val) {
                     my_dateTools.push(val[key1]);  //добавляем в массив значение каждого элемента по ключу
                 }
-                console.log("Name = " + my_dateTools[1]);
                 if(my_dateTools[1] === "Центровка" || my_dateTools[1] === "Сверло" || my_dateTools[1] === "Развертка"
                     || my_dateTools[1] === "Фреза") {
                     addRow(new MyDrill(my_dateTools[0], my_dateTools[1], my_dateTools[2], my_dateTools[3]));
@@ -136,10 +135,8 @@ $(document).ready(function () {
 //если загрузка прошла успешно, то последний элемент отображаем на странице
                     if (res.message === "success") {
                         var lastEl = new MyDrill(res.id, dataName, dataModel, dataType);
-                        //dataModel = urlLit(dataModel,0);
                         addRow(lastEl);
                         console.log("Данные загрузились");
-                        console.log(res.id);
                     } else {
                         console.log("Error: " + res.message);
                         $("#err").css("display", "block");
@@ -157,23 +154,5 @@ $(document).ready(function () {
         });
 
     });
-
-
-
-
-//-----------------------------------------------------------------
-
-    //функция транслитерации для формирования имени файла и пути к нему
-    function urlLit(w, v) {
-        var tr = 'a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
-        var ww = '';
-        w = w.toLowerCase();
-        for (var i = 0; i < w.length; ++i) {
-            var cc = w.charCodeAt(i);
-            var ch = (cc >= 1072 ? tr[cc - 1072] : w[i]);
-            if (ch.length < 3) ww += ch; else ww += eval(ch)[v];
-        }
-        return (ww.replace(/[^a-zA-Z0-9\-]/g, '-').replace(/[-]{2,}/gim, '-').replace(/^\-+/g, '').replace(/\-+$/g, ''));
-    }
 
 });

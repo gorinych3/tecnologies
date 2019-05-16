@@ -86,6 +86,10 @@
 
 
     <button id="del" class="button2" type="button">Удалить</button>
+    <div id="buttons" align="right">
+        <button class="back" onclick="location.href='/tools';" type="button" >Назад</button>
+        <button class="back" onclick="location.href='../..';" type="button" >На главную</button>
+    </div>
 </div>
 
 

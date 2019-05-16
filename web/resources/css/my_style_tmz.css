@@ -5,7 +5,7 @@ body {
     margin: 0px;
 }
 
-.button2, .button3, .button4 {
+.button2, .button3, .button4, .back {
     background-color: #B0E0E6;
     border: 1px solid #000080;
     border-radius: 3px;
@@ -268,4 +268,9 @@ table tbody tr td .hand{
 
 .fixForm{
     z-index: 0;
+}
+
+#del{
+    background-color: #f1a899;
+
 }

@@ -49,23 +49,31 @@ $(document).ready(function () {
 //обработка нажатия кнопок, функция добавляет форму на страницу и отправляет данные
 //на сервер. Далее нужно отобразить полученный список на странице
 
-
     $(".button2").click(function () {
         $("#add_hide").css("display", "table-row");
-        $(".button2").css("display", "none");
         $(".button3").css("display", "block");
-        $(".list").css("border-bottom", "none");
+        $("#formTool").css("display", "block");
+        $("#tableContainer").css("position", "static");
+    });
+
+    $(".button4").click(function () {
+        $("#add_hide").css("display", "none");
+        $("#formTool").css("display", "none");
+        $(".button2").css("display", "block");
+        $("#tableContainer").css("position", "relative");
     });
 
     $(".button3").click(function () {
         $("#add_hide").css("display", "none");
-        $(".button3").css("display", "none");
+        $("#formTool").css("display", "none");
         $(".button2").css("display", "block");
-        $(".list").css("border-bottom", "thin solid black");
+        $("#tableContainer").css("position", "relative");
+
+
 
         var dataName = $('input[name="name"]').val();
         var dataModel = ($('input[name="model"]').val()).split('№').join('No.');
-        var dataType = $('input[name="type"]').val();
+        var dataType = $('#type').val();
         var dataPhoto = $('input[name="photo"]').val();
 
 
@@ -94,7 +102,7 @@ $(document).ready(function () {
         };
 
 //отправка данных на сервер
-        var url = $("#formPlate").attr("action");
+        var url = $("#formTool").attr("action");
 
 //отправка текстовой информации
         if(!empty) {

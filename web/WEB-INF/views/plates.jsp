@@ -59,16 +59,7 @@
                 <tbody>
 
                 </tbody>
-            </table>
-            <table class="formtable">
-                <form id="formPlate" name="formPlate" action="${pageContext.request.contextPath}/addPlates">
-                    <tr id="add_hide">
-                        <td><input type="text" name="name" value=""></td>
-                        <td><input id="inMod" type="text" name="model" value="" placeholder=""></td>
-                        <td><input type="text" name="type" value=""></td>
-                        <td><input id="files" type="file" accept="image/*" multiple name="photo"></td>
-                    </tr>
-                </form>
+
             </table>
             <div class="pagination-container">
                 <nav>
@@ -76,7 +67,6 @@
                 </nav>
             </div>
             <input class="button2" type="button" value="Добавить">
-            <input class="button3" type="button" value="Принять">
         </section>
 
         <aside>
@@ -88,7 +78,52 @@
     </div>
 </div>
 
+<div class="fixForm">
+    <form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addPlates">
+        <div class="tableRow">
+            <p>Наименование:</p>
+            <p>
+                <input type="text" name="name" value="">
+            </p>
+        </div>
+        <div class="tableRow">
+            <p>Модель:</p>
+            <p>
+                <input id="inMod" type="text" name="model" value="" placeholder="">
+            </p>
+        </div>
+        <div class="tableRow">
+            <p>
+                Выберите тип:
+            </p>
+            <p>
+                <select id="type">
+                    <option disabled>Выберите тип</option>
+                    <option value="Правая">Правая</option>
+                    <option value="Левая">Левая</option>
+                    <option value="Универсальная">Универсальная</option>
+                </select>
+            </p>
+        </div>
 
+        <div class="tableRow">
+            <p>Фото:</p>
+            <p>
+                <input id="files" type="file" accept="image/*" multiple name="photo">
+            </p>
+        </div>
+
+        <div class="tableRow">
+            <p>
+                <input class="button3" type="button" value="Принять">
+            </p>
+            <p>
+                <input class="button4" type="button" value="Отменить">
+            </p>
+        </div>
+
+
+    </form>
 
 
 <footer>
