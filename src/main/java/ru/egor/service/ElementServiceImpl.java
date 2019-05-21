@@ -74,11 +74,6 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public List<MyPath> getMypathForOnePlate(int plateId) {
-        return elementDAO.getMypathForOnePlate(plateId);
-    }
-
-    @Override
     public Plate getPlateByModel(String model) {
         return elementDAO.getPlateByModel(model);
     }
@@ -94,10 +89,24 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
+    public Machine getMachineById(int id) {
+         return elementDAO.getMachineById(id);
+    }
+
+    @Override
+    public List<MyPath> getMypathForOnePlate(int plateId) {
+        return elementDAO.getMypathForOnePlate(plateId);
+    }
+
+    @Override
     public List<MyPath> getMypathForOneTool(int toolId) {
         return elementDAO.getMypathForOneTool(toolId);
     }
 
+    @Override
+    public List<MyPath> getMypathForOneMachine(int machId) {
+        return elementDAO.getMypathForOneMachine(machId);
+    }
 
     //блок добавления entity--------------------------------------------------------------------------------------------
 
@@ -181,6 +190,10 @@ public class ElementServiceImpl implements ElementService {
         elementDAO.deleteToolById(toolId);
     }
 
+    @Override
+    public void deleteMachineById(int id) {
+        elementDAO.deleteMachineById(id);
+    }
 
     //разное------------------------------------------------------------------------------------------------------------
 
@@ -216,9 +229,9 @@ public class ElementServiceImpl implements ElementService {
                 if(className.equals("tool")){
                     path.setMytoolId(some_id);
                 }
-//                if(className.equals("machine")){
-//                    path.setMachineId(some_id);
-//                }
+                if(className.equals("machine")){
+                    path.setMachineId(some_id);
+                }
                 addPlatePath(path);
             }catch(IOException e){
                 logger.error(e);

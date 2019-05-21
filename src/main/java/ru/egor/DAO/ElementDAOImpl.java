@@ -106,12 +106,27 @@ public class ElementDAOImpl implements ElementDAO {
 
     @SuppressWarnings("unchecked")
     @Override
+    public Machine getMachineById(int id) {
+        Query<Machine> machineQuery = sessionFactory.getCurrentSession().createQuery("from Machine where machId = :paramName");
+        machineQuery.setParameter("paramName", id);
+        return machineQuery.getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public List<MyPath> getMypathForOneTool(int toolId) {
         Query<MyPath> path = sessionFactory.getCurrentSession().createQuery("from MyPath where mytoolId = :paramName");
         path.setParameter("paramName", toolId);
         return path.getResultList();
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<MyPath> getMypathForOneMachine(int machId) {
+        Query<MyPath> path = sessionFactory.getCurrentSession().createQuery("from MyPath where machineid = :paramName");
+        path.setParameter("paramName", machId);
+        return path.getResultList();
+    }
 
     //блок добавления entity--------------------------------------------------------------------------------------------
 
@@ -175,6 +190,14 @@ public class ElementDAOImpl implements ElementDAO {
         sessionFactory.getCurrentSession().delete(myTool);
         List <MyPath> pathes = getMypathForOneTool(toolId);
         deletePathes(pathes);
+    }
+
+    @Override
+    public void deleteMachineById(int machId) {
+        Machine machine = getMachineById(machId);
+        sessionFactory.getCurrentSession().delete(machine);
+        List <MyPath> paths = getMypathForOneMachine(machId);
+        deletePathes(paths);
     }
 
     private void deletePathes(List<MyPath> paths){

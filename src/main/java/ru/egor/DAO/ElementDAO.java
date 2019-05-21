@@ -23,13 +23,17 @@ public interface ElementDAO {
 
     Plate getPlateByModel(String model);
 
-    List<MyPath> getMypathForOnePlate(int plateId);
-
     Plate getPlateById(int id);
 
     MyTool getToolById(int id);
 
+    Machine getMachineById(int id);
+
+    List<MyPath> getMypathForOnePlate(int plateId);
+
     List<MyPath> getMypathForOneTool(int toolId);
+
+    List<MyPath> getMypathForOneMachine(int machId);
 
 
     //блок добавления entity--------------------------------------------------------------------------------------------
@@ -50,6 +54,8 @@ public interface ElementDAO {
     void deletePlateById(int plateId);
 
     void deleteToolById(int toolId);
+
+    void deleteMachineById(int machId);
 
 
 

@@ -19,9 +19,10 @@
         <li class="sel" onclick="location.href='../..'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
         <li class="sel" onclick="location.href='/tools'">Инструменты</li>
+        <li class="sel" onclick="location.href='/drills'">Сверла</li>
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" id="selected" onclick="location.href='/plate'">Пластина</li>
-        <li class="sel" onclick="location.href='/contacts'">Станки</li>
+        <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
 
     </ul>

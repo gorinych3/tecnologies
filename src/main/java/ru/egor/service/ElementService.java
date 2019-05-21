@@ -27,15 +27,19 @@ public interface ElementService {
 
     List<Element> showElementByName(String nameElement);
 
-    List<MyPath> getMypathForOnePlate(int plateId);
-
     Plate getPlateByModel(String model);
 
     Plate getPlateById(int id);
 
     MyTool getToolById(int id);
 
+    Machine getMachineById(int id);
+
+    List<MyPath> getMypathForOnePlate(int plateId);
+
     List<MyPath> getMypathForOneTool(int toolId);
+
+    List<MyPath> getMypathForOneMachine(int machId);
 
 
 
@@ -67,6 +71,8 @@ public interface ElementService {
     void deletePlateById(int plateId);
 
     void deleteToolById(int toolId);
+
+    void deleteMachineById(int id);
 
 
     //разное------------------------------------------------------------------------------------------------------------

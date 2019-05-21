@@ -29,7 +29,7 @@
         <li class="sel" id="selected" onclick="location.href='/tools'">Инструмент</li>
         <li class="sel" onclick="location.href='/drills'">Сверла</li>
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/contacts'">Станки</li>
+        <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
     </ul>
 </nav>
