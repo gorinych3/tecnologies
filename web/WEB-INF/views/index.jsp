@@ -17,9 +17,8 @@
         <li class="sel" onclick="location.href='/tools'">Инструменты</li>
         <li class="sel" onclick="location.href='/drills'">Сверла</li>
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/contacts'">Станки</li>
+        <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
-        <li class="sel" onclick="location.href='/uploadImages'">TestUploadFiles</li>
     </ul>
 </nav>
 

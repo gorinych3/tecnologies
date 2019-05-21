@@ -19,7 +19,7 @@
         <li class="sel" onclick="location.href='/addElements'">Добавить деталь</li>
         <li class="sel" onclick="location.href='/contacts'">Инструмент</li>
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/contacts'">Станки</li>
+        <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
     </ul>
 </nav>

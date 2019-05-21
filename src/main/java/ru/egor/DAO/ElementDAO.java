@@ -1,47 +1,59 @@
 package ru.egor.DAO;
 
-import ru.egor.entity.Element;
-import ru.egor.entity.MyTool;
-import ru.egor.entity.MyPath;
-import ru.egor.entity.Plate;
+import ru.egor.entity.*;
 
 import java.util.List;
 
 public interface ElementDAO {
 
+    //блок получения списка entity--------------------------------------------------------------------------------------
     List<Element> showAllElements();
-
-    List<Element> showElementByName(String name);
-
-    void addElement(Element element);
-
-    void updateElement(Element element);
-
-    void deleteElement(String name);
 
     List<MyTool> getMyTools();
 
     List<Plate> showPlates();
 
-    int addPlate(Plate plate);
+    List<MyPath> getMypathAll();
+
+    List<Machine> showMachine();
+
+
+    //блок получения entity по заданным параметрам----------------------------------------------------------------------
+    List<Element> showElementByName(String name);
 
     Plate getPlateByModel(String model);
 
-    void addPathPlate(MyPath path);
-
     List<MyPath> getMypathForOnePlate(int plateId);
 
-    List<MyPath> getMypathAll();
-
     Plate getPlateById(int id);
-
-    void deletePlateById(int plateId);
-
-    int addTool(MyTool myTool);
 
     MyTool getToolById(int id);
 
     List<MyPath> getMypathForOneTool(int toolId);
 
+
+    //блок добавления entity--------------------------------------------------------------------------------------------
+    void addElement(Element element);
+
+    int addPlate(Plate plate);
+
+    void addPathPlate(MyPath path);
+
+    int addTool(MyTool myTool);
+
+    int addMachine(Machine machine);
+
+
+    //блок удаления entity----------------------------------------------------------------------------------------------
+    void deleteElement(String name);
+
+    void deletePlateById(int plateId);
+
     void deleteToolById(int toolId);
+
+
+
+    //блок редактирования entity----------------------------------------------------------------------------------------
+    void updateElement(Element element);
+
 }

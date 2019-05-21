@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Егор
+  Date: 17.05.2019
+  Time: 21:54
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -5,7 +12,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
-    <title>Пластины</title>
+    <title>Станки</title>
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
 
@@ -20,8 +27,8 @@
         <li class="sel" onclick="location.href='/elements'">Детали</li>
         <li class="sel" onclick="location.href='/tools'">Инструмент</li>
         <li class="sel" onclick="location.href='/drills'">Сверла</li>
-        <li class="sel" id="selected" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/machines'">Станки</li>
+        <li class="sel" onclick="location.href='/plates'">Пластины</li>
+        <li class="sel" id="selected" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
     </ul>
 </nav>
@@ -34,26 +41,26 @@
                 <div class="form-group mySearch">
                     <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
                 </div>
-            <h4>Отображать по</h4>
-            <div class="form-group">
-                <select name="state" id="maxRows" class="form-control" style="width:150px;">
-                    <option value="5000">Показать все</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="75">75</option>
-                    <option value="100">100</option>
-                </select>
-            </div>
+                <h4>Отображать по</h4>
+                <div class="form-group">
+                    <select name="state" id="maxRows" class="form-control" style="width:150px;">
+                        <option value="5000">Показать все</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
             </div>
             <table class="list">
                 <thead>
                 <tr class="zag">
                     <th>Наименование</th>
                     <th>Модель (по паспорту)</th>
-                    <th>Тип</th>
+                    <th>Идентификатор</th>
                     <th>Фото</th>
                 </tr>
                 </thead>
@@ -74,23 +81,33 @@
             <div id="err">
                 <p id="erMessage"></p>
             </div>
-                <img id="prim" src="">
+            <img id="prim" src="">
         </aside>
     </div>
 </div>
 
 <div class="fixForm">
-    <form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addPlates">
+    <form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addMachine">
         <div class="tableRow">
             <p>Наименование:</p>
             <p>
-                <input type="text" name="name" value="">
+                <select id="machine_name">
+                    <option disabled>Выберите станок</option>
+                    <option value="Многофункциональный токарный">Многофункциональный токарный</option>
+                    <option value="Автомат продольного точения">Автомат продольного точения</option>
+                </select>
             </p>
         </div>
         <div class="tableRow">
             <p>Модель:</p>
             <p>
-                <input id="inMod" type="text" name="model" value="" placeholder="">
+                <select id="inMod">
+                    <option disabled>Выберите модель</option>
+                    <option value="TC">TC</option>
+                    <option value="PD">PD</option>
+                    <option value="Mitsubishi">Mitsubishi</option>
+                    <option value="AccuWay">AccuWay</option>
+                </select>
             </p>
         </div>
         <div class="tableRow">
@@ -99,10 +116,14 @@
             </p>
             <p>
                 <select id="type">
-                    <option disabled>Выберите тип</option>
-                    <option value="Правая">Правая</option>
-                    <option value="Левая">Левая</option>
-                    <option value="Универсальная">Универсальная</option>
+                    <option disabled>Выберите номер</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
                 </select>
             </p>
         </div>
@@ -133,7 +154,7 @@
 </footer>
 <script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../resources/js/plates.js"></script>
+<script src="../../resources/js/my_machines.js"></script>
 <script>
     var table = '.list';
     $('#maxRows').on('change', function () {
@@ -184,7 +205,7 @@
                 } else {
                     $(this).show();
                 }
-        });
+            });
         });
     });
 </script>

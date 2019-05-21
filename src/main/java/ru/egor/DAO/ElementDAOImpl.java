@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.egor.OtherClasses.StorageFileNotFoundException;
-import ru.egor.entity.Element;
-import ru.egor.entity.MyTool;
-import ru.egor.entity.MyPath;
-import ru.egor.entity.Plate;
+import ru.egor.entity.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +21,11 @@ public class ElementDAOImpl implements ElementDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+
+
+
+    //блок получения списков entity-------------------------------------------------------------------------------------
+
     @SuppressWarnings("unchecked")
     @Transactional
     @Override
@@ -34,27 +36,15 @@ public class ElementDAOImpl implements ElementDAO {
     }
 
     @SuppressWarnings("unchecked")
-    @Transactional
     @Override
-    public List<Element> showElementByName(String nameElement) {
-        Query <Element> elements = sessionFactory.getCurrentSession().createQuery("from Element where nameElement = :paramName");
-        elements.setParameter("paramName", nameElement);
-        return elements.getResultList();
+    public List<Plate> showPlates() {
+        return sessionFactory.getCurrentSession().createQuery("from Plate").list();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void addElement(Element element) {
-
-    }
-
-    @Override
-    public void updateElement(Element element) {
-
-    }
-
-    @Override
-    public void deleteElement(String name) {
-
+    public List<Machine> showMachine() {
+        return sessionFactory.getCurrentSession().createQuery("from Machine").list();
     }
 
     @SuppressWarnings("unchecked")
@@ -65,15 +55,21 @@ public class ElementDAOImpl implements ElementDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Plate> showPlates() {
-        return sessionFactory.getCurrentSession().createQuery("from Plate").list();
+    public List<MyPath> getMypathAll() {
+        return sessionFactory.getCurrentSession().createQuery("from MyPath").list();
     }
 
+
+
+    //блок получения entity по заданным параметрам----------------------------------------------------------------------
+
+    @SuppressWarnings("unchecked")
+    @Transactional
     @Override
-    public int addPlate(Plate plate) {
-       sessionFactory.getCurrentSession().save(plate);
-        //System.out.println(plate.getPlateId());
-        return plate.getPlateId();
+    public List<Element> showElementByName(String nameElement) {
+        Query <Element> elements = sessionFactory.getCurrentSession().createQuery("from Element where nameElement = :paramName");
+        elements.setParameter("paramName", nameElement);
+        return elements.getResultList();
     }
 
     @SuppressWarnings("unchecked")
@@ -82,13 +78,6 @@ public class ElementDAOImpl implements ElementDAO {
         Query<Plate> plate = sessionFactory.getCurrentSession().createQuery("from Plate where model = :paramName");
         plate.setParameter("paramName", model);
         return plate.getSingleResult();
-    }
-
-    @Override
-    public void addPathPlate(MyPath path) {
-        //String insert = "insert into Path (plateId, pathName) select path.plateId, path.pathName from Path";
-        //sessionFactory.getCurrentSession().createQuery(insert);
-        sessionFactory.getCurrentSession().save(path);
     }
 
     @SuppressWarnings("unchecked")
@@ -101,31 +90,10 @@ public class ElementDAOImpl implements ElementDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<MyPath> getMypathAll() {
-        return sessionFactory.getCurrentSession().createQuery("from MyPath").list();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public Plate getPlateById(int id) {
         Query<Plate> plate = sessionFactory.getCurrentSession().createQuery("from Plate where plateId = :paramName");
         plate.setParameter("paramName", id);
         return plate.getSingleResult();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void deletePlateById(int plateId) {
-       Plate plate = getPlateById(plateId);
-       sessionFactory.getCurrentSession().delete(plate);
-       List <MyPath> pathes = getMypathForOnePlate(plateId);
-       deletePathes(pathes);
-    }
-
-    @Override
-    public int addTool(MyTool myTool) {
-        sessionFactory.getCurrentSession().save(myTool);
-        return myTool.getToolId();
     }
 
     @SuppressWarnings("unchecked")
@@ -144,6 +112,63 @@ public class ElementDAOImpl implements ElementDAO {
         return path.getResultList();
     }
 
+
+    //блок добавления entity--------------------------------------------------------------------------------------------
+
+    @Override
+    public void addElement(Element element) {
+    }
+
+    @Override
+    public int addPlate(Plate plate) {
+        sessionFactory.getCurrentSession().save(plate);
+        //System.out.println(plate.getPlateId());
+        return plate.getPlateId();
+    }
+
+    @Override
+    public void addPathPlate(MyPath path) {
+        //String insert = "insert into Path (plateId, pathName) select path.plateId, path.pathName from Path";
+        //sessionFactory.getCurrentSession().createQuery(insert);
+        sessionFactory.getCurrentSession().save(path);
+    }
+
+    @Override
+    public int addTool(MyTool myTool) {
+        sessionFactory.getCurrentSession().save(myTool);
+        return myTool.getToolId();
+    }
+
+    @Override
+    public int addMachine(Machine machine) {
+        sessionFactory.getCurrentSession().save(machine);
+        return machine.getMachId();
+    }
+
+    //блок редактирования-----------------------------------------------------------------------------------------------
+
+    @Override
+    public void updateElement(Element element) {
+
+    }
+
+
+    //блок удаления-----------------------------------------------------------------------------------------------------
+
+    @Override
+    public void deleteElement(String name) {
+
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void deletePlateById(int plateId) {
+        Plate plate = getPlateById(plateId);
+        sessionFactory.getCurrentSession().delete(plate);
+        List <MyPath> pathes = getMypathForOnePlate(plateId);
+        deletePathes(pathes);
+    }
+
     @Override
     public void deleteToolById(int toolId) {
         MyTool myTool = getToolById(toolId);
@@ -152,7 +177,7 @@ public class ElementDAOImpl implements ElementDAO {
         deletePathes(pathes);
     }
 
-    public void deletePathes(List<MyPath> paths){
+    private void deletePathes(List<MyPath> paths){
         for(MyPath path : paths){
             File file = new File(path.getPathName());
             if(file.delete()) {
