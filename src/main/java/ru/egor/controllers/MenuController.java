@@ -46,4 +46,10 @@ public class MenuController {
         logger.info("Start servlet '/drills'");
         return "drills";
     }
+
+    @RequestMapping(value = "/machines")
+    public String selectAllMachines(){
+        logger.info("Start servlet '/machines'");
+        return "machines";
+    }
 }

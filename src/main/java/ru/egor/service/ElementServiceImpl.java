@@ -37,29 +37,11 @@ public class ElementServiceImpl implements ElementService {
     @Autowired
     private ElementDAO elementDAO;
 
+    //блок получения списка entity--------------------------------------------------------------------------------------
+
     @Override
     public List<Element> showAllElements() {
         return elementDAO.showAllElements();
-    }
-
-    @Override
-    public List<Element> showElementByName(String nameElement) {
-        return elementDAO.showElementByName(nameElement);
-    }
-
-    @Override
-    public void addElement(Element element) {
-
-    }
-
-    @Override
-    public void updateElement(Element element) {
-
-    }
-
-    @Override
-    public void deleteElement(String name) {
-
     }
 
     @Override
@@ -73,30 +55,27 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public int addPlate(Plate plate) {
-        return elementDAO.addPlate(plate);
-
-    }
-
-    @Override
-    public void addPlatePath(MyPath path) {
-        elementDAO.addPathPlate(path);
-    }
-
-
-    @Override
-    public Path load(String filename) {
-        return null;
-    }
-
-    @Override
-    public List<MyPath> getMypathForOnePlate(int plateId) {
-        return elementDAO.getMypathForOnePlate(plateId);
+    public List<Machine> showMachine() {
+        return elementDAO.showMachine();
     }
 
     @Override
     public List<MyPath> getMypathAll() {
         return elementDAO.getMypathAll();
+    }
+
+
+
+    //блок получения entity по заданному параметру----------------------------------------------------------------------
+
+    @Override
+    public List<Element> showElementByName(String nameElement) {
+        return elementDAO.showElementByName(nameElement);
+    }
+
+    @Override
+    public List<MyPath> getMypathForOnePlate(int plateId) {
+        return elementDAO.getMypathForOnePlate(plateId);
     }
 
     @Override
@@ -107,6 +86,107 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Plate getPlateById(int id) {
         return elementDAO.getPlateById(id);
+    }
+
+    @Override
+    public MyTool getToolById(int id) {
+        return elementDAO.getToolById(id);
+    }
+
+    @Override
+    public List<MyPath> getMypathForOneTool(int toolId) {
+        return elementDAO.getMypathForOneTool(toolId);
+    }
+
+
+    //блок добавления entity--------------------------------------------------------------------------------------------
+
+
+    @Override
+    public void addElement(Element element) {
+
+    }
+
+    @Override
+    public int addPlate(Plate plate) {
+        return elementDAO.addPlate(plate);
+    }
+
+    @Override
+    public void addPlatePath(MyPath path) {
+        elementDAO.addPathPlate(path);
+    }
+
+    @Override
+    public int addTool(String data) {
+        logger.info("Start service 'addTool'");
+        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
+        MyTool myTool = new MyTool();
+        myTool.setName(jsonObject.get("name").getAsString());
+        myTool.setModel(jsonObject.get("model").getAsString());
+        myTool.setType(jsonObject.get("type").getAsString());
+        myTool.setPhoto(jsonObject.get("photo").getAsString());
+        JsonArray plateNames = jsonObject.get("platesId").getAsJsonArray();
+        Set<Plate> plates = new HashSet<>();
+        for (int i = 0; i < plateNames.size(); i++){
+            Plate plate = getPlateById(plateNames.get(i).getAsInt());
+            plates.add(plate);
+        }
+        myTool.setPlates(plates);
+        return elementDAO.addTool(myTool);
+    }
+
+    @Override
+    public int addDrill(String data) {
+        logger.info("Start service 'addDrill'");
+        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
+        MyTool myTool = new MyTool();
+        myTool.setName(jsonObject.get("name").getAsString());
+        myTool.setModel(jsonObject.get("model").getAsString());
+        myTool.setType(jsonObject.get("type").getAsString());
+        myTool.setPhoto(jsonObject.get("photo").getAsString());
+        myTool.setPlates(null);
+        return elementDAO.addTool(myTool);
+    }
+
+    @Override
+    public int addMachine(Machine machine) {
+        return elementDAO.addMachine(machine);
+    }
+
+
+    //блок редактирования entity----------------------------------------------------------------------------------------
+
+    @Override
+    public void updateElement(Element element) {
+
+    }
+
+
+    //блок удаления entity----------------------------------------------------------------------------------------------
+
+    @Override
+    public void deleteElement(String name) {
+
+    }
+
+    @Override
+    public void deletePlateById(int plateId) {
+        elementDAO.deletePlateById(plateId);
+    }
+
+
+    @Override
+    public void deleteToolById(int toolId) {
+        elementDAO.deleteToolById(toolId);
+    }
+
+
+    //разное------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public Path load(String filename) {
+        return null;
     }
 
     @Override
@@ -136,6 +216,9 @@ public class ElementServiceImpl implements ElementService {
                 if(className.equals("tool")){
                     path.setMytoolId(some_id);
                 }
+//                if(className.equals("machine")){
+//                    path.setMachineId(some_id);
+//                }
                 addPlatePath(path);
             }catch(IOException e){
                 logger.error(e);
@@ -144,57 +227,5 @@ public class ElementServiceImpl implements ElementService {
         map.put("Status", 200);
         map.put("SucessfulList", fileUploadedList);
         return map;
-    }
-
-    @Override
-    public void deletePlateById(int plateId) {
-        elementDAO.deletePlateById(plateId);
-    }
-
-    @Override
-    public int addTool(String data) {
-        logger.info("Start service 'addTool'");
-        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
-        MyTool myTool = new MyTool();
-        myTool.setName(jsonObject.get("name").getAsString());
-        myTool.setModel(jsonObject.get("model").getAsString());
-        myTool.setType(jsonObject.get("type").getAsString());
-        myTool.setPhoto(jsonObject.get("photo").getAsString());
-        JsonArray plateNames = jsonObject.get("platesId").getAsJsonArray();
-        Set<Plate> plates = new HashSet<>();
-        for (int i = 0; i < plateNames.size(); i++){
-            Plate plate = getPlateById(plateNames.get(i).getAsInt());
-            plates.add(plate);
-        }
-        myTool.setPlates(plates);
-        return elementDAO.addTool(myTool);
-    }
-
-    @Override
-    public MyTool getToolById(int id) {
-        return elementDAO.getToolById(id);
-    }
-
-    @Override
-    public List<MyPath> getMypathForOneTool(int toolId) {
-        return elementDAO.getMypathForOneTool(toolId);
-    }
-
-    @Override
-    public void deleteToolById(int toolId) {
-        elementDAO.deleteToolById(toolId);
-    }
-
-    @Override
-    public int addDrill(String data) {
-        logger.info("Start service 'addDrill'");
-        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
-        MyTool myTool = new MyTool();
-        myTool.setName(jsonObject.get("name").getAsString());
-        myTool.setModel(jsonObject.get("model").getAsString());
-        myTool.setType(jsonObject.get("type").getAsString());
-        myTool.setPhoto(jsonObject.get("photo").getAsString());
-        myTool.setPlates(null);
-        return elementDAO.addTool(myTool);
     }
 }

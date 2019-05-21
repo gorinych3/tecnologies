@@ -37,13 +37,6 @@ public class Machine {
     @Setter
     private String photo;
 
-    @ManyToMany
-    @JoinTable(name = "element_machine", joinColumns = @JoinColumn(name = "machId"),
-            inverseJoinColumns = @JoinColumn(name = "elId"))
-    @Getter
-    @Setter
-    private Set<Element> elements;
-
 
     @Override
     public String toString() {
@@ -53,7 +46,6 @@ public class Machine {
                 ", model='" + model + '\'' +
                 ", idNumber='" + idNumber + '\'' +
                 ", photo='" + photo + '\'' +
-                ", elements=" + elements +
                 '}';
     }
 }

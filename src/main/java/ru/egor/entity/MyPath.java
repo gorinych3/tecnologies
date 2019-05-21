@@ -34,5 +34,10 @@ public class MyPath {
     @Column
     @Getter
     @Setter
+    private int machineId;
+
+    @Column
+    @Getter
+    @Setter
     private String pathName;
 }
