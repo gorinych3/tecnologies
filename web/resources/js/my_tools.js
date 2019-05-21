@@ -37,7 +37,6 @@ $(document).ready(function () {
                 for(var j = my_dateTools[5].length-1; j >= 0; j--){
                     name_plate = my_dateTools[5][j].name;
                 }
-                console.log("name = "+my_dateTools[1]);
                 if(!(my_dateTools[1] === "Центровка" || my_dateTools[1] === "Сверло" || my_dateTools[1] === "Развертка"
                     || my_dateTools[1] === "Фреза")) {
                     addRow(new MyTool(my_dateTools[0], my_dateTools[1], my_dateTools[2], my_dateTools[3], my_dateTools[4], arrPlate), name_plate);
@@ -53,7 +52,6 @@ $(document).ready(function () {
     function addRow(lastElement, name_plate){
         if(lastElement!==0) {
             asslist.push({id: lastElement.toolId, model: lastElement.tool_model});
-            // var newFileName = urlLit(((lastElement.model + "-"+"0"+"_"+lastElement.plateId).trim()).split('.').join("-"),0);
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.tool_name + "</td>" +
                 "<td class='model ssylka'>"+ lastElement.tool_model+"</td>" +
@@ -133,10 +131,8 @@ $(document).ready(function () {
     $('#addOptions').each(function () {
         dataPlatesId = $(this).val();
     });
-        console.log("dataPlatesId[0] = "+ dataPlatesId[0]);
         for (var k = 0; k < arr_plates_key_value.length; k++){
             if(arr_plates_key_value[k].id == dataPlatesId[0]){
-                console.log("dataPlatesId[0] = "+dataPlatesId[0] + " id = " + arr_plates_key_value[k].id);
                 dataPlateName = arr_plates_key_value[k].name;
             }
         }
@@ -195,7 +191,6 @@ $(document).ready(function () {
                     uplaod(dataModel, res.id);
                      addRow(lastEl, dataPlateName);
                     console.log("Данные загрузились");
-                    console.log(res.id);
                 } else {
                     console.log("Error: " + res.message);
                     $("#err").css("display", "block");
@@ -243,17 +238,13 @@ uplaod = function(model, id){
     //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
     $('.listTools').on('click', 'tbody tr td:nth-child(5)', function(e) {
         var text = $(this).siblings('td:nth-child(2)').text();
-        console.log("text = "+text);
         var id;
         for(var n = 0; n < asslist.length; n++){
-            console.log("assList.model = "+asslist[n].model);
-            console.log("assList.id = " + asslist[n].id);
             if(asslist[n].model === text){
                 id = asslist[n].id;
             }
         }
         var newFileName = urlLit(((text + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
-        console.log(newFileName);
          var down1 = "downloadToolsFiles/".concat(newFileName);
          $("#prim").attr('src', down1);
          $("#prim").css('display','block');
@@ -264,13 +255,10 @@ uplaod = function(model, id){
         var text = $(this).html();
         var id;
         for(var n = 0; n < asslist.length; n++){
-            console.log("assList.model = "+asslist[n].model);
-            console.log("assList.id = " + asslist[n].id);
             if(asslist[n].model === text){
                 id = asslist[n].id;
             }
         }
-        console.log("id для отправки = " + id);
         window.location.href="/gettool/".concat(id);
     });
 //-----------------------------------------------------------------

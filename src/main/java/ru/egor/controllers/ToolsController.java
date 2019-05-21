@@ -1,10 +1,6 @@
 package ru.egor.controllers;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -20,13 +16,11 @@ import ru.egor.entity.MyPath;
 import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
 import ru.egor.service.ElementService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.*;
 
 @Controller
@@ -113,6 +107,4 @@ public class ToolsController {
         elementService.deleteToolById(Integer.parseInt(id));
         return "redirect:/tools";
     }
-
-
 }

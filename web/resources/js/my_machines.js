@@ -35,7 +35,6 @@ $(document).ready(function () {
 //функция построения таблицы по одному объекту
     function addRow(lastElement){
         asslist.push({id: lastElement.machineId, idNum: lastElement.idNum});
-        //console.log("Построение списка и занесение в таблицу данных - " + lastElement.machineId + "    " + lastElement.idNum);
         if(lastElement!==0) {
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.name + "</td>" +
@@ -129,7 +128,6 @@ $(document).ready(function () {
                         dataModel = urlLit(dataIdNumb,0);
                         uplaod(dataIdNumb, res.id);
                         addRow(lastEl);
-                        //console.log(lastEl.plateId + " "+ lastEl.name + " "+ lastEl.model);
                     } else {
                         console.log("Error: " + res.message);
                         $("#err").css("display", "block");
@@ -151,7 +149,6 @@ $(document).ready(function () {
         jQuery.each(jQuery('#files')[0].files, function(i, file) {
             var fileExtension = '.' + file.name.split('.').pop();
             var fileName = idNumb+"-"+i+"-"+id;
-            console.log("fileName = " + fileName);
             data.append('file-'+i, file, fileName.concat(fileExtension));
         });
 
@@ -175,17 +172,13 @@ $(document).ready(function () {
 //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
     $('.list').on('click', 'tbody tr td:nth-child(4)', function(e) {
         var text = $(this).siblings('td:nth-child(3)').text();
-        console.log("text = "+text);
         var id;
         for(var n = 0; n < asslist.length; n++){
-            // console.log("assList.idNum = "+asslist[n].idNum);
-            // console.log("assList.id = " + asslist[n].id);
             if(asslist[n].idNum === text){
                 id = asslist[n].id;
             }
         }
         var newFileName = urlLit(((text + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
-        console.log(newFileName);
         var down1 = "downloadMachineFiles/".concat(newFileName);
         $("#prim").attr('src', down1);
         $("#prim").css('display','block');
@@ -196,13 +189,10 @@ $(document).ready(function () {
         var text = $(this).siblings('td:nth-child(3)').text();
         var id;
         for(var n = 0; n < asslist.length; n++){
-            console.log("assList.idNum = "+asslist[n].idNum);
-            console.log("assList.id = " + asslist[n].id);
             if(asslist[n].idNum === text){
                 id = asslist[n].id;
             }
         }
-        console.log("id для отправки = " + id);
         window.location.href="/getMachine/".concat(id);
     });
 

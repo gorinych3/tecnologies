@@ -5,33 +5,23 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.egor.OtherClasses.StorageFileNotFoundException;
 import ru.egor.entity.*;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 @Transactional
 public class ElementDAOImpl implements ElementDAO {
 
-
     @Autowired
     private SessionFactory sessionFactory;
-
-
-
 
     //блок получения списков entity-------------------------------------------------------------------------------------
 
     @SuppressWarnings("unchecked")
-    @Transactional
     @Override
     public List<Element> showAllElements() {
         List<Element> elements = sessionFactory.getCurrentSession().createQuery("from Element").list();
-        System.out.println(elements);
         return elements;
     }
 
@@ -64,7 +54,6 @@ public class ElementDAOImpl implements ElementDAO {
     //блок получения entity по заданным параметрам----------------------------------------------------------------------
 
     @SuppressWarnings("unchecked")
-    @Transactional
     @Override
     public List<Element> showElementByName(String nameElement) {
         Query <Element> elements = sessionFactory.getCurrentSession().createQuery("from Element where nameElement = :paramName");
@@ -137,14 +126,11 @@ public class ElementDAOImpl implements ElementDAO {
     @Override
     public int addPlate(Plate plate) {
         sessionFactory.getCurrentSession().save(plate);
-        //System.out.println(plate.getPlateId());
         return plate.getPlateId();
     }
 
     @Override
     public void addPathPlate(MyPath path) {
-        //String insert = "insert into Path (plateId, pathName) select path.plateId, path.pathName from Path";
-        //sessionFactory.getCurrentSession().createQuery(insert);
         sessionFactory.getCurrentSession().save(path);
     }
 

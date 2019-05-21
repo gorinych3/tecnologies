@@ -30,7 +30,7 @@ public class DrillController {
             id = elementService.addDrill(data);
         }catch (Exception ex){
             logger.error("Error servlet '/addDrill'");
-            System.out.println(ex.getMessage());
+            logger.info(ex.getMessage());
             return gson.toJson(new MyMessage(ex.getMessage()));
         }
         return gson.toJson(new MyMessage("success", id));

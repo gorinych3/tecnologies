@@ -15,7 +15,6 @@ import ru.egor.OtherClasses.MyMessage;
 import ru.egor.entity.MyPath;
 import ru.egor.entity.Plate;
 import ru.egor.service.ElementService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -109,6 +108,4 @@ public class PlateController {
         elementService.deletePlateById(Integer.parseInt(id));
         return "redirect:/plates";
     }
-
-
 }

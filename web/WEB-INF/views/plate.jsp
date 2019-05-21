@@ -72,7 +72,6 @@
         var model = $('#model').html();
         var path = urlLit(model,0);
         var full_path = "${pageContext.request.contextPath}/download1/" + path+"-"+j+"-"+${currentPlate.plateId};
-        console.log("Генерация пути   "+full_path);
         var ident = '#id'+j;
         $(ident).attr('src', full_path);
 

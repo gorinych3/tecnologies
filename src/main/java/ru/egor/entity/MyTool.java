@@ -2,7 +2,6 @@ package ru.egor.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -35,24 +34,12 @@ public class MyTool {
     @Setter
     private String photo;
 
-//    @Column
-//    @Getter
-//    @Setter
-//    private Plate plateOne;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tool_plate", joinColumns = @JoinColumn(name = "toolId"),
             inverseJoinColumns = @JoinColumn(name = "plateId"))
     @Getter
     @Setter
     private Set<Plate> plates;
-
-//    @ManyToMany
-//    @JoinTable(name = "element_tool", joinColumns = @JoinColumn(name = "toolId"),
-//            inverseJoinColumns = @JoinColumn(name = "elId"))
-//    @Getter
-//    @Setter
-//    private Set<Element> elements;
 
     @Override
     public String toString() {
@@ -62,9 +49,7 @@ public class MyTool {
                 ", model='" + model + '\'' +
                 ", type='" + type + '\'' +
                 ", photo='" + photo + '\'' +
-//                ", plate=" + plateOne +
                 ", plates=" + getPlates() +
-               // ", elements=" + elements +
                 '}';
     }
 }

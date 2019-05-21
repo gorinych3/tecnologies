@@ -72,7 +72,6 @@
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
-        console.log("size = " + ${countPath});
         for (var z = 0; z < ${countPath}; z++){
             $('#fotos').append("<img id='id"+z+"' class='bigImg' src='' width='300'>");
         }
@@ -80,7 +79,6 @@
             var model = $('#number').html();
             var path = urlLit(model,0);
             var full_path = "${pageContext.request.contextPath}/downloadMachineFiles/" + path+"-"+j+"-"+${currentMachine.machId};
-            console.log("Генерация пути   "+full_path);
             var ident = '#id'+j;
             $(ident).attr('src', full_path);
 
@@ -96,7 +94,7 @@
         }
 
         $("#del").click(function () {
-            if(confirm("Вы точно хотите удалить данную пластину? Вся информация о ней будет удалена!!")){
+            if(confirm("Вы точно хотите удалить данный станок? Вся информация о нем будет удалена!!")){
                 window.location.href="/deleteMachine/".concat(${currentMachine.machId});
             }
         })

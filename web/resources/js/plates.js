@@ -125,7 +125,6 @@ $(document).ready(function () {
                         dataModel = urlLit(dataModel,0);
                         uplaod(dataModel, res.id);
                         addRow(lastEl);
-                        console.log(lastEl.plateId + " "+ lastEl.name + " "+ lastEl.model);
                     } else {
                         console.log("Error: " + res.message);
                         $("#err").css("display", "block");

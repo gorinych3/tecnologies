@@ -2,10 +2,7 @@ package ru.egor.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "plates")
@@ -37,20 +34,6 @@ public class Plate {
     @Getter
     @Setter
     private String photo;
-
-//    @ManyToMany
-//    @JoinTable(name = "element_plate", joinColumns = @JoinColumn(name = "plateId"),
-//            inverseJoinColumns = @JoinColumn(name = "elId"))
-//    @Getter
-//    @Setter
-//    private Set<Element> elements;
-
-//    @ManyToMany
-//    @JoinTable(name = "tool_plate", joinColumns = @JoinColumn(name = "plateId"),
-//            inverseJoinColumns = @JoinColumn(name = "toolId"))
-//    @Getter
-//    @Setter
-//    private Set<MyTool> tools;
 
 
     @Override

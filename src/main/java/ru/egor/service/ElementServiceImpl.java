@@ -13,13 +13,10 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.DAO.ElementDAO;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-
 import ru.egor.entity.*;
-
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
@@ -28,8 +25,6 @@ import java.util.*;
 @Transactional
 public class ElementServiceImpl implements ElementService {
 
-    private static final String FILE_PATH_PLATES = "C:/SaveImagesFromTechnology/Images/Plates/";
-    private static final String FILE_PATH_TOOLS = "C:/SaveImagesFromTechnology/Images/Tools/";
     private final static Logger logger = Logger.getLogger(ElementServiceImpl.class);
 
     Gson gson = new Gson();

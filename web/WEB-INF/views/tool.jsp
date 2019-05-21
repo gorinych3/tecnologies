@@ -112,14 +112,10 @@
             var model = $('#model').html();
             var path = urlLit(model,0);
             var full_path = "${pageContext.request.contextPath}/downloadToolsFiles/" + path+"-"+j+"-"+${currentTool.toolId};
-            console.log("Генерация пути   "+full_path);
             var ident = '#id'+j;
             $(ident).attr('src', full_path);
 
         }
-
-
-
 
 
         function urlLit(w,v) {
