@@ -11,10 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import ru.egor.OtherClasses.MyMessage;
+import ru.egor.otherclasses.MyMessage;
 import ru.egor.entity.MyPath;
 import ru.egor.entity.Plate;
-import ru.egor.service.ElementService;
+import ru.egor.service.MyPathService;
+import ru.egor.service.PlateService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -30,10 +32,16 @@ public class PlateController {
     private static final String SUFFIX_PATH = ".jpg";
     private final static Logger logger = Logger.getLogger(ElementController.class);
 
-    Gson gson = new Gson();
+    private final Gson gson;
+    private PlateService plateService;
+    private MyPathService myPathService;
 
     @Autowired
-    private ElementService elementService;
+    public PlateController(Gson gson, PlateService plateService, MyPathService myPathService) {
+        this.gson = gson;
+        this.plateService = plateService;
+        this.myPathService = myPathService;
+    }
 
     @RequestMapping(value = "/addPlates", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
@@ -42,7 +50,7 @@ public class PlateController {
         logger.info("Start servlet '/addPlates'");
         Plate plate = gson.fromJson(data, Plate.class);
         try {
-            id = elementService.addPlate(plate);
+            id = plateService.addPlate(plate);
         }catch (Exception ex){
             logger.error("Start servlet '/addPlates'");
             return gson.toJson(new MyMessage(ex.getMessage()));
@@ -55,7 +63,7 @@ public class PlateController {
     public String downloadTxt() {
         logger.info("Start servlet '/getTxtDataPlate'");
         List<Plate> plates;
-        plates = elementService.showPlates();
+        plates = plateService.showPlates();
         return gson.toJson(plates);
     }
 
@@ -63,7 +71,7 @@ public class PlateController {
     public @ResponseBody
     Map<String,Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
         logger.info("Start servlet '/uploadFiles'");
-        return elementService.fileUpload(request, response, FILE_PATH, "plate");
+        return plateService.fileUpload(request, response, FILE_PATH);
     }
 
 
@@ -87,7 +95,7 @@ public class PlateController {
     public String showOnePlate(@PathVariable String id, HttpServletRequest request){
         logger.info("Start servlet '/getplate/{id}'");
         int plateId = Integer.parseInt(id);
-        Plate plate = elementService.getPlateById(plateId);
+        Plate plate = plateService.getPlateById(plateId);
         request.getSession().setAttribute("myPlate", plate);
         return "forward:/plate";
     }
@@ -96,7 +104,7 @@ public class PlateController {
     public String showOnePlate(HttpServletRequest request, Model model){
         logger.info("Start servlet '/plate'");
         Plate plate = (Plate) request.getSession().getAttribute("myPlate");
-        List <MyPath> pathes = elementService.getMypathForOnePlate(plate.getPlateId());
+        List <MyPath> pathes = myPathService.getMypathForOnePlate(plate.getPlateId());
         model.addAttribute("currentPlate", plate);
         model.addAttribute("countPath", pathes.size());
         return "plate";
@@ -105,7 +113,7 @@ public class PlateController {
     @RequestMapping(value = "/deletePlate/{id}")
      public String deleteOnePlate(@PathVariable String id){
         logger.info("Start servlet '/deletePlate'");
-        elementService.deletePlateById(Integer.parseInt(id));
+        plateService.deletePlateById(Integer.parseInt(id));
         return "redirect:/plates";
     }
 }

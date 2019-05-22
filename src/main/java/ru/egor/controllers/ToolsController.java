@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import ru.egor.OtherClasses.MyMessage;
+import ru.egor.otherclasses.MyMessage;
 import ru.egor.entity.MyPath;
 import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
-import ru.egor.service.ElementService;
+import ru.egor.service.MyPathService;
+import ru.egor.service.MyToolService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -30,10 +32,16 @@ public class ToolsController {
     private static final String SUFFIX_PATH = ".jpg";
     private final static Logger logger = Logger.getLogger(ElementController.class);
 
-    Gson gson = new Gson();
+    private Gson gson;
+    private MyToolService myToolService;
+    private MyPathService myPathService;
 
     @Autowired
-    private ElementService elementService;
+    public ToolsController(Gson gson, MyToolService myToolService, MyPathService myPathService) {
+        this.gson = gson;
+        this.myToolService = myToolService;
+        this.myPathService = myPathService;
+    }
 
     @RequestMapping(value = "/addTool", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
@@ -41,7 +49,7 @@ public class ToolsController {
         logger.info("Start servlet '/addTool'");
         int id;
         try {
-            id = elementService.addTool(data);
+            id = myToolService.addTool(data);
         }catch (Exception ex){
             logger.error("Start servlet '/addTool'");
             return gson.toJson(new MyMessage(ex.getMessage()));
@@ -53,7 +61,7 @@ public class ToolsController {
     @ResponseBody
     public String getListMyTools() {
         logger.info("Start servlet '/getTxtDataTools'");
-        String listTools = elementService.getMyTools();
+        String listTools = myToolService.getMyTools();
         return listTools;
     }
 
@@ -61,7 +69,7 @@ public class ToolsController {
     public @ResponseBody
     Map<String,Object> toolsFileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
         logger.info("Start servlet '/uploadFilesTools'");
-        return elementService.fileUpload(request, response, FILE_PATH_TOOLS, "tool");
+        return myToolService.fileUpload(request, response, FILE_PATH_TOOLS);
     }
 
     // Using ResponseEntity<InputStreamResource>
@@ -82,7 +90,7 @@ public class ToolsController {
     public String showOneTool(@PathVariable String id, HttpServletRequest request){
         logger.info("Start servlet '/gettool/{id}'");
         int toolId = Integer.parseInt(id);
-        MyTool myTool = elementService.getToolById(toolId);
+        MyTool myTool = myToolService.getToolById(toolId);
         request.getSession().setAttribute("myTool", myTool);
         request.getSession().setAttribute("myPlates", myTool.getPlates());
         return "forward:/tool";
@@ -93,7 +101,7 @@ public class ToolsController {
         logger.info("Start servlet '/tool'");
         MyTool myTool = (MyTool) request.getSession().getAttribute("myTool");
         Set<Plate> plates = (Set<Plate>) request.getSession().getAttribute("myPlates");
-        List <MyPath> pathes = elementService.getMypathForOneTool(myTool.getToolId());
+        List <MyPath> pathes = myPathService.getMypathForOneTool(myTool.getToolId());
         model.addAttribute("currentTool", myTool);
         model.addAttribute("currentPlates", plates);
         model.addAttribute("countPath", pathes.size());
@@ -104,7 +112,7 @@ public class ToolsController {
     @RequestMapping(value = "/deleteTool/{id}")
     public String deleteOneTool(@PathVariable String id){
         logger.info("Start servlet '/deleteTool/{id}'");
-        elementService.deleteToolById(Integer.parseInt(id));
+        myToolService.deleteToolById(Integer.parseInt(id));
         return "redirect:/tools";
     }
 }

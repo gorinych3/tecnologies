@@ -103,10 +103,10 @@
             <p>
                 <select id="inMod">
                     <option disabled>Выберите модель</option>
-                    <option value="TC">TC</option>
-                    <option value="PD">PD</option>
-                    <option value="Mitsubishi">Mitsubishi</option>
-                    <option value="AccuWay">AccuWay</option>
+                    <option value="Spinner TC65-MC">Spinner TC65-MC</option>
+                    <option value="Spinner PD-C">Spinner PD-C</option>
+                    <option value="Unitec SL1693">Unitec SL1693</option>
+                    <option value="AccuWay UT-200">AccuWay UT-200</option>
                 </select>
             </p>
         </div>
@@ -117,13 +117,13 @@
             <p>
                 <select id="type">
                     <option disabled>Выберите номер</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
+                    <option value="470069">470069</option>
+                    <option value="470068">470068</option>
+                    <option value="470110">470110</option>
+                    <option value="470018">470018</option>
+                    <option value="470017">470017</option>
+                    <option value="470022">470022</option>
+                    <option value="470124">470124</option>
                 </select>
             </p>
         </div>

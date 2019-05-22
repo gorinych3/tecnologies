@@ -17,6 +17,7 @@
     </bean>
 
     <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+    <bean id="gson" class="com.google.gson.Gson"/>
 
     <mvc:resources mapping="/resources/**" location="resources" />
 

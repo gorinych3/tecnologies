@@ -140,6 +140,8 @@ $(document).ready(function () {
     var dataPhoto = $('input[name="photo"]').val();
 
 
+
+
     $('.model').each(function () {
         var new_text = $(this).html();
         new_text = new_text.substring(new_text.lastIndexOf('>') + 1);
@@ -156,6 +158,7 @@ $(document).ready(function () {
     });
 
     var empty = (dataName === '' || dataModel === '' || dataType === '' || dataPhoto === '' || dataPlatesId === '');
+
 
     var dataForm = {
         name: dataName,

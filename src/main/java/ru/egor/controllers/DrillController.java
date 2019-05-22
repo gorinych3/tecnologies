@@ -8,18 +8,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.egor.OtherClasses.MyMessage;
-import ru.egor.service.ElementService;
+import ru.egor.otherclasses.MyMessage;
+import ru.egor.service.MyToolService;
 
 @Controller
 public class DrillController {
 
     private final static Logger logger = Logger.getLogger(ElementController.class);
 
-    Gson gson = new Gson();
+    private Gson gson;
+    private MyToolService myToolService;
 
     @Autowired
-    private ElementService elementService;
+    public DrillController(Gson gson, MyToolService myToolService) {
+        this.gson = gson;
+        this.myToolService = myToolService;
+    }
 
     @RequestMapping(value = "/addDrill", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
@@ -27,7 +31,7 @@ public class DrillController {
         logger.info("Start servlet '/addDrill'");
         int id;
         try {
-            id = elementService.addDrill(data);
+            id = myToolService.addDrill(data);
         }catch (Exception ex){
             logger.error("Error servlet '/addDrill'");
             logger.info(ex.getMessage());

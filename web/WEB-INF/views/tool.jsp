@@ -111,6 +111,7 @@
         for (var j = 0; j < ${countPath}; j++){
             var model = $('#model').html();
             var path = urlLit(model,0);
+            console.log(path+"-"+j);
             var full_path = "${pageContext.request.contextPath}/downloadToolsFiles/" + path+"-"+j+"-"+${currentTool.toolId};
             var ident = '#id'+j;
             $(ident).attr('src', full_path);

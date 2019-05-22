@@ -1,4 +1,4 @@
-package ru.egor.OtherClasses;
+package ru.egor.otherclasses;
 
 public class StorageException extends RuntimeException {
 
