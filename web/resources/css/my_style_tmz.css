@@ -274,3 +274,14 @@ table tbody tr td .hand{
     background-color: #f1a899;
 
 }
+
+.fixFormElement{
+    position: fixed;
+    top: 50px;
+    left:350px;
+    height: 800px;
+    width: 800px;
+    z-index: 0;
+}
+
+

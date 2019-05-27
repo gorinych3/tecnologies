@@ -1,14 +1,12 @@
 $(document).ready(function () {
     $(".main").width($(window).width() - 400);
 
-    var asslist = [];
-
     function Plate(plateId, name, model, type, photo) {
         this.plateId = plateId;
-        this.name = name;
-        this.model = model;
-        this.type = type;
-        this.photo = photo;
+        this.plate_name = name;
+        this.plate_model = model;
+        this.plate_type = type;
+        this.plate_photo = photo;
     }
 
     function MyTool(toolId, name, model, type, photo, plates) {
@@ -22,10 +20,10 @@ $(document).ready(function () {
 
     function Machine(machId, name, model, idNumber, photo){
         this.machId = machId;
-        this.machName = name;
-        this.machModel = model;
-        this.machIdNumber = idNumber;
-        this.machPhoto = photo;
+        this.mach_name = name;
+        this.mach_model = model;
+        this.mach_idNumber = idNumber;
+        this.mach_photo = photo;
     }
 
     function Element(elId, nameElement, idNumb, technology, program, setup, notation, tools, plates, machines){
@@ -42,48 +40,13 @@ $(document).ready(function () {
     }
 
 
-    getJsonTools();
-//----------------------------------------------------------------------------------------------------------------------
-// блок получения списка инструмента
-
-    function getJsonTools() {
-        var my_dateElements = [];
-
-        $.get("/getTxtDataElements", function (data2, status) {
-            console.log("Status: " + status);
-            $.each(data2, function (key, val) {   //берем строку json
-                for (var key1 in val) {
-                    my_dateElements.push(val[key1]);  //добавляем в массив значение каждого элемента по ключу
-                }
-
-                    addRow(new Element(my_dateElements[0], my_dateElements[1], my_dateElements[2], my_dateElements[3],
-                        my_dateElements[4], my_dateElements[5], my_dateElements[6], my_dateElements[7], my_dateElements[8],
-                        my_dateElements[9]));
-                my_dateElements.length = 0;
-
-            });
-        });
-    }
-
-
-    //функция построения таблицы по одному объекту
-    function addRow(lastElement){
-        if(lastElement!==0) {
-            var insert = "<tr class='del' style='font-size: 1em'>" +
-                "<td>" + lastElement.elementName + "</td>" +
-                "<td class='model ssylka'>"+ lastElement.elementIdNumb+"</td>" +
-                "<td>" + lastElement.elementNotation + "</td>" +
-                "<td class='ssylka' style='cursor: pointer'><span>фото</span></td>" +
-                "</tr>";
-            $('.listTools> tbody').append(insert);
-        }
-    }
-//-----------------------------------------------------------------
+    getJsonAddToArrayTools();
+    getJsonAddToArrayPlates();
+    getJsonAddToArrayMachines();
 //----------------------------------------------------------------------------------------------------------------------
 
 // функция получает json, создает массив принимаемых объектов
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
-    var arr_plates_key_value = [];
     function getJsonAddToArrayPlates() {
         var arrObj = [];
         var my_date = [];
@@ -102,8 +65,8 @@ $(document).ready(function () {
             //формируем выпадающий список и ассоциативный массив ключ/значение для дальнейшей отображения инфы
             //после отправки данных на сервер
             for (var i = 0; i < arrPlates.length; i++) {
-                $("#addOptions").append("<option  value='"+ arrPlates[i].plateId+"'>" + arrPlates[i].name + "</option>");
-                arr_plates_key_value[i] = {id: arrPlates[i].plateId, name: arrPlates[i].name};
+                $("#setPlates").append("<option  value='"+ arrPlates[i].plateId+"'>" + arrPlates[i].plate_name +
+                    " "+ arrPlates[i].plate_model+"   "+ arrPlates[i].plate_type+"</option>");
             }
         });
     }
@@ -111,7 +74,6 @@ $(document).ready(function () {
     //getJsonAddToArray();
 // функция получает json, создает массив принимаемых объектов
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
-    //var arr_plates_key_value = [];
     function getJsonAddToArrayTools() {
         var arrObj = [];
         var my_date = [];
@@ -129,9 +91,56 @@ $(document).ready(function () {
 
             //формируем выпадающий список и ассоциативный массив ключ/значение для дальнейшей отображения инфы
             //после отправки данных на сервер
+            $("#setTools").append("<optgroup id='sverlo' label='Сверла'>");
+            $("#setTools").append("<optgroup id='freza' label='Фрезы'>");
+            $("#setTools").append("<optgroup id='razvertka' label='Развертки'>");
+            $("#setTools").append("<optgroup id='centrovka' label='Центровки'>");
+            $("#setTools").append("<optgroup id='rezec' label='Резцы'>");
+
+
             for (var i = 0; i < arrTools.length; i++) {
-                $("#setTools").append("<option  value='"+ arrTools[i].toolId+"'>" + arrTools[i].tool_name + "</option>");
-                //arr_plates_key_value[i] = {id: arrPlates[i].plateId, name: arrPlates[i].name};
+                var el_of_list = "<option  value='" + arrTools[i].toolId + "'>" + arrTools[i].tool_name +
+                    " " + arrTools[i].tool_model +"   "+arrTools[i].tool_type+"</option>";
+                if(arrTools[i].tool_name === "Центровка") {
+                    $("#centrovka").append(el_of_list);
+                } else
+                if(arrTools[i].tool_name === "Фреза") {
+                    $("#freza").append(el_of_list);
+                } else
+                if(arrTools[i].tool_name === "Сверло") {
+                    $("#sverlo").append(el_of_list);
+                } else
+                if(arrTools[i].tool_name === "Развертка") {
+                    $("#razvertka").append(el_of_list);
+                } else {
+                    $("#rezec").append(el_of_list);
+                }
+            }
+        });
+    }
+
+    // функция получает json, создает массив принимаемых объектов
+//и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
+    function getJsonAddToArrayMachines() {
+        var arrObj = [];
+        var my_date = [];
+        var arrMachines = [];
+        $.get("/getTxtDataMachines", function (data1, status) {
+            console.log("Status: " + status);
+            $.each(data1, function (key, val) {
+                for (var key1 in val) {
+                    my_date.push(val[key1]);
+                }
+                arrObj.push(my_date[1]);
+                arrMachines.push(new Machine(my_date[0], my_date[1], my_date[2], my_date[3], my_date[4]));
+                my_date.length = 0;
+            });
+
+            //формируем выпадающий список и ассоциативный массив ключ/значение для дальнейшей отображения инфы
+            //после отправки данных на сервер
+            for (var i = 0; i < arrMachines.length; i++) {
+                $("#setMachines").append("<option  value='"+ arrMachines[i].machId+"'>" + arrMachines[i].mach_name +
+                    " "+ arrMachines[i].mach_model+"   "+ arrMachines[i].mach_idNumber+"</option>");
             }
         });
     }
@@ -142,20 +151,11 @@ $(document).ready(function () {
 // блок добавления инструмента
 
 
-    //кнопка добавить
-    $(".button2").click(function () {
-        window.location.href="addElementPage";
+    $(".button4").click(function () {
+        window.location.href="elements";
     });
 
-//
-//     $(".button4").click(function () {
-//         $("#add_hide").css("display", "none");
-//         $("#formTool").css("display", "none");
-//         $(".button2").css("display", "block");
-//         $("#tableContainer").css("position", "relative");
-//     });
-//
-//
+
 //     //кнопка принять
 //     $(".button3").click(function () {
 //         $("#add_hide").css("display", "none");

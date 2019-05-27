@@ -23,7 +23,7 @@ public class ElementDAOImpl implements ElementDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Element> showAllElements() {
+    public List<Element> getElements() {
         List<Element> elements = sessionFactory.getCurrentSession().createQuery("from Element").list();
         return elements;
     }

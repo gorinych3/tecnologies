@@ -1,6 +1,9 @@
 package ru.egor.service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +23,19 @@ public class ElementServiceImpl implements ElementService {
 
     private Gson gson;
     private ElementDAO elementDAO;
+    private MyToolService myToolService;
 
     @Autowired
-    public ElementServiceImpl(Gson gson, ElementDAO elementDAO) {
+    public ElementServiceImpl(Gson gson, ElementDAO elementDAO, MyToolService myToolService) {
         this.gson = gson;
         this.elementDAO = elementDAO;
+        this.myToolService = myToolService;
     }
 
 
     @Override
-    public List<Element> showAllElements() {
-        return elementDAO.showAllElements();
+    public String getElements(){
+        return gson.toJson(elementDAO.getElements());
     }
 
     @Override
@@ -39,7 +44,34 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public void addElement(Element element) {
+    public int addElement(String data) {
+        logger.info("Start service 'addElement'");
+        System.out.println(data);
+        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
+        MyTool myTool = new MyTool();
+        Element element = new Element();
+        element.setNameElement(jsonObject.get("nameElement").getAsString());
+        element.setIdNumb(jsonObject.get("idNumb").getAsString());
+        element.setTechnology(jsonObject.get("technology").getAsString());
+        element.setProgram(jsonObject.get("program").getAsString());
+        element.setSetup(jsonObject.get("setup").getAsString());
+        element.setNotation(jsonObject.get("notation").getAsString());
+        JsonArray toolNames = jsonObject.get("tools").getAsJsonArray();
+        List<MyTool> myTools = new ArrayList<>();
+        for (int i = 0; i < myTools.size(); i++){
+            myTool = myToolService.getToolById(toolNames.get(i).getAsInt());
+            myTools.add(myTool);
+        }
+//        Plate plate = new Plate();
+//            JsonArray plateNames = jsonObject.get("platesId").getAsJsonArray();
+//            Set<Plate> plates = new HashSet<>();
+//            for (int i = 0; i < plateNames.size(); i++){
+//                Plate plate = plateService.getPlateById(plateNames.get(i).getAsInt());
+//                plates.add(plate);
+//            }
+//            myTool.setPlates(plates);
+//            return myToolDAO.addTool(myTool);
+        return 0;
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ElementDAO {
 
-    List<Element> showAllElements();
+    List<Element> getElements();
 
     List<Element> showElementByName(String name);
 

@@ -20,7 +20,7 @@ public class Element {
     private String nameElement;
 
     @Column
-    private String photo;
+    private String idNumb;
 
     @Column
     private String technology;

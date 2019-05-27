@@ -16,6 +16,12 @@ public class MenuController {
         return "index";
     }
 
+    @RequestMapping(value = "/elements")
+    public String selectAllElements(){
+        logger.info("Start servlet '/elements'");
+        return "elements";
+    }
+
     @RequestMapping(value = "/tools")
     public String selectAllTools(Model model){
         logger.info("Start servlet '/tools'");
@@ -44,5 +50,11 @@ public class MenuController {
     public String selectAllMachines(){
         logger.info("Start servlet '/machines'");
         return "machines";
+    }
+
+    @RequestMapping(value = "/addElementPage")
+    public String addElement(){
+        logger.info("Start servlet '/addElementPage'");
+        return "addElementPage";
     }
 }

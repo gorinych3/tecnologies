@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ElementService {
 
-    List<Element> showAllElements();
+    String getElements();
 
     List<Element> showElementByName(String nameElement);
 
-    void addElement(Element element);
+    int addElement(String data);
 
     void updateElement(Element element);
 

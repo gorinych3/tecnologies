@@ -55,7 +55,6 @@ public class MyToolServiceImpl implements MyToolService{
     @Override
     public int addTool(String data) {
         logger.info("Start service 'addTool'");
-        System.out.println(data);
         JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
         MyTool myTool = new MyTool();
         myTool.setName(jsonObject.get("name").getAsString());
