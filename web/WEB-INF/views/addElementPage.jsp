@@ -39,7 +39,7 @@
 <div id="tableContainer">
     <div id="tableRow">
         <section class="main">
-            <form id="formElement" name="formElement" action="${pageContext.request.contextPath}//addElement">
+            <form id="formElement" name="formElement" action="${pageContext.request.contextPath}/addElement">
                 <div class="tableRow">
                     <p>Наименование:</p>
                     <p>
@@ -55,13 +55,13 @@
                 <div class="tableRow">
                     <p>Технология:</p>
                     <p>
-                        <input id="technology" type="file" accept="image/*" multiple name="technology" style="width: 370px">
+                        <input id="tech" type="file" accept="image/*" multiple name="technology" style="width: 370px">
                     </p>
                 </div>
                 <div class="tableRow">
                     <p>Программа:</p>
                     <p>
-                        <input id="programm" type="file" accept="application/msword" multiple name="programm" style="width: 370px">
+                        <input id="prog" type="file" accept=".txt, .doc, .docx" multiple name="programm" style="width: 370px">
                     </p>
                 </div>
                 <div class="tableRow">
@@ -113,13 +113,13 @@
                 <div class="tableRow">
                     <p>Фото:</p>
                     <p>
-                        <input id="files" type="file" accept="image/*" multiple name="photo">
+                        <input id="photo" type="file" accept="image/*" multiple name="photo">
                     </p>
                 </div>
 
                 <div class="tableRow">
                     <p>
-                        <input class="button3" type="button" value="Принять">
+                        <input class="button5" type="button" value="Принять">
                     </p>
                     <p>
                         <input class="button4" type="button" value="Отменить">

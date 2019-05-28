@@ -10,7 +10,7 @@ public interface ElementDAO {
 
     List<Element> showElementByName(String name);
 
-    void addElement(Element element);
+    int addElement(Element element);
 
     void deleteElement(String name);
 

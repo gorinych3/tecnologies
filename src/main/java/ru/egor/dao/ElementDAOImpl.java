@@ -37,7 +37,9 @@ public class ElementDAOImpl implements ElementDAO {
     }
 
     @Override
-    public void addElement(Element element) {
+    public int addElement(Element element) {
+        sessionFactory.getCurrentSession().save(element);
+        return element.getElId();
     }
 
     @Override

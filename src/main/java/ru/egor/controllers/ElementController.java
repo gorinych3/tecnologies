@@ -11,10 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.entity.Element;
 import ru.egor.otherclasses.MyMessage;
 import ru.egor.service.ElementService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 import java.util.*;
@@ -23,9 +25,9 @@ import java.util.*;
 @RequestMapping(value = "/")
 public class ElementController {
 
-    private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Docs/";
+    private static final String FILE_PATH_ELEMENT = "C:/SaveImagesFromTechnology/Elements/";
     private static final String SUFFIX_PATH = ".jpg";
-    private static final String SUFFIX_PATH_DOCX = ".docx";
+
     private final static Logger logger = Logger.getLogger(ElementController.class);
 
     private Gson gson;
@@ -39,8 +41,9 @@ public class ElementController {
 
     @RequestMapping(value = "/addElement", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public String addElement(@RequestBody String data){
+    public String addOneElement(@RequestBody String data){
         logger.info("Start servlet '/addTool'");
+        System.out.println(data);
         int id;
         try {
             id = elementService.addElement(data);
@@ -60,15 +63,18 @@ public class ElementController {
         return elementService.getElements();
     }
 
+    @RequestMapping(value="/uploadFilesElements")
+    public @ResponseBody
+    Map<String,Object> elementFileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
+        logger.info("Start servlet '/uploadFilesTools'");
+        return elementService.fileUploadElement(request, response, FILE_PATH_ELEMENT);
+    }
+
     // Using ResponseEntity<InputStreamResource>
-    @GetMapping("/getWordDocument/{fileName}")
-    public ResponseEntity<InputStreamResource> downloadMashineFile(@PathVariable String fileName) throws IOException {
-        logger.info("Start servlet '/getWordDocument/{fileName}'");
-        File file = new File(FILE_PATH+fileName+SUFFIX_PATH_DOCX);
-        if(file.createNewFile()){
-            System.out.println("file.txt файл создан в корневой директории проекта");
-        }else System.out.println("file.txt файл уже существует в корневой директории проекта");
-//        File file = new File(FILE_PATH_MACHINES+fileName+SUFFIX_PATH);
+    @GetMapping("/downloadElementFilesPhoto/{fileName}")
+    public ResponseEntity<InputStreamResource> downloadFileElementsPhoto(@PathVariable String fileName) throws IOException {
+        logger.info("Start servlet '/download1/{fileName}'");
+        File file = new File(FILE_PATH_ELEMENT+fileName+SUFFIX_PATH);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
@@ -77,4 +83,5 @@ public class ElementController {
                 .contentType(MediaType.IMAGE_JPEG).contentLength(file.length())
                 .body(resource);
     }
+
 }

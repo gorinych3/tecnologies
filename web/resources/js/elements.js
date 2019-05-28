@@ -69,6 +69,7 @@ $(document).ready(function () {
     //функция построения таблицы по одному объекту
     function addRow(lastElement){
         if(lastElement!==0) {
+            asslist.push({id: lastElement.elementId, model: lastElement.elementIdNumb});
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.elementName + "</td>" +
                 "<td class='model ssylka'>"+ lastElement.elementIdNumb+"</td>" +
@@ -147,151 +148,23 @@ $(document).ready(function () {
         window.location.href="addElementPage";
     });
 
-//
-//     $(".button4").click(function () {
-//         $("#add_hide").css("display", "none");
-//         $("#formTool").css("display", "none");
-//         $(".button2").css("display", "block");
-//         $("#tableContainer").css("position", "relative");
-//     });
-//
-//
-//     //кнопка принять
-//     $(".button3").click(function () {
-//         $("#add_hide").css("display", "none");
-//         $("#formTool").css("display", "none");
-//         $(".button2").css("display", "block");
-//         $("#tableContainer").css("position", "relative");
-//
-//         var dataPlatesId  = new Array();
-//         var dataPlateName;
-//         var dataName = $('input[name="name"]').val();
-//         var dataModel = ($('input[name="model"]').val()).split('№').join('No.');
-//         var dataType = $('#type').val();
-//         $('#addOptions').each(function () {
-//             dataPlatesId = $(this).val();
-//         });
-//         for (var k = 0; k < arr_plates_key_value.length; k++){
-//             if(arr_plates_key_value[k].id == dataPlatesId[0]){
-//                 dataPlateName = arr_plates_key_value[k].name;
-//             }
-//         }
-//
-//         var dataPhoto = $('input[name="photo"]').val();
-//
-//
-//
-//
-//         $('.model').each(function () {
-//             var new_text = $(this).html();
-//             new_text = new_text.substring(new_text.lastIndexOf('>') + 1);
-//             if (new_text === dataModel) {
-//                 alert("Такой инструмент уже существует. Измените модель или редактируйте существующий. Вы можете выбрать" +
-//                     "его из списка");
-//                 $('.button2').trigger('click', function () {
-//                     $(this).closest('form')[0].reset();
-//                     input.val('');
-//                 });
-//                 dataModel = '';
-//                 return false;
-//             }
-//         });
-//
-//         var empty = (dataName === '' || dataModel === '' || dataType === '' || dataPhoto === '' || dataPlatesId === '');
-//
-//
-//         var dataForm = {
-//             name: dataName,
-//             model: dataModel,
-//             type: dataType,
-//             photo: dataPhoto,
-//             platesId: dataPlatesId
-//         };
-//
-//
-//         //отправка данных на сервер
-//         var url = $("#formTool").attr("action");
-//
-// //отправка текстовой информации
-//         if (!empty) {
-//             $.ajax({
-//                 url: url,
-//                 type: "POST",
-//                 data: JSON.stringify(dataForm),
-//                 contentType: 'application/json; charset=utf-8',
-//                 dataType: 'json',
-//                 success: function (res) {
-//                     console.log("My message " + res.message + " my id " + res.id);
-//
-// //если текст обработан и занесен в бд, сервер возвращает номер id для формирования уникального имени файла,
-// //по которому будет сформирован путь к данному файлу в файловой системе сервера
-// //в теории, можно было не передавать строкой id, а воспользоваться на сервере request.getSession().setAttribute();
-// //происходит загрузка файлов
-// //если загрузка прошла успешно, то последний элемент отображаем на странице
-//                     if (res.message === "success") {
-//                         var lastEl = new MyTool(res.id, dataName, dataModel, dataType, dataPhoto, null);
-//                         dataModel = urlLit(dataModel,0);
-//                         uplaod(dataModel, res.id);
-//                         addRow(lastEl, dataPlateName);
-//                         console.log("Данные загрузились");
-//                     } else {
-//                         console.log("Error: " + res.message);
-//                         $("#err").css("display", "block");
-//                         $("#erMessage").html("Error: " + res.message);
-//                     }
-//                 }
-//             });
-//         } else {
-//             alert("Заполните все поля");
-//         }
-//
-//
-//         $("#err").click(function () {
-//             $(this).css("display", "none");
-//         });
-//
-// //функция отправки файлов серверу
-//         uplaod = function(model, id){
-//             var data = new FormData();
-//             jQuery.each(jQuery('#files')[0].files, function(i, file) {
-//                 var fileExtension = '.' + file.name.split('.').pop();
-//                 var fileName = model+"-"+i+"-"+id;
-//                 data.append('file-'+i, file, fileName.concat(fileExtension));
-//             });
-//
-//             $.ajax({
-//                 url:'/uploadFilesTools',
-//                 data: data,
-//                 cache: false,
-//                 contentType: false,
-//                 processData: false,
-//                 type:'POST',
-//                 success: function(response){
-//                     if(response.Status === 200){
-//                         console.log(response.SucessfulList);
-//                     }else{
-//                         console.log('Error');
-//                     }
-//                 }
-//             });
-//         };
-//
-//     });
-//
-//     //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
-//     $('.listTools').on('click', 'tbody tr td:nth-child(5)', function(e) {
-//         var text = $(this).siblings('td:nth-child(2)').text();
-//         var id;
-//         for(var n = 0; n < asslist.length; n++){
-//             if(asslist[n].model === text){
-//                 id = asslist[n].id;
-//             }
-//         }
-//         var newFileName = urlLit(((text + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
-//         var down1 = "downloadToolsFiles/".concat(newFileName);
-//         $("#prim").attr('src', down1);
-//         $("#prim").css('display','block');
-//     });
+
+    //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
+    $('.listTools').on('click', 'tbody tr td:nth-child(4)', function(e) {
+        var text_name = $(this).siblings('td:nth-child(1)').text();
+        var text_ident = $(this).siblings('td:nth-child(2)').text();
+        var id;
+        for(var n = 0; n < asslist.length; n++){
+            if(asslist[n].model === text_ident){
+                id = asslist[n].id;
+            }
+        }
+        var newFileName = urlLit((("photo-"+text_name+"-"+text_ident + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
+        var down1 = "downloadElementFilesPhoto/".concat(newFileName);
+        console.log(down1);
+        $("#prim").attr('src', down1);
+        $("#prim").css('display','block');
+    });
 //
 // //блок перехода по ссылке на страницу полной информации об объекте
 //     $('.listTools').on('click', 'tbody tr td:nth-child(2)', function(e) {
@@ -304,19 +177,19 @@ $(document).ready(function () {
 //         }
 //         window.location.href="/gettool/".concat(id);
 //     });
-// //-----------------------------------------------------------------
-//
-//     //функция транслитерации для формирования имени файла и пути к нему
-//     function urlLit(w, v) {
-//         var tr = 'a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
-//         var ww = '';
-//         w = w.toLowerCase();
-//         for (var i = 0; i < w.length; ++i) {
-//             var cc = w.charCodeAt(i);
-//             var ch = (cc >= 1072 ? tr[cc - 1072] : w[i]);
-//             if (ch.length < 3) ww += ch; else ww += eval(ch)[v];
-//         }
-//         return (ww.replace(/[^a-zA-Z0-9\-]/g, '-').replace(/[-]{2,}/gim, '-').replace(/^\-+/g, '').replace(/\-+$/g, ''));
-//     }
+//-----------------------------------------------------------------
+
+    //функция транслитерации для формирования имени файла и пути к нему
+    function urlLit(w, v) {
+        var tr = 'a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
+        var ww = '';
+        w = w.toLowerCase();
+        for (var i = 0; i < w.length; ++i) {
+            var cc = w.charCodeAt(i);
+            var ch = (cc >= 1072 ? tr[cc - 1072] : w[i]);
+            if (ch.length < 3) ww += ch; else ww += eval(ch)[v];
+        }
+        return (ww.replace(/[^a-zA-Z0-9\-]/g, '-').replace(/[-]{2,}/gim, '-').replace(/^\-+/g, '').replace(/\-+$/g, ''));
+    }
 
 });
