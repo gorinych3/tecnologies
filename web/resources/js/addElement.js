@@ -60,7 +60,7 @@ $(document).ready(function () {
                 for (var key1 in val) {
                     my_date.push(val[key1]);
                 }
-                arrElements.push(new Element(my_date[0], my_date[1], my_date[2]));
+                arrElements.push(new Element(my_date[0], my_date[1], my_date[2]), my_date[3]);
                 my_date.length = 0;
             });
         });
@@ -174,6 +174,7 @@ $(document).ready(function () {
 
         var element_name = $('input[name="name"]').val();
         var element_idNumb = $('input[name="idNumb"]').val();
+        var element_programm = $('input[name="program"]').val();
         var element_setup = $("#setup").val();
         var element_notation = $("#notation").val();
         $('#setPlates').each(function () {
@@ -224,7 +225,7 @@ $(document).ready(function () {
             nameElement: element_name,
             idNumb: element_idNumb,
             technology: "file",
-            program: "file",
+            program: element_programm,
             setup: element_setup,
             notation: element_notation,
             tools: dataTool,
@@ -255,14 +256,22 @@ $(document).ready(function () {
                     if (res.message === "success") {
                         // dataModel = urlLit(dataModel,0);
                         var file_name = urlLit(element_name + " " + element_idNumb, 0);
-                        console.log(file_name);
+                        console.log("filename for download = "+file_name);
                         var flagPhoto = "#photo";
                         var flagTechnology = "#tech";
-                        var flagProgramm = "#prog";
-                        uplaod(file_name, res.id, flagPhoto);
-                        uplaod(file_name, res.id, flagTechnology);
-                        uplaod(file_name, res.id, flagProgramm);
+                        // var flagProgramm = "#prog";
+
+                        //uplaod(file_name, res.id, flagTechnology);
+                        setTimeout(uplaod(file_name, res.id, flagTechnology),1000);
+                        //alert("tech");
+                        //uplaod(file_name, res.id, flagProgramm);
+                        // setTimeout(uplaod(file_name, res.id, flagProgramm),1000);
+                        //alert("prog");
+                        //uplaod(file_name, res.id, flagPhoto);
+                        setTimeout(uplaod(file_name, res.id, flagPhoto),1000);
+                        //alert("photo");
                         console.log("Данные загрузились");
+                        setTimeout(window.location.href = "elements", 1000);
                         window.location.href = "elements";
                     } else {
                         console.log("Error: " + res.message);
@@ -286,10 +295,9 @@ $(document).ready(function () {
             jQuery.each(jQuery(flag)[0].files, function(i, file) {
                 var fileExtension = '.' + file.name.split('.').pop();
                 var suffix_file = flag.substring(1);
-                console.log(suffix_file);
+                //console.log("suffix file = "+suffix_file);
                 var fileName = suffix_file+"-"+name_file+"-"+i+"-"+id;
                 data.append('file-'+i, file, fileName.concat(fileExtension));
-                console.log(fileName.concat(fileExtension));
             });
 
             $.ajax({
@@ -299,6 +307,7 @@ $(document).ready(function () {
                 contentType: false,
                 processData: false,
                 type:'POST',
+                async: false,
                 success: function(response){
                     if(response.Status === 200){
                         console.log(response.SucessfulList);

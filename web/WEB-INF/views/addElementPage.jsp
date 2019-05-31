@@ -53,15 +53,21 @@
                     </p>
                 </div>
                 <div class="tableRow">
-                    <p>Технология:</p>
+                    <p>Программа:</p>
                     <p>
-                        <input id="tech" type="file" accept="image/*" multiple name="technology" style="width: 370px">
+                        <input id="prog" type="text" name="program" value="" placeholder="" style="width: 370px">
                     </p>
                 </div>
                 <div class="tableRow">
-                    <p>Программа:</p>
+                    <p>Фото:</p>
                     <p>
-                        <input id="prog" type="file" accept=".txt, .doc, .docx" multiple name="programm" style="width: 370px">
+                        <input id="photo" type="file" accept="image/jpeg" multiple name="photo">
+                    </p>
+                </div>
+                <div class="tableRow">
+                    <p>Технология:</p>
+                    <p>
+                        <input id="tech" type="file" accept="image/jpeg" multiple name="technology" style="width: 370px">
                     </p>
                 </div>
                 <div class="tableRow">
@@ -109,14 +115,6 @@
                         </select>
                     </p>
                 </div>
-
-                <div class="tableRow">
-                    <p>Фото:</p>
-                    <p>
-                        <input id="photo" type="file" accept="image/*" multiple name="photo">
-                    </p>
-                </div>
-
                 <div class="tableRow">
                     <p>
                         <input class="button5" type="button" value="Принять">

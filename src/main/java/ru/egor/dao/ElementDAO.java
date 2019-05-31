@@ -10,9 +10,11 @@ public interface ElementDAO {
 
     List<Element> showElementByName(String name);
 
+    Element getElementById(int id);
+
     int addElement(Element element);
 
-    void deleteElement(String name);
+    void deleteElement(int id);
 
     void updateElement(Element element);
 

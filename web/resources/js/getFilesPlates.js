@@ -1,10 +1,10 @@
-function getPhotoPlates(id, model) {
+function getPhotoPlates(id, model, address) {
     var ident = "#"+id;
     jQuery(ident).html("<img id='id"+id+"' class='bigImg' src='' width='150'>");
 
     var imgId = '#id'+id;
     var path = urlLit(model,0);
-    var full_path = "/download1/" + path+"-"+0+"-"+id;
+    var full_path = address + path+"-"+0+"-"+id;
     $(imgId).attr('src', full_path);
 
     function urlLit(w,v) {

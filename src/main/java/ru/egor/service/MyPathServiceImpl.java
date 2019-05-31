@@ -30,6 +30,11 @@ public class MyPathServiceImpl implements MyPathService {
     }
 
     @Override
+    public List<MyPath> getMypathForOneElement(int elId) {
+        return myPathDAO.getMypathForOneElement(elId);
+    }
+
+    @Override
     public List<MyPath> getMypathForOnePlate(int plateId) {
         return myPathDAO.getMypathForOnePlate(plateId);
     }

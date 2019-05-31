@@ -12,6 +12,8 @@ public interface MyPathService {
 
     List<MyPath> getMypathAll();
 
+    List<MyPath> getMypathForOneElement(int elId);
+
     List<MyPath> getMypathForOnePlate(int plateId);
 
     List<MyPath> getMypathForOneTool(int toolId);

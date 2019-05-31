@@ -87,7 +87,7 @@ public class ToolsController {
     }
 
     @RequestMapping(value = "/gettool/{id}",  method = RequestMethod.GET)
-    public String showOneTool(@PathVariable String id, HttpServletRequest request){
+    public String getOneTool(@PathVariable String id, HttpServletRequest request){
         logger.info("Start servlet '/gettool/{id}'");
         int toolId = Integer.parseInt(id);
         MyTool myTool = myToolService.getToolById(toolId);

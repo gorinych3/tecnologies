@@ -13,10 +13,12 @@ import java.util.List;
 public class ElementDAOImpl implements ElementDAO {
 
     private final SessionFactory sessionFactory;
+    private MyPathDAOImpl myPathDAO;
 
     @Autowired
-    public ElementDAOImpl(SessionFactory sessionFactory) {
+    public ElementDAOImpl(SessionFactory sessionFactory, MyPathDAOImpl myPathDAO) {
         this.sessionFactory = sessionFactory;
+        this.myPathDAO = myPathDAO;
     }
 
     //блок получения списков entity-------------------------------------------------------------------------------------
@@ -37,6 +39,13 @@ public class ElementDAOImpl implements ElementDAO {
     }
 
     @Override
+    public Element getElementById(int id) {
+        Query<Element> elementQuery = sessionFactory.getCurrentSession().createQuery("from Element where elId = :paramName");
+        elementQuery.setParameter("paramName", id);
+        return elementQuery.getSingleResult();
+    }
+
+    @Override
     public int addElement(Element element) {
         sessionFactory.getCurrentSession().save(element);
         return element.getElId();
@@ -48,8 +57,11 @@ public class ElementDAOImpl implements ElementDAO {
     }
 
     @Override
-    public void deleteElement(String name) {
-
+    public void deleteElement(int id) {
+        Element element = getElementById(id);
+        sessionFactory.getCurrentSession().delete(element);
+        List <MyPath> pathes = myPathDAO.getMypathForOneElement(id);
+        myPathDAO.deletePathes(pathes);
     }
 
 }

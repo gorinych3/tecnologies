@@ -29,6 +29,14 @@ public class MyPathDAOImpl implements MyPathDAO{
 
     @SuppressWarnings("unchecked")
     @Override
+    public List<MyPath> getMypathForOneElement(int elId) {
+        Query<MyPath> path = sessionFactory.getCurrentSession().createQuery("from MyPath where elementId = :paramName");
+        path.setParameter("paramName", elId);
+        return path.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public List<MyPath> getMypathForOnePlate(int plateId) {
         Query<MyPath> path = sessionFactory.getCurrentSession().createQuery("from MyPath where plateId = :paramName");
         path.setParameter("paramName", plateId);

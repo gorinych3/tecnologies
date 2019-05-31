@@ -42,11 +42,11 @@ $(document).ready(function () {
     }
 
 
-    getJsonTools();
+    getJsonElements();
 //----------------------------------------------------------------------------------------------------------------------
 // блок получения списка инструмента
 
-    function getJsonTools() {
+    function getJsonElements() {
         var my_dateElements = [];
 
         $.get("/getTxtDataElements", function (data2, status) {
@@ -55,7 +55,7 @@ $(document).ready(function () {
                 for (var key1 in val) {
                     my_dateElements.push(val[key1]);  //добавляем в массив значение каждого элемента по ключу
                 }
-
+                    console.log(my_dateElements[9].length);
                     addRow(new Element(my_dateElements[0], my_dateElements[1], my_dateElements[2], my_dateElements[3],
                         my_dateElements[4], my_dateElements[5], my_dateElements[6], my_dateElements[7], my_dateElements[8],
                         my_dateElements[9]));
@@ -73,7 +73,7 @@ $(document).ready(function () {
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.elementName + "</td>" +
                 "<td class='model ssylka'>"+ lastElement.elementIdNumb+"</td>" +
-                "<td>" + lastElement.elementNotation + "</td>" +
+                "<td>" + lastElement.elementMachines[0].name + "</td>" +
                 "<td class='ssylka' style='cursor: pointer'><span>фото</span></td>" +
                 "</tr>";
             $('.listTools> tbody').append(insert);
@@ -81,62 +81,6 @@ $(document).ready(function () {
     }
 //-----------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
-
-// функция получает json, создает массив принимаемых объектов
-//и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
-    var arr_plates_key_value = [];
-    function getJsonAddToArrayPlates() {
-        var arrObj = [];
-        var my_date = [];
-        var arrPlates = [];
-        $.get("/getTxtDataPlate", function (data1, status) {
-            console.log("Status: " + status);
-            $.each(data1, function (key, val) {
-                for (var key1 in val) {
-                    my_date.push(val[key1]);
-                }
-                arrObj.push(my_date[1]);
-                arrPlates.push(new Plate(my_date[0], my_date[1], my_date[2], my_date[3], my_date[4]));
-                my_date.length = 0;
-            });
-
-            //формируем выпадающий список и ассоциативный массив ключ/значение для дальнейшей отображения инфы
-            //после отправки данных на сервер
-            for (var i = 0; i < arrPlates.length; i++) {
-                $("#addOptions").append("<option  value='"+ arrPlates[i].plateId+"'>" + arrPlates[i].name + "</option>");
-                arr_plates_key_value[i] = {id: arrPlates[i].plateId, name: arrPlates[i].name};
-            }
-        });
-    }
-
-    //getJsonAddToArray();
-// функция получает json, создает массив принимаемых объектов
-//и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
-    //var arr_plates_key_value = [];
-    function getJsonAddToArrayTools() {
-        var arrObj = [];
-        var my_date = [];
-        var arrTools = [];
-        $.get("/getTxtDataTools", function (data1, status) {
-            console.log("Status: " + status);
-            $.each(data1, function (key, val) {
-                for (var key1 in val) {
-                    my_date.push(val[key1]);
-                }
-                arrObj.push(my_date[1]);
-                arrTools.push(new MyTool(my_date[0], my_date[1], my_date[2], my_date[3], my_date[4]));
-                my_date.length = 0;
-            });
-
-            //формируем выпадающий список и ассоциативный массив ключ/значение для дальнейшей отображения инфы
-            //после отправки данных на сервер
-            for (var i = 0; i < arrTools.length; i++) {
-                $("#setTools").append("<option  value='"+ arrTools[i].toolId+"'>" + arrTools[i].tool_name + "</option>");
-                //arr_plates_key_value[i] = {id: arrPlates[i].plateId, name: arrPlates[i].name};
-            }
-        });
-    }
-
 
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -161,22 +105,25 @@ $(document).ready(function () {
         }
         var newFileName = urlLit((("photo-"+text_name+"-"+text_ident + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
         var down1 = "downloadElementFilesPhoto/".concat(newFileName);
-        console.log(down1);
+        console.log("addres for download = "+down1);
         $("#prim").attr('src', down1);
         $("#prim").css('display','block');
     });
-//
-// //блок перехода по ссылке на страницу полной информации об объекте
-//     $('.listTools').on('click', 'tbody tr td:nth-child(2)', function(e) {
-//         var text = $(this).html();
-//         var id;
-//         for(var n = 0; n < asslist.length; n++){
-//             if(asslist[n].model === text){
-//                 id = asslist[n].id;
-//             }
-//         }
-//         window.location.href="/gettool/".concat(id);
-//     });
+
+//блок перехода по ссылке на страницу полной информации об объекте
+    $('.listTools').on('click', 'tbody tr td:nth-child(2)', function(e) {
+        console.log("листнер работает");
+        var text = $(this).html();
+        console.log("text = " + text);
+        var id;
+        for(var n = 0; n < asslist.length; n++){
+            if(asslist[n].model === text){
+                id = asslist[n].id;
+            }
+        }
+        console.log("id = " + id);
+        window.location.href="/getelement/".concat(id);
+    });
 //-----------------------------------------------------------------
 
     //функция транслитерации для формирования имени файла и пути к нему

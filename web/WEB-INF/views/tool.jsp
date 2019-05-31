@@ -75,7 +75,7 @@
         <div id="${p.plateId}"></div>
         <div><script src="../../resources/js/getFilesPlates.js"></script>
             <script language="JavaScript">
-                getPhotoPlates(${p.plateId}, "${p.model}")</script>
+                getPhotoPlates(${p.plateId}, "${p.model}", "/download1/")</script>
 
         </div>
 

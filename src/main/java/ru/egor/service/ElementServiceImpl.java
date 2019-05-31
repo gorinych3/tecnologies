@@ -49,37 +49,10 @@ public class ElementServiceImpl implements ElementService {
         return elementDAO.showElementByName(nameElement);
     }
 
-//    @Override
-//    public int addElement(String data) {
-//        logger.info("Start service 'addElement'");
-//        System.out.println(data);
-//        JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
-//        MyTool myTool = new MyTool();
-//        Element element = new Element();
-//        element.setNameElement(jsonObject.get("nameElement").getAsString());
-//        element.setIdNumb(jsonObject.get("idNumb").getAsString());
-//        element.setTechnology(jsonObject.get("technology").getAsString());
-//        element.setProgram(jsonObject.get("program").getAsString());
-//        element.setSetup(jsonObject.get("setup").getAsString());
-//        element.setNotation(jsonObject.get("notation").getAsString());
-//        JsonArray toolNames = jsonObject.get("tools").getAsJsonArray();
-//        List<MyTool> myTools = new ArrayList<>();
-//        for (int i = 0; i < myTools.size(); i++){
-//            myTool = myToolService.getToolById(toolNames.get(i).getAsInt());
-//            myTools.add(myTool);
-//        }
-////        Plate plate = new Plate();
-////            JsonArray plateNames = jsonObject.get("platesId").getAsJsonArray();
-////            Set<Plate> plates = new HashSet<>();
-////            for (int i = 0; i < plateNames.size(); i++){
-////                Plate plate = plateService.getPlateById(plateNames.get(i).getAsInt());
-////                plates.add(plate);
-////            }
-////            myTool.setPlates(plates);
-////            return myToolDAO.addTool(myTool);
-//        return 0;
-//    }
-
+    @Override
+    public Element getElementById(int id) {
+        return elementDAO.getElementById(id);
+    }
 
     @Override
     public int addElement(String data) {
@@ -95,7 +68,8 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public void deleteElement(String name) {
+    public void deleteElement(int id) {
+        elementDAO.deleteElement(id);
     }
 
     @Override
@@ -114,6 +88,7 @@ public class ElementServiceImpl implements ElementService {
             mpf = request.getFile(itr.next());
             try{
                 fileName = mpf.getOriginalFilename();
+                logger.info("имя файла перед записью = "+fileName);
                 id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
                 newFileName = filePath+fileName.replace(" ", "-");
                 FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
@@ -129,4 +104,6 @@ public class ElementServiceImpl implements ElementService {
         map.put("SucessfulList", fileUploadedList);
         return map;
     }
+
+
 }

@@ -12,13 +12,15 @@ public interface ElementService {
 
     String getElements();
 
+    Element getElementById(int id);
+
     List<Element> showElementByName(String nameElement);
 
     int addElement(String data);
 
     void updateElement(Element element);
 
-    void deleteElement(String name);
+    void deleteElement(int id);
 
     Map<String,Object> fileUploadElement(MultipartHttpServletRequest request, HttpServletResponse response, String filePath);
 
