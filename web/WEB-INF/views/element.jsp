@@ -53,11 +53,11 @@
     </div>
     <div class="tableRow">
         <p>Наладка:</p>
-        <p class="info">                     ${currentElement.setup} <div align="right"><button id="updateS" class="button2" type="button">Редактировать</button></div></p>
+        <p class="info">                     ${currentElement.setup} </p>
     </div>
     <div class="tableRow">
         <p>Примечание:</p>
-        <p class="info">                     ${currentElement.notation} <div align="right"><button id="updateN" class="button2" type="button">Редактировать</button></div></p>
+        <p class="info">                     ${currentElement.notation} </p>
     </div>
     <br>
 
@@ -119,6 +119,7 @@
     <div id="platePhoto">
     </div>
 
+    <button id="updateS" class="button2" type="button">Редактировать</button>
     <button id="del" class="button2" type="button">Удалить</button>
     <div id="buttons" align="right">
         <button class="back" onclick="location.href='/elements';" type="button" >Назад</button>
@@ -178,6 +179,12 @@
             if(confirm("Вы точно хотите удалить данную деталь? Вся информация о ней будет удалена!!")){
                 window.location.href="/deleteElement/".concat(${currentElement.elId});
             }
+        });
+
+        // переход на страницу редактирования
+
+        $("#updateS").click(function () {
+            window.location.href = "/updateElementPage";
         });
 
         $(function(){

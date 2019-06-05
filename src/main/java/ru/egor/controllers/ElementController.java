@@ -86,7 +86,7 @@ public class ElementController {
     }
 
     @RequestMapping(value = "/getelement/{id}",  method = RequestMethod.GET)
-    public String getOneElement(@PathVariable String id, HttpServletRequest request){
+    public String showOneElement(@PathVariable String id, HttpServletRequest request){
         logger.info("Start servlet '/getelement/{id}'");
         int elId = Integer.parseInt(id);
         Element element = elementService.getElementById(elId);
@@ -113,12 +113,11 @@ public class ElementController {
             pathPrefix = path.getPathName().substring(path.getPathName().lastIndexOf('/')+1,path.getPathName().lastIndexOf('/')+5);
             if(pathPrefix.equals("phot")){
                 photo.add(path);
+                request.getSession().setAttribute("phot", photo.size());
             }
             if(pathPrefix.equals("tech")){
                 tech.add(path);
-            }
-            if(pathPrefix.equals("prog")){
-                prog.add(path);
+                request.getSession().setAttribute("tech", tech.size());
             }
         }
         model.addAttribute("currentElement", element);
@@ -128,7 +127,7 @@ public class ElementController {
         model.addAttribute("countPath", pathes.size());
         model.addAttribute("countPathPhoto", photo.size());
         model.addAttribute("countPathTech", tech.size());
-        model.addAttribute("countPathProg", prog.size());
+
         return "element";
     }
 
@@ -137,5 +136,22 @@ public class ElementController {
         logger.info("Start servlet '/deleteElement/{id}'");
         elementService.deleteElement(Integer.parseInt(id));
         return "redirect:/elements";
+    }
+
+    @RequestMapping(value = "/updateElementPage")
+    public String updateElementPage(Model model, HttpServletRequest request){
+        logger.info("Запуск сервлета /updateElement");
+        System.out.println(request.getSession().getAttribute("element").toString());
+        model.addAttribute("currentElement", request.getSession().getAttribute("element"));
+        model.addAttribute("countPathPhoto", request.getSession().getAttribute("phot"));
+        model.addAttribute("countPathTech", request.getSession().getAttribute("tech"));
+        return "updateElementPage";
+    }
+
+    @RequestMapping(value = "/getTxtDataOneElement/{id}",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+    @ResponseBody
+    public String getTxtDataOneElement(@PathVariable String id) {
+        logger.info("Start servlet '/getTxtDataOneElement'");
+        return gson.toJson(elementService.getElementById(Integer.parseInt(id)));
     }
 }
