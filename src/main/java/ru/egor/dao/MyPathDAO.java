@@ -18,5 +18,7 @@ public interface MyPathDAO {
 
     void addPathPlate(MyPath path);
 
+    void deletePath(String fileName);
+
 
 }

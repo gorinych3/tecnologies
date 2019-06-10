@@ -53,4 +53,9 @@ public class MyPathServiceImpl implements MyPathService {
     public void addPlatePath(MyPath path) {
         myPathDAO.addPathPlate(path);
     }
+
+    @Override
+    public void deletePath(String fileName) {
+        myPathDAO.deletePath(fileName);
+    }
 }

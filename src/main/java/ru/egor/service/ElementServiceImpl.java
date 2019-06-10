@@ -16,6 +16,7 @@ import ru.egor.dao.ElementDAO;
 import ru.egor.entity.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -105,5 +106,17 @@ public class ElementServiceImpl implements ElementService {
         return map;
     }
 
+    @Override
+    public void deleteFile(String fileName, String filePath) {
+        JsonObject jsonObject = new JsonParser().parse(fileName).getAsJsonObject();
+        String fullFileName = jsonObject.get("file").getAsString();
+        final File file = new File(filePath+fullFileName);
+        if(file.delete()) {
+            logger.info("Фaйл yдaлeн");
+            myPathService.deletePath(filePath+fullFileName);
+        } else {
+            logger.info("Фaйл yдaлить нe пoлyчилocь");
+             }
 
+    }
 }

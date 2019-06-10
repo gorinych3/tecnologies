@@ -22,4 +22,6 @@ public interface MyPathService {
 
     void addPlatePath(MyPath path);
 
+    void deletePath(String fileName);
+
 }

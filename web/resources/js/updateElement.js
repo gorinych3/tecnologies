@@ -288,8 +288,8 @@ $(document).ready(function () {
         }
 
 
-        console.log(new Element(elem.elId, elem.nameElement, elem.idNumb, elem.technology, element_programm, element_setup, element_notation,
-            dataTool, dataPlate, dataMachine));
+        // console.log(new Element(elem.elId, elem.nameElement, elem.idNumb, elem.technology, element_programm, element_setup, element_notation,
+        //     dataTool, dataPlate, dataMachine));
 
 
         var dataForm = {
@@ -305,64 +305,184 @@ $(document).ready(function () {
             machines: dataMachine
         };
 
+        //проверяем, есть ли файлы на удаление и удаляем их
+
+        change_files('.photo', '#change_photo', '#delete_photo');
+
+        change_files('.tech', '#change_tech', '#delete_tech');
+
+        function change_files(ident, change_f, delete_f) {
+            console.log(ident);
+            var file_name_radio;
+            var checked_radio;
+            $(ident).each(function (i) {
+                var c_p = change_f + i;
+                var d_p = delete_f + i;
+                checked_radio = $(c_p).prop("checked");
+                file_name_radio = $(c_p).attr('name');
+                if ($(c_p).prop("checked")) {
+                    //заменяем файл под тем же именем
+                    console.log("замена файла" + "  " + file_name_radio);
+                    //нужно вывести диалоговое окно с фоткой и инпутом файла
+                }
+                if ($(d_p).prop("checked")) {
+                    //удаляем файл
+                    console.log("удаление файла" + "  " + file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
+                    delete_files(file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
+
+                }
+            });
+        };
+
+
+        function delete_files(name_file) {
+            var fileExtension = '.jpg';
+            alert(name_file.concat(fileExtension));
+            var data = {file: name_file.concat(fileExtension)};
+
+
+            $.ajax({
+                url: '/deleteFilesElements',
+                data: JSON.stringify(data),
+                cache: false,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                processData: false,
+                type: 'POST',
+                async: true,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        };
+
+
+
+
+        // $('.photo').each(function (i) {
+        //     file_name_radio = $(this).attr('src');
+        //    var checked_radio = $('input[name="file_name_radio"]').val();
+        //    alert("checked_radio = " + checked_radio);
+        // });
+
+        //проверяем, были ли добавлены файлы, если да - то добавляем их в конец списка фоток
+        //для этого нужно получить индекс файла из его имени и добавить файл с новым именем
+        //в котором будет указан последний +1 индекс
+        var new_file_name = 0;
+        add_files('.photos', '#photoAdd');
+        add_files('.techs', '#techAdd');
+        function add_files(param1, param2) {
+            var last_photo;
+            $(param1).each(function () {
+                last_photo = $(this).attr('src');
+                if(last_photo === undefined){}
+                else {
+                    var id_photo = last_photo.substring(last_photo.lastIndexOf('-') + 1);
+                    last_photo = last_photo.substring(0, last_photo.lastIndexOf('-'));
+                    var photo_index = last_photo.substring(last_photo.lastIndexOf('-') + 1);
+                    photo_index++;
+                    new_file_name = last_photo.substring(last_photo.lastIndexOf('/') + 1, last_photo.lastIndexOf('-')) + "-" + photo_index + "-" + id_photo;
+                }
+            });
+            if(last_photo !== undefined) {
+                upload_new_files(new_file_name, param2);
+                last_photo = undefined;
+            }
+            function upload_new_files(new_file_name, flag) {
+                var data = new FormData();
+                jQuery.each(jQuery(flag)[0].files, function (i, file) {
+                    var fileExtension = '.' + file.name.split('.').pop();
+                    alert("полное имя файла перед отправкой" + new_file_name.concat(fileExtension));
+                    data.append('file-' + i, file, new_file_name.concat(fileExtension));
+
+
+                    $.ajax({
+                        url: '/uploadFilesElements',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST',
+                        async: true,
+                        success: function (response) {
+                            if (response.Status === 200) {
+                                console.log(response.SucessfulList);
+                            } else {
+                                console.log('Error');
+                            }
+                        }
+                    });
+
+                });
+
+            };
+        }
 
         //отправка данных на сервер
         //var url = $("#formElement").attr("action");
 
 //отправка текстовой информации
-        if (!empty) {
-            jQuery.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify(dataForm),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (res) {
-                    console.log("My message " + res.message + " my id " + res.id);
+//         if (!empty) {
+//             jQuery.ajax({
+//                 url: url,
+//                 type: "POST",
+//                 data: JSON.stringify(dataForm),
+//                 contentType: 'application/json; charset=utf-8',
+//                 dataType: 'json',
+//                 success: function (res) {
+//                     console.log("My message " + res.message + " my id " + res.id);
+//
+// //если текст обработан и занесен в бд, сервер возвращает номер id для формирования уникального имени файла,
+// //по которому будет сформирован путь к данному файлу в файловой системе сервера
+// //в теории, можно было не передавать строкой id, а воспользоваться на сервере request.getSession().setAttribute();
+// //происходит загрузка файлов
+// //если загрузка прошла успешно, то последний элемент отображаем на странице
+//                     if (res.message === "success") {
+//                         // dataModel = urlLit(dataModel,0);
+//                         var file_name = urlLit(element_name + " " + element_idNumb, 0);
+//                         console.log("filename for download = "+file_name);
+//                         var flagPhoto = "#photo";
+//                         var flagTechnology = "#tech";
+//
+//                         //проверяем, были ли добавлены файлы, если да - то добавляем их в конец списка фоток
+//                         var last_photo;
+//                         $('.photo').each(function () {
+//                             last_photo = $('.src').get();
+//                             alert(last_photo);
+//                         });
+//
+//                         //setTimeout(uplaod(file_name, res.id, flagTechnology),1000);
+//                         //setTimeout(uplaod(file_name, res.id, flagPhoto),1000);
+//
+//                         console.log("Данные загрузились");
+//                         setTimeout(window.location.href = "elements", 1000);
+//                         //window.location.href = "elements";
+//                     } else {
+//                         console.log("Error: " + res.message);
+//                         $("#err").css("display", "block");
+//                         $("#erMessage").html("Error: " + res.message);
+//                     }
+//                 }
+//             });
+//         } else {
+//             alert("Заполните все поля");
+//         }
 
-//если текст обработан и занесен в бд, сервер возвращает номер id для формирования уникального имени файла,
-//по которому будет сформирован путь к данному файлу в файловой системе сервера
-//в теории, можно было не передавать строкой id, а воспользоваться на сервере request.getSession().setAttribute();
-//происходит загрузка файлов
-//если загрузка прошла успешно, то последний элемент отображаем на странице
-                    if (res.message === "success") {
-                        // dataModel = urlLit(dataModel,0);
-                        var file_name = urlLit(element_name + " " + element_idNumb, 0);
-                        console.log("filename for download = "+file_name);
-                        var flagPhoto = "#photo";
-                        var flagTechnology = "#tech";
-
-                        //setTimeout(uplaod(file_name, res.id, flagTechnology),1000);
-                        //setTimeout(uplaod(file_name, res.id, flagPhoto),1000);
-
-                        console.log("Данные загрузились");
-                        setTimeout(window.location.href = "elements", 1000);
-                        window.location.href = "elements";
-                    } else {
-                        console.log("Error: " + res.message);
-                        $("#err").css("display", "block");
-                        $("#erMessage").html("Error: " + res.message);
-                    }
-                }
-            });
-        } else {
-            alert("Заполните все поля");
-        }
-
-
-        $("#err").click(function () {
-            $(this).css("display", "none");
-        });
+        //
+        // $("#err").click(function () {
+        //     $(this).css("display", "none");
+        // });
 
 //функция отправки файлов серверу
-        uplaod = function(name_file, id, flag){
+        uplaod = function(name_file, flag){
             var data = new FormData();
             jQuery.each(jQuery(flag)[0].files, function(i, file) {
                 var fileExtension = '.' + file.name.split('.').pop();
-                var suffix_file = flag.substring(1);
+                //var suffix_file = flag.substring(1);
                 //console.log("suffix file = "+suffix_file);
-                var fileName = suffix_file+"-"+name_file+"-"+i+"-"+id;
-                data.append('file-'+i, file, fileName.concat(fileExtension));
+                //var fileName = suffix_file+"-"+name_file+"-"+i+"-"+id;
+                alert(name_file.concat(fileExtension));
+                data.append('file-'+i, file, name_file.concat(fileExtension));
             });
 
             $.ajax({
@@ -372,16 +492,19 @@ $(document).ready(function () {
                 contentType: false,
                 processData: false,
                 type:'POST',
-                async: false,
+                async: true,
                 success: function(response){
                     if(response.Status === 200){
                         console.log(response.SucessfulList);
+                        return;
                     }else{
                         console.log('Error');
                     }
                 }
             });
         };
+
+
 
     });
 

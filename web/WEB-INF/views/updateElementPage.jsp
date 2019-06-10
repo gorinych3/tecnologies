@@ -114,19 +114,27 @@
                         </select>
                     </p>
                 </div>
-                <div class="tableRow">
-                    <p>
-                        <input class="button5" type="button" value="Принять">
-                    </p>
-                    <p>
-                        <input class="button4" type="button" value="Отменить">
-                    </p>
-                </div>
+                <%--<div class="tableRow">--%>
+                    <%--<p>--%>
+                        <%--<input class="button5" type="button" value="Принять">--%>
+                    <%--</p>--%>
+                    <%--<p>--%>
+                        <%--<input class="button4" type="button" value="Отменить">--%>
+                    <%--</p>--%>
+                <%--</div>--%>
                 <span id="elid" hidden>${currentElement.elId}</span>
 
 
             </form>
 
+            <div class="tableRow">
+                <p>
+                    <input class="button5" type="button" value="Принять">
+                </p>
+                <p>
+                    <input class="button4" type="button" value="Отменить">
+                </p>
+            </div>
 
         </section>
         <section class="main2">
@@ -136,7 +144,13 @@
                 <div class="tableRow" style="font-weight: bolder">
                     <p>Добавить фото:</p>
                     <p>
-                        <input id="photoAdd" type="file" accept="image/jpeg" multiple name="photo">
+                        <input id="photoAdd" type="file" accept="image/jpeg" name="photo">
+                    </p>
+                </div>
+                <div class="tableRow" style="font-weight: bolder">
+                    <p>Добавить технологию:</p>
+                    <p>
+                        <input id="techAdd" type="file" accept="image/jpeg" name="photo">
                     </p>
                 </div>
                 <span style="font-weight: bolder">Фото детали:</span>
@@ -174,8 +188,8 @@
 
         //$("#elid").html("${currentElement.elId}")
         for (var z = 0; z < ${countPathPhoto}; z++){
-            $('#updateElementPhoto').append("<div class='image__wrapper tableRow' style='font-weight: bolder; color: black'></div>" +
-                "<p><img id='id_photo"+z+"' class='bigImg minimized' alt='клик для увеличения' src='' height='100'>"+
+            $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
+                "<p><img id='id_photo"+z+"' class='bigImg minimized photos' alt='клик для увеличения' src='' height='100'>"+
                 "<input id='change_photo"+z+"' type='radio' name='photo' value='change'>Заменить " +
                 "<input id='delete_photo"+z+"' type='radio' name='photo' value='delete'>Удалить " +
                 "<input id='ignore_photo"+z+"' type='radio' name='photo' value='ignore'>Не выполнять никаких действий</p>");
@@ -199,8 +213,8 @@
         }
 
         for (var x = 0; x < ${countPathTech}; x++){
-            $('#updateElementTechnology').append("<div class='image__wrapper tableRow' style='font-weight: bolder; color: black;'></div>" +
-                "<p><img id='id_tech"+x+"' class='bigImg minimized' alt='клик для увеличения' src='' height='100'>"+
+            $('#updateElementTechnology').append("<div class='image__wrapper tableRow  tech' style='font-weight: bolder; color: black;'></div>" +
+                "<p><img id='id_tech"+x+"' class='bigImg minimized techs' alt='клик для увеличения' src='' height='100'>"+
                 "<input id='change_tech"+x+"' type='radio' name='tech' value='change'>Заменить  " +
                 "<input id='delete_tech"+x+"' type='radio' name='tech' value='delete'>Удалить  " +
                 "<input id='ignore_tech"+x+"'type='radio' name='tech' value='ignore'>Не выполнять никаких действий  </p>");

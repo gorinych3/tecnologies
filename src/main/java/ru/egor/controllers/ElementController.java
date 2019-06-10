@@ -154,4 +154,13 @@ public class ElementController {
         logger.info("Start servlet '/getTxtDataOneElement'");
         return gson.toJson(elementService.getElementById(Integer.parseInt(id)));
     }
+
+    @RequestMapping(value = "/deleteFilesElements", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteFile(@RequestBody String data){
+        logger.info("Start servlet '/deleteFilesElements'");
+        elementService.deleteFile(data, FILE_PATH_ELEMENT);
+        return gson.toJson(new MyMessage("success delete"));
+    }
+
 }
