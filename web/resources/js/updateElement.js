@@ -188,6 +188,25 @@ $(document).ready(function () {
 
 
         console.log(elem);
+
+
+    //кнопка удалить файл
+
+       var id;
+       var photo_id;
+       var server_address;
+       $('.button7').click(function (i) {
+           console.log("button click");
+           id = '#delete_tech' + i;
+           photo_id = '#id_tech' + i;
+           $(this).each(function () {
+               server_address = $(photo_id).attr('src');
+               console.log("server_address = " + server_address);
+           });
+       });
+
+
+
 //---------------------------------------------------------------------------------------------------------------------
 // блок добавления инструмента
 
@@ -241,30 +260,6 @@ $(document).ready(function () {
         }
 
 
-
-
-        // $('#setPlates').each(function () {
-        //     if((this).val() == "Ничего не менять"){
-        //         dataPlate = elem.plates;
-        //     }else {
-        //         dataPlatesId = $(this).val();
-        //     }
-        // });
-        // $('#setTools').each(function () {
-        //     if((this).val() == "Ничего не менять"){
-        //         dataTool = elem.tools;
-        //     } else {
-        //         dataToolsId = $(this).val();
-        //     }
-        // });
-        // $('#setMachines').each(function () {
-        //     if((this).val() == "Ничего не менять") {
-        //         dataMachine = elem.machines;
-        //     } else {
-        //         dataMachineId = $(this).val();
-        //     }
-        // });
-
         if(dataPlate === undefined) {
             dataPlate = createArrsForSendToServer(dataPlatesId, arrPlates, 'plateId');
         }
@@ -307,54 +302,34 @@ $(document).ready(function () {
 
         //проверяем, есть ли файлы на удаление и удаляем их
 
-        change_files('.photo', '#change_photo', '#delete_photo');
-
-        change_files('.tech', '#change_tech', '#delete_tech');
-
-        function change_files(ident, change_f, delete_f) {
-            console.log(ident);
-            var file_name_radio;
-            var checked_radio;
-            $(ident).each(function (i) {
-                var c_p = change_f + i;
-                var d_p = delete_f + i;
-                checked_radio = $(c_p).prop("checked");
-                file_name_radio = $(c_p).attr('name');
-                if ($(c_p).prop("checked")) {
-                    //заменяем файл под тем же именем
-                    console.log("замена файла" + "  " + file_name_radio);
-                    //нужно вывести диалоговое окно с фоткой и инпутом файла
-                }
-                if ($(d_p).prop("checked")) {
-                    //удаляем файл
-                    console.log("удаление файла" + "  " + file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
-                    delete_files(file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
-
-                }
-            });
-        };
-
-
-        function delete_files(name_file) {
-            var fileExtension = '.jpg';
-            alert(name_file.concat(fileExtension));
-            var data = {file: name_file.concat(fileExtension)};
+        // change_files('.photo', '#change_photo', '#delete_photo');
+        //
+        // change_files('.tech', '#change_tech', '#delete_tech');
+        //
+        // function change_files(ident, change_f, delete_f) {
+        //     console.log(ident);
+        //     var file_name_radio;
+        //     var checked_radio;
+        //     $(ident).each(function (i) {
+        //         var c_p = change_f + i;
+        //         var d_p = delete_f + i;
+        //         checked_radio = $(c_p).prop("checked");
+        //         file_name_radio = $(c_p).attr('name');
+        //         if ($(c_p).prop("checked")) {
+        //             //заменяем файл под тем же именем
+        //             console.log("замена файла" + "  " + file_name_radio);
+        //             //нужно вывести диалоговое окно с фоткой и инпутом файла
+        //         }
+        //         if ($(d_p).prop("checked")) {
+        //             //удаляем файл
+        //             console.log("удаление файла" + "  " + file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
+        //             delete_files(file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
+        //
+        //         }
+        //     });
+        // };
 
 
-            $.ajax({
-                url: '/deleteFilesElements',
-                data: JSON.stringify(data),
-                cache: false,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                processData: false,
-                type: 'POST',
-                async: true,
-                success: function (response) {
-                    console.log(response);
-                }
-            });
-        };
 
 
 

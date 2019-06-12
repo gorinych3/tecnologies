@@ -186,55 +186,71 @@
 <script>
     $(document).ready(function () {
 
-        //$("#elid").html("${currentElement.elId}")
+        <%--for (var z = 0; z < ${countPathPhoto}; z++){--%>
+            <%--$('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +--%>
+                <%--"<p><img id='id_photo"+z+"' class='bigImg minimized photos' alt='клик для увеличения' src='' height='100'>"+--%>
+                <%--"<input id='change_photo"+z+"' type='radio' name='photo' value='change'>Заменить " +--%>
+                <%--"<input id='delete_photo"+z+"' type='radio' name='photo' value='delete'>Удалить " +--%>
+                <%--"<input id='ignore_photo"+z+"' type='radio' name='photo' value='ignore'>Не выполнять никаких действий</p>");--%>
+        <%--}--%>
+
         for (var z = 0; z < ${countPathPhoto}; z++){
             $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
-                "<p><img id='id_photo"+z+"' class='bigImg minimized photos' alt='клик для увеличения' src='' height='100'>"+
-                "<input id='change_photo"+z+"' type='radio' name='photo' value='change'>Заменить " +
-                "<input id='delete_photo"+z+"' type='radio' name='photo' value='delete'>Удалить " +
-                "<input id='ignore_photo"+z+"' type='radio' name='photo' value='ignore'>Не выполнять никаких действий</p>");
+                "<p><img id='id_photo_"+z+"' class='bigImg minimized photos clp"+z+"' alt='клик для увеличения' src='' height='100'>"+
+                "<input id='change_photo_"+z+"' type='button' class='button6 clp"+z+"' value='Заменить'>" +
+                "<input id='delete_photo_"+z+"' type='button' class='button7 clp"+z+"' value='Удалить' onclick='delFiles(name, id)'></p>");
         }
+
+
         for (var j = 0; j < ${countPathPhoto}; j++){
             var photo_1 = "${currentElement.nameElement}";
             var photo_2 = "${currentElement.idNumb}";
             var photo = "photo-"+photo_1+"-"+photo_2;
             var path_photo = urlLit(photo,0);
+            var name_photo = path_photo+"-"+j+"-"+${currentElement.elId};
             var full_path_photo = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_photo+"-"+j+"-"+${currentElement.elId};
             console.log("full_path_photo = " + full_path_photo);
-            var ident_photo = '#id_photo'+j;
-            var change_photo = '#change_photo'+j;
-            var delete_photo = '#delete_photo'+j;
-            var ignore_photo = '#ignore_photo'+j;
+            var ident_photo = '#id_photo_'+j;
+            var change_photo = '#change_photo_'+j;
+            var delete_photo = '#delete_photo_'+j;
+            var ignore_photo = '#ignore_photo_'+j;
             $(ident_photo).attr('src', full_path_photo);
-            $(change_photo).attr("name", full_path_photo);
-            $(delete_photo).attr("name", full_path_photo);
-            $(ignore_photo).attr("name", full_path_photo);
+            $(change_photo).attr("name", name_photo);
+            $(delete_photo).attr("name", name_photo);
+            $(ignore_photo).attr("name", name_photo);
 
         }
 
         for (var x = 0; x < ${countPathTech}; x++){
             $('#updateElementTechnology').append("<div class='image__wrapper tableRow  tech' style='font-weight: bolder; color: black;'></div>" +
-                "<p><img id='id_tech"+x+"' class='bigImg minimized techs' alt='клик для увеличения' src='' height='100'>"+
-                "<input id='change_tech"+x+"' type='radio' name='tech' value='change'>Заменить  " +
-                "<input id='delete_tech"+x+"' type='radio' name='tech' value='delete'>Удалить  " +
-                "<input id='ignore_tech"+x+"'type='radio' name='tech' value='ignore'>Не выполнять никаких действий  </p>");
-
+                "<p><img id='id_tech_"+x+"' class='bigImg minimized techs clt"+x+"' alt='клик для увеличения' src='' height='100'>"+
+                "<input id='change_tech_"+x+"' type='button' class='button6 clt"+x+"' value='Заменить'>" +
+                "<input id='delete_tech_"+x+"' type='button' class='button7 clt"+x+"' value='Удалить' onclick='delFiles(name, id)'></p>");
         }
+
+        <%--for (var x = 0; x < ${countPathTech}; x++){--%>
+            <%--$('#updateElementTechnology').append("<div class='image__wrapper tableRow  tech' style='font-weight: bolder; color: black;'></div>" +--%>
+                <%--"<p><img id='id_tech"+x+"' class='bigImg minimized techs' alt='клик для увеличения' src='' height='100'>"+--%>
+                <%--"<input id='change_tech"+x+"' type='radio' name='tech' value='change'>Заменить  " +--%>
+                <%--"<input id='delete_tech"+x+"' type='radio' name='tech' value='delete'>Удалить  " +--%>
+                <%--"<input id='ignore_tech"+x+"'type='radio' name='tech' value='ignore'>Не выполнять никаких действий  </p>");--%>
+        <%--}--%>
         for (var j = 0; j < ${countPathTech}; j++){
             var tech_1 = "${currentElement.nameElement}";
             var tech_2 = "${currentElement.idNumb}";
             var tech = "tech-"+tech_1+"-"+tech_2;
             var path_tech = urlLit(tech,0);
+            var name_tech = path_tech+"-"+j+"-"+${currentElement.elId};
             var full_path_tech = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_tech+"-"+j+"-"+${currentElement.elId};
             console.log("full_path_tech = " + full_path_tech);
-            var ident_tech = '#id_tech'+j;
-            var change_tech = '#change_tech'+j;
-            var delete_tech = '#delete_tech'+j;
-            var ignore_tech = '#ignore_tech'+j;
+            var ident_tech = '#id_tech_'+j;
+            var change_tech = '#change_tech_'+j;
+            var delete_tech = '#delete_tech_'+j;
+            var ignore_tech = '#ignore_tech_'+j;
             $(ident_tech).attr('src', full_path_tech);
-            $(change_tech).attr("name", full_path_tech);
-            $(delete_tech).attr("name", full_path_tech);
-            $(ignore_tech).attr("name", full_path_tech);
+            $(change_tech).attr("name", name_tech);
+            $(delete_tech).attr("name", name_tech);
+            $(ignore_tech).attr("name", name_tech);
 
 
 
@@ -278,6 +294,42 @@
             });
         });
     });
+</script>
+<script>
+    function delFiles(name, id) {
+        var fileExtension = '.jpg';
+        console.log(name.concat(fileExtension));
+        var data = {file: name.concat(fileExtension)};
+        var class_name = name.substring(0,1);
+        var flag;
+        if(class_name == 't'){
+            flag = '.clt';
+        }
+        if(class_name == 'p'){
+            flag = '.clp';
+        }
+
+
+        $.ajax({
+            url: '/deleteFilesElements',
+            data: JSON.stringify(data),
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            processData: false,
+            type: 'POST',
+            async: true,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+        console.log(id);
+        id = id.substring(id.lastIndexOf('_')+1);
+        console.log(id);
+        id = flag+id;
+        console.log(id);
+        $(id).css('display','none');
+    }
 </script>
 </body>
 </html>
