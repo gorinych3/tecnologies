@@ -164,17 +164,31 @@
             </div>
 
         </section>
-
-
-
-        <%--<aside>--%>
-            <%--<div id="err">--%>
-                <%--<p id="erMessage"></p>--%>
-            <%--</div>--%>
-            <%--<img id="prim" src="">--%>
-        <%--</aside>--%>
     </div>
 </div>
+
+        <div class="fixForm">
+            <div id="formTool" class="form">
+            <input id="photo_update" type="file" accept="image/jpeg" name="photo_update">
+            <div class="tableRow">
+                <p>
+                    <input class="button3" type="button" value="Принять">
+                </p>
+                <p>
+                    <input class="button2" type="button" value="Отменить">
+                </p>
+            </div>
+            </div>
+        </div>
+        <%--<div hidden id="vars">--%>
+            <%--<span hidden id="countPathPhoto">${countPathPhoto}</span>--%>
+            <%--<span hidden id="countPathTech">${countPathTech}</span>--%>
+            <%--<span hidden id="currentElement_elId">${currentElement.elId}</span>--%>
+            <%--<span hidden id="currentElement_nameElement">${currentElement.nameElement}</span>--%>
+            <%--<span hidden id="currentElement_idNumb">${currentElement.idNumb}</span>--%>
+        <%--</div>--%>
+
+
 
 <footer>
     Copyright © 2019 gorinych3 <br>
@@ -186,18 +200,10 @@
 <script>
     $(document).ready(function () {
 
-        <%--for (var z = 0; z < ${countPathPhoto}; z++){--%>
-            <%--$('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +--%>
-                <%--"<p><img id='id_photo"+z+"' class='bigImg minimized photos' alt='клик для увеличения' src='' height='100'>"+--%>
-                <%--"<input id='change_photo"+z+"' type='radio' name='photo' value='change'>Заменить " +--%>
-                <%--"<input id='delete_photo"+z+"' type='radio' name='photo' value='delete'>Удалить " +--%>
-                <%--"<input id='ignore_photo"+z+"' type='radio' name='photo' value='ignore'>Не выполнять никаких действий</p>");--%>
-        <%--}--%>
-
         for (var z = 0; z < ${countPathPhoto}; z++){
             $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
                 "<p><img id='id_photo_"+z+"' class='bigImg minimized photos clp"+z+"' alt='клик для увеличения' src='' height='100'>"+
-                "<input id='change_photo_"+z+"' type='button' class='button6 clp"+z+"' value='Заменить'>" +
+                "<input id='change_photo_"+z+"' type='button' class='button6 clp"+z+"' value='Заменить' onclick='updateFiles(name, id)'>" +
                 "<input id='delete_photo_"+z+"' type='button' class='button7 clp"+z+"' value='Удалить' onclick='delFiles(name, id)'></p>");
         }
 
@@ -213,12 +219,9 @@
             var ident_photo = '#id_photo_'+j;
             var change_photo = '#change_photo_'+j;
             var delete_photo = '#delete_photo_'+j;
-            var ignore_photo = '#ignore_photo_'+j;
             $(ident_photo).attr('src', full_path_photo);
             $(change_photo).attr("name", name_photo);
             $(delete_photo).attr("name", name_photo);
-            $(ignore_photo).attr("name", name_photo);
-
         }
 
         for (var x = 0; x < ${countPathTech}; x++){
@@ -228,13 +231,6 @@
                 "<input id='delete_tech_"+x+"' type='button' class='button7 clt"+x+"' value='Удалить' onclick='delFiles(name, id)'></p>");
         }
 
-        <%--for (var x = 0; x < ${countPathTech}; x++){--%>
-            <%--$('#updateElementTechnology').append("<div class='image__wrapper tableRow  tech' style='font-weight: bolder; color: black;'></div>" +--%>
-                <%--"<p><img id='id_tech"+x+"' class='bigImg minimized techs' alt='клик для увеличения' src='' height='100'>"+--%>
-                <%--"<input id='change_tech"+x+"' type='radio' name='tech' value='change'>Заменить  " +--%>
-                <%--"<input id='delete_tech"+x+"' type='radio' name='tech' value='delete'>Удалить  " +--%>
-                <%--"<input id='ignore_tech"+x+"'type='radio' name='tech' value='ignore'>Не выполнять никаких действий  </p>");--%>
-        <%--}--%>
         for (var j = 0; j < ${countPathTech}; j++){
             var tech_1 = "${currentElement.nameElement}";
             var tech_2 = "${currentElement.idNumb}";
@@ -246,14 +242,9 @@
             var ident_tech = '#id_tech_'+j;
             var change_tech = '#change_tech_'+j;
             var delete_tech = '#delete_tech_'+j;
-            var ignore_tech = '#ignore_tech_'+j;
             $(ident_tech).attr('src', full_path_tech);
             $(change_tech).attr("name", name_tech);
             $(delete_tech).attr("name", name_tech);
-            $(ignore_tech).attr("name", name_tech);
-
-
-
         }
 
 
@@ -293,6 +284,8 @@
                 });
             });
         });
+
+
     });
 </script>
 <script>
@@ -329,6 +322,96 @@
         id = flag+id;
         console.log(id);
         $(id).css('display','none');
+    }
+</script>
+<script>
+    function updateFiles(name, id) {
+
+        alert("updateFiles  "+ name + "  "+id);
+
+        $('.fixForm').css('display', 'block');
+        $("#formTool").css("display", "block");
+        $('.button3').css('display', 'block');
+        $("#tableContainer").css("position", "static");
+
+        //отменить
+        $(".button2").click(function () {
+
+            $(".fixForm").css("display", "none");
+            $("#formTool").css("display", "none");
+            //$(".button6").css("display", "block");
+            $("#tableContainer").css("position", "relative");
+        });
+
+            //принять
+        $('.button3').click(function () {
+        $(".fixForm").css("display", "none");
+        $("#formTool").css("display", "none");
+        $('.button3').css('display', 'none');
+        $("#tableContainer").css("position", "relative");
+
+
+        var fileExtension = '.jpg';
+        console.log(name.concat(fileExtension));
+        var data = {file: name.concat(fileExtension)};
+
+        alert("Вызов функции отправки файла");
+        upload_new_files(name);
+
+        function upload_new_files(new_file_name) {
+            alert("функция вызвана и запущена");
+            var data = new FormData();
+            jQuery.each(jQuery('#photo_update')[0].files, function (i, file) {
+                var fileExtension = '.' + file.name.split('.').pop();
+                alert("полное имя файла перед отправкой" + new_file_name.concat(fileExtension));
+                data.append('file-' + i, file, new_file_name.concat(fileExtension));
+
+
+                $.ajax({
+                    url: '/changeFilesElements',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    async: true,
+                    success: function (response) {
+                        if (response.Status === 200) {
+                            console.log(response.SucessfulList);
+                            downloadNewFile();
+                        } else {
+                            console.log('Error');
+                        }
+                    }
+                });
+
+            });
+
+        };
+
+
+        function downloadNewFile() {
+            alert("Вызов функции загрузки обновленного файла");
+        var class_name = name.substring(0,1);
+        var flag;
+        if(class_name == 'p'){
+            flag = '#id_photo_';
+        }
+        if(class_name == 't'){
+            flag = '#id_tech_';
+        }
+        console.log(id);
+        id = id.substring(id.lastIndexOf('_')+1);
+        console.log(id);
+        id = flag+id;
+        console.log(id);
+        $(id).attr('src', '');
+        var new_src = "/downloadElementFilesPhoto/"+name;
+        new_src = new_src + '?' + Math.random();
+            //$(id).removeAttr('src').attr('src', new_src);
+        $(id).attr('src', new_src);
+        }
+        })
     }
 </script>
 </body>

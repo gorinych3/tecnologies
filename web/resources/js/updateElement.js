@@ -189,6 +189,18 @@ $(document).ready(function () {
 
         console.log(elem);
 
+    // include("../../resources/js/updateElement_2.js");
+    //
+    // function include(url) {
+    //     var script = document.createElement('script');
+    //     script.src = url;
+    //     document.getElementsByTagName('head')[0].appendChild(script);
+    // }
+
+    // var js = document.createElement('script');
+    // js.src = "../../resources/js/updateElement_2.js";
+    // document.body.appendChild(js);
+
 
     //кнопка удалить файл
 
@@ -300,50 +312,13 @@ $(document).ready(function () {
             machines: dataMachine
         };
 
-        //проверяем, есть ли файлы на удаление и удаляем их
 
-        // change_files('.photo', '#change_photo', '#delete_photo');
-        //
-        // change_files('.tech', '#change_tech', '#delete_tech');
-        //
-        // function change_files(ident, change_f, delete_f) {
-        //     console.log(ident);
-        //     var file_name_radio;
-        //     var checked_radio;
-        //     $(ident).each(function (i) {
-        //         var c_p = change_f + i;
-        //         var d_p = delete_f + i;
-        //         checked_radio = $(c_p).prop("checked");
-        //         file_name_radio = $(c_p).attr('name');
-        //         if ($(c_p).prop("checked")) {
-        //             //заменяем файл под тем же именем
-        //             console.log("замена файла" + "  " + file_name_radio);
-        //             //нужно вывести диалоговое окно с фоткой и инпутом файла
-        //         }
-        //         if ($(d_p).prop("checked")) {
-        //             //удаляем файл
-        //             console.log("удаление файла" + "  " + file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
-        //             delete_files(file_name_radio.substring(file_name_radio.lastIndexOf('/')+1));
-        //
-        //         }
-        //     });
-        // };
-
-
-
-
-
-
-        // $('.photo').each(function (i) {
-        //     file_name_radio = $(this).attr('src');
-        //    var checked_radio = $('input[name="file_name_radio"]').val();
-        //    alert("checked_radio = " + checked_radio);
-        // });
 
         //проверяем, были ли добавлены файлы, если да - то добавляем их в конец списка фоток
         //для этого нужно получить индекс файла из его имени и добавить файл с новым именем
         //в котором будет указан последний +1 индекс
         var new_file_name = 0;
+        var photo_index;
         add_files('.photos', '#photoAdd');
         add_files('.techs', '#techAdd');
         function add_files(param1, param2) {
@@ -354,7 +329,7 @@ $(document).ready(function () {
                 else {
                     var id_photo = last_photo.substring(last_photo.lastIndexOf('-') + 1);
                     last_photo = last_photo.substring(0, last_photo.lastIndexOf('-'));
-                    var photo_index = last_photo.substring(last_photo.lastIndexOf('-') + 1);
+                    photo_index = last_photo.substring(last_photo.lastIndexOf('-') + 1);
                     photo_index++;
                     new_file_name = last_photo.substring(last_photo.lastIndexOf('/') + 1, last_photo.lastIndexOf('-')) + "-" + photo_index + "-" + id_photo;
                 }
@@ -367,8 +342,9 @@ $(document).ready(function () {
                 var data = new FormData();
                 jQuery.each(jQuery(flag)[0].files, function (i, file) {
                     var fileExtension = '.' + file.name.split('.').pop();
-                    alert("полное имя файла перед отправкой" + new_file_name.concat(fileExtension));
-                    data.append('file-' + i, file, new_file_name.concat(fileExtension));
+                    var full_file_name = new_file_name.concat(fileExtension);
+                    alert("полное имя файла перед отправкой" + full_file_name);
+                    data.append('file-' + i, file, full_file_name);
 
 
                     $.ajax({
@@ -382,6 +358,14 @@ $(document).ready(function () {
                         success: function (response) {
                             if (response.Status === 200) {
                                 console.log(response.SucessfulList);
+                                if(param1 == '.photos') {
+                                    $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
+                                        "<p><img id='id_photo_" + photo_index + "' class='bigImg minimized photos clp" + photo_index + "' alt='клик для увеличения' src='/downloadElementFilesPhoto/"+new_file_name+"' height='100'>" +
+                                        "<input id='change_photo_" + photo_index + "' type='button' class='button6 clp" + photo_index + "' value='Заменить' onclick='updateFiles(name, id)'>" +
+                                        "<input id='delete_photo_" + photo_index + "' type='button' class='button7 clp" + photo_index + "' value='Удалить' onclick='delFiles(name, id)'></p>");
+
+                                }
+
                             } else {
                                 console.log('Error');
                             }

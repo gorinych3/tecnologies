@@ -198,7 +198,7 @@ td, th {
     visibility: hidden;
 }
 
-form{
+form, .form{
      display: table;
      padding: 10px;
      border: thin dotted #7e7e7e;

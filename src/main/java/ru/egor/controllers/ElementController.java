@@ -70,6 +70,13 @@ public class ElementController {
         return elementService.fileUploadElement(request, response, FILE_PATH_ELEMENT);
     }
 
+    @RequestMapping(value="/changeFilesElements")
+    public @ResponseBody
+    Map<String,Object> elementFileChange(MultipartHttpServletRequest request, HttpServletResponse response){
+        logger.info("Start servlet '/changeFilesElements'");
+        return elementService.fileChangeElement(request, response, FILE_PATH_ELEMENT);
+    }
+
     // Using ResponseEntity<InputStreamResource>
     @GetMapping("/downloadElementFilesPhoto/{fileName}")
     public ResponseEntity<InputStreamResource> downloadFileElementsPhoto(@PathVariable String fileName)throws IOException {

@@ -24,6 +24,8 @@ public interface ElementService {
 
     Map<String,Object> fileUploadElement(MultipartHttpServletRequest request, HttpServletResponse response, String filePath);
 
+    Map<String,Object> fileChangeElement(MultipartHttpServletRequest request, HttpServletResponse response, String filePath);
+
     void deleteFile(String fileName, String filePath);
 
 

@@ -107,9 +107,39 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
+    public Map<String, Object> fileChangeElement(MultipartHttpServletRequest request, HttpServletResponse response, String filePath) {
+        logger.info("Start service 'fileChangeElement'");
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<String> fileUploadedList = new ArrayList<String>();
+        Iterator<String> itr =  request.getFileNames();
+        MultipartFile mpf = null;
+        String fileName = "";
+        int id = 0;
+        String newFileName = "";
+
+        while(itr.hasNext()){
+            mpf = request.getFile(itr.next());
+            try{
+                fileName = mpf.getOriginalFilename();
+                logger.info("имя файла перед изменением = "+fileName);
+                id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
+                newFileName = filePath+fileName.replace(" ", "-");
+                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
+                fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
+            }catch(IOException e){
+                logger.error(e);
+            }
+        }
+        map.put("Status", 200);
+        map.put("SucessfulList", fileUploadedList);
+        return map;
+    }
+
+    @Override
     public void deleteFile(String fileName, String filePath) {
         JsonObject jsonObject = new JsonParser().parse(fileName).getAsJsonObject();
         String fullFileName = jsonObject.get("file").getAsString();
+        System.out.println(fullFileName);
         final File file = new File(filePath+fullFileName);
         if(file.delete()) {
             logger.info("Фaйл yдaлeн");
