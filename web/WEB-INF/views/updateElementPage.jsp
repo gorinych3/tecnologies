@@ -141,18 +141,18 @@
             <div id="right" style="width: auto; height: 100%">
                 <p style="font-weight: bolder">Редактирование чертежей и фото</p>
 
-                <div class="tableRow" style="font-weight: bolder">
-                    <p>Добавить фото:</p>
-                    <p>
-                        <input id="photoAdd" type="file" accept="image/jpeg" name="photo">
-                    </p>
-                </div>
-                <div class="tableRow" style="font-weight: bolder">
-                    <p>Добавить технологию:</p>
-                    <p>
-                        <input id="techAdd" type="file" accept="image/jpeg" name="photo">
-                    </p>
-                </div>
+                <%--<div class="tableRow" style="font-weight: bolder">--%>
+                    <%--<p>Добавить фото:</p>--%>
+                    <%--<p>--%>
+                        <%--<input id="photoAdd" type="file" accept="image/jpeg" name="photo">--%>
+                    <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="tableRow" style="font-weight: bolder">--%>
+                    <%--<p>Добавить технологию:</p>--%>
+                    <%--<p>--%>
+                        <%--<input id="techAdd" type="file" accept="image/jpeg" name="photo">--%>
+                    <%--</p>--%>
+                <%--</div>--%>
                 <span style="font-weight: bolder">Фото детали:</span>
                 <div  id="updateElementPhoto">
 
@@ -200,52 +200,63 @@
 <script>
     $(document).ready(function () {
 
-        for (var z = 0; z < ${countPathPhoto}; z++){
-            $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
-                "<p><img id='id_photo_"+z+"' class='bigImg minimized photos clp"+z+"' alt='клик для увеличения' src='' height='100'>"+
-                "<input id='change_photo_"+z+"' type='button' class='button6 clp"+z+"' value='Заменить' onclick='updateFiles(name, id)'>" +
-                "<input id='delete_photo_"+z+"' type='button' class='button7 clp"+z+"' value='Удалить' onclick='delFiles(name, id)'></p>");
-        }
+        <%--var currentCountPhoto = ${countPathPhoto};--%>
+        <%--var currentCountTech = ${countPathTech};--%>
 
 
-        for (var j = 0; j < ${countPathPhoto}; j++){
-            var photo_1 = "${currentElement.nameElement}";
-            var photo_2 = "${currentElement.idNumb}";
-            var photo = "photo-"+photo_1+"-"+photo_2;
-            var path_photo = urlLit(photo,0);
-            var name_photo = path_photo+"-"+j+"-"+${currentElement.elId};
-            var full_path_photo = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_photo+"-"+j+"-"+${currentElement.elId};
-            console.log("full_path_photo = " + full_path_photo);
-            var ident_photo = '#id_photo_'+j;
-            var change_photo = '#change_photo_'+j;
-            var delete_photo = '#delete_photo_'+j;
-            $(ident_photo).attr('src', full_path_photo);
-            $(change_photo).attr("name", name_photo);
-            $(delete_photo).attr("name", name_photo);
-        }
 
-        for (var x = 0; x < ${countPathTech}; x++){
-            $('#updateElementTechnology').append("<div class='image__wrapper tableRow  tech' style='font-weight: bolder; color: black;'></div>" +
-                "<p><img id='id_tech_"+x+"' class='bigImg minimized techs clt"+x+"' alt='клик для увеличения' src='' height='100'>"+
-                "<input id='change_tech_"+x+"' type='button' class='button6 clt"+x+"' value='Заменить'>" +
-                "<input id='delete_tech_"+x+"' type='button' class='button7 clt"+x+"' value='Удалить' onclick='delFiles(name, id)'></p>");
-        }
+            for (var z = 0; z < ${countPathPhoto}; z++){
+                create_one_div_photo(z);
+            }
 
-        for (var j = 0; j < ${countPathTech}; j++){
-            var tech_1 = "${currentElement.nameElement}";
-            var tech_2 = "${currentElement.idNumb}";
-            var tech = "tech-"+tech_1+"-"+tech_2;
-            var path_tech = urlLit(tech,0);
-            var name_tech = path_tech+"-"+j+"-"+${currentElement.elId};
-            var full_path_tech = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_tech+"-"+j+"-"+${currentElement.elId};
-            console.log("full_path_tech = " + full_path_tech);
-            var ident_tech = '#id_tech_'+j;
-            var change_tech = '#change_tech_'+j;
-            var delete_tech = '#delete_tech_'+j;
-            $(ident_tech).attr('src', full_path_tech);
-            $(change_tech).attr("name", name_tech);
-            $(delete_tech).attr("name", name_tech);
-        }
+            for (var x = 0; x < ${countPathTech}; x++){
+                create_one_div_tech(x);
+            }
+
+            function create_one_div_photo(id_number_photo) {
+                $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
+                    "<p><img id='id_photo_"+id_number_photo+"' class='bigImg minimized photos clp"+id_number_photo+"' alt='клик для увеличения' src='' height='100'>"+
+                    "<input id='change_photo_"+id_number_photo+"' type='button' class='button6 clp"+id_number_photo+"' value='Заменить' onclick='updateFiles(name, id)'>");
+                     //"<input id='delete_photo_"+id_number_photo+"' type='button' class='button7 clp"+id_number_photo+"' value='Удалить' onclick='delFiles(name, id)'></p>");
+
+                var photo_1 = "${currentElement.nameElement}";
+                var photo_2 = "${currentElement.idNumb}";
+                var photo = "photo-"+photo_1+"-"+photo_2;
+                var path_photo = urlLit(photo,0);
+                var name_photo = path_photo+"-"+id_number_photo+"-"+${currentElement.elId};
+                var full_path_photo = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_photo+"-"+id_number_photo+"-"+${currentElement.elId};
+                console.log("full_path_photo = " + full_path_photo);
+                var ident_photo = '#id_photo_'+id_number_photo;
+                var change_photo = '#change_photo_'+id_number_photo;
+                //var delete_photo = '#delete_photo_'+id_number_photo;
+                $(ident_photo).attr('src', full_path_photo);
+                $(change_photo).attr("name", name_photo);
+                //$(delete_photo).attr("name", name_photo);
+            }
+
+
+
+            function create_one_div_tech(id_number_tech) {
+                $('#updateElementTechnology').append("<div class='image__wrapper tableRow  tech' style='font-weight: bolder; color: black;'></div>" +
+                    "<p><img id='id_tech_"+id_number_tech+"' class='bigImg minimized techs clt"+id_number_tech+"' alt='клик для увеличения' src='' height='100'>"+
+                    "<input id='change_tech_"+id_number_tech+"' type='button' class='button6 clt"+id_number_tech+"' value='Заменить'>");
+                    //"<input id='delete_tech_"+id_number_tech+"' type='button' class='button7 clt"+id_number_tech+"' value='Удалить' onclick='delFiles(name, id)'></p>");
+
+                var tech_1 = "${currentElement.nameElement}";
+                var tech_2 = "${currentElement.idNumb}";
+                var tech = "tech-"+tech_1+"-"+tech_2;
+                var path_tech = urlLit(tech,0);
+                var name_tech = path_tech+"-"+id_number_tech+"-"+${currentElement.elId};
+                var full_path_tech = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_tech+"-"+id_number_tech+"-"+${currentElement.elId};
+                console.log("full_path_tech = " + full_path_tech);
+                var ident_tech = '#id_tech_'+id_number_tech;
+                var change_tech = '#change_tech_'+id_number_tech;
+                //var delete_tech = '#delete_tech_'+id_number_tech;
+                $(ident_tech).attr('src', full_path_tech);
+                $(change_tech).attr("name", name_tech);
+                //$(delete_tech).attr("name", name_tech);
+            }
+
 
 
         function urlLit(w,v) {
@@ -288,42 +299,44 @@
 
     });
 </script>
-<script>
-    function delFiles(name, id) {
-        var fileExtension = '.jpg';
-        console.log(name.concat(fileExtension));
-        var data = {file: name.concat(fileExtension)};
-        var class_name = name.substring(0,1);
-        var flag;
-        if(class_name == 't'){
-            flag = '.clt';
-        }
-        if(class_name == 'p'){
-            flag = '.clp';
-        }
+<%--<script>--%>
+    <%--function delFiles(name, id) {--%>
+        <%--var fileExtension = '.jpg';--%>
+        <%--console.log("filename = " + name.concat(fileExtension) + "     id = " + id);--%>
+        <%--var data = {file: name.concat(fileExtension)};--%>
+        <%--var class_name = name.substring(0,1);--%>
+        <%--var flag;--%>
+        <%--if(class_name == 't'){--%>
+            <%--flag = '.clt';--%>
+        <%--}--%>
+        <%--if(class_name == 'p'){--%>
+            <%--flag = '.clp';--%>
+        <%--}--%>
 
 
-        $.ajax({
-            url: '/deleteFilesElements',
-            data: JSON.stringify(data),
-            cache: false,
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            processData: false,
-            type: 'POST',
-            async: true,
-            success: function (response) {
-                console.log(response);
-            }
-        });
-        console.log(id);
-        id = id.substring(id.lastIndexOf('_')+1);
-        console.log(id);
-        id = flag+id;
-        console.log(id);
-        $(id).css('display','none');
-    }
-</script>
+        <%--$.ajax({--%>
+            <%--url: '/deleteFilesElements',--%>
+            <%--data: JSON.stringify(data),--%>
+            <%--cache: false,--%>
+            <%--contentType: 'application/json; charset=utf-8',--%>
+            <%--dataType: 'json',--%>
+            <%--processData: false,--%>
+            <%--type: 'POST',--%>
+            <%--async: true,--%>
+            <%--success: function (response) {--%>
+                <%--console.log(response);--%>
+            <%--}--%>
+        <%--});--%>
+        <%--console.log("first id = "+id);--%>
+        <%--id = id.substring(id.lastIndexOf('_')+1);--%>
+        <%--console.log("second id = " + id);--%>
+        <%--id = flag+id;--%>
+        <%--console.log("third id = " + id);--%>
+        <%--//$(id).css('display','none');--%>
+        <%--$(id).remove();--%>
+
+    <%--}--%>
+<%--</script>--%>
 <script>
     function updateFiles(name, id) {
 

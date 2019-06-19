@@ -187,7 +187,7 @@ $(document).ready(function () {
     }
 
 
-        console.log(elem);
+        //console.log(elem);
 
     // include("../../resources/js/updateElement_2.js");
     //
@@ -233,6 +233,7 @@ $(document).ready(function () {
     $(".button5").click(function () {
 
         console.log("element = " + elem.nameElement);
+        console.log("кнопка принять");
 
         var dataPlatesId = [];
         var dataToolsId = [];
@@ -317,65 +318,81 @@ $(document).ready(function () {
         //проверяем, были ли добавлены файлы, если да - то добавляем их в конец списка фоток
         //для этого нужно получить индекс файла из его имени и добавить файл с новым именем
         //в котором будет указан последний +1 индекс
-        var new_file_name = 0;
-        var photo_index;
-        add_files('.photos', '#photoAdd');
-        add_files('.techs', '#techAdd');
-        function add_files(param1, param2) {
-            var last_photo;
-            $(param1).each(function () {
-                last_photo = $(this).attr('src');
-                if(last_photo === undefined){}
-                else {
-                    var id_photo = last_photo.substring(last_photo.lastIndexOf('-') + 1);
-                    last_photo = last_photo.substring(0, last_photo.lastIndexOf('-'));
-                    photo_index = last_photo.substring(last_photo.lastIndexOf('-') + 1);
-                    photo_index++;
-                    new_file_name = last_photo.substring(last_photo.lastIndexOf('/') + 1, last_photo.lastIndexOf('-')) + "-" + photo_index + "-" + id_photo;
-                }
-            });
-            if(last_photo !== undefined) {
-                upload_new_files(new_file_name, param2);
-                last_photo = undefined;
-            }
-            function upload_new_files(new_file_name, flag) {
-                var data = new FormData();
-                jQuery.each(jQuery(flag)[0].files, function (i, file) {
-                    var fileExtension = '.' + file.name.split('.').pop();
-                    var full_file_name = new_file_name.concat(fileExtension);
-                    alert("полное имя файла перед отправкой" + full_file_name);
-                    data.append('file-' + i, file, full_file_name);
-
-
-                    $.ajax({
-                        url: '/uploadFilesElements',
-                        data: data,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST',
-                        async: true,
-                        success: function (response) {
-                            if (response.Status === 200) {
-                                console.log(response.SucessfulList);
-                                if(param1 == '.photos') {
-                                    $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
-                                        "<p><img id='id_photo_" + photo_index + "' class='bigImg minimized photos clp" + photo_index + "' alt='клик для увеличения' src='/downloadElementFilesPhoto/"+new_file_name+"' height='100'>" +
-                                        "<input id='change_photo_" + photo_index + "' type='button' class='button6 clp" + photo_index + "' value='Заменить' onclick='updateFiles(name, id)'>" +
-                                        "<input id='delete_photo_" + photo_index + "' type='button' class='button7 clp" + photo_index + "' value='Удалить' onclick='delFiles(name, id)'></p>");
-
-                                }
-
-                            } else {
-                                console.log('Error');
-                            }
-                        }
-                    });
-
-                });
-
-            };
-        }
+        // var new_file_name = 0;
+        // var photo_index;
+        // add_files('.photos', '#photoAdd');
+        // add_files('.techs', '#techAdd');
+        // function add_files(param1, param2) {
+        //     var last_photo;
+        //     $(param1).each(function () {
+        //         last_photo = $(this).attr('src');
+        //         if(last_photo === undefined){}
+        //         else {
+        //             var id_photo = last_photo.substring(last_photo.lastIndexOf('-') + 1);
+        //             last_photo = last_photo.substring(0, last_photo.lastIndexOf('-'));
+        //             photo_index = last_photo.substring(last_photo.lastIndexOf('-') + 1);
+        //             photo_index++;
+        //             new_file_name = last_photo.substring(last_photo.lastIndexOf('/') + 1, last_photo.lastIndexOf('-')) + "-" + photo_index + "-" + id_photo;
+        //         }
+        //     });
+        //     if(last_photo !== undefined) {
+        //         upload_new_files(new_file_name, param2);
+        //         last_photo = undefined;
+        //     }
+        //     function upload_new_files(new_file_name, flag) {
+        //         var data = new FormData();
+        //         jQuery.each(jQuery(flag)[0].files, function (i, file) {
+        //             var fileExtension = 0;
+        //             console.log("fileExtension = " + fileExtension);
+        //             fileExtension = '.' + file.name.split('.').pop();
+        //             var full_file_name = new_file_name.concat(fileExtension);
+        //             alert("полное имя файла перед отправкой" + full_file_name);
+        //             data.append('file-' + i, file, full_file_name);
+        //
+        //
+        //             $.ajax({
+        //                 url: '/uploadFilesElements',
+        //                 data: data,
+        //                 cache: false,
+        //                 contentType: false,
+        //                 processData: false,
+        //                 type: 'POST',
+        //                 async: true,
+        //                 success: function (response) {
+        //                     if (response.Status === 200) {
+        //                         console.log(response.SucessfulList);
+        //                         if(param1 == '.photos') {
+        //                             alert("нужное имя файла = " + new_file_name);
+        //                             $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
+        //                                 "<p><img id='id_photo_" + photo_index + "' class='bigImg minimized photos clp" + photo_index + "' alt='клик для увеличения' src='/downloadElementFilesPhoto/"+new_file_name+"' height='100'>" +
+        //                                 "<input id='change_photo_" + photo_index + "' type='button' class='button6 clp" + photo_index + "' value='Заменить' onclick='updateFiles(name, id)'>" +
+        //                                 "<input id='delete_photo_" + photo_index + "' type='button' class='button7 clp" + photo_index + "' value='Удалить' onclick='delFiles(name, id)'></p>");
+        //
+        //                             // var photo_1 = "${currentElement.nameElement}";
+        //                             // var photo_2 = "${currentElement.idNumb}";
+        //                             // var photo = "photo-"+photo_1+"-"+photo_2;
+        //                             // var path_photo = urlLit(photo,0);
+        //                             // var name_photo = path_photo+"-"+photo_index+"-"+${currentElement.elId};
+        //                             // var full_path_photo = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_photo+"-"+photo_index+"-"+${currentElement.elId};
+        //                             // console.log("full_path_photo = " + full_path_photo);
+        //                             var ident_photo = '#id_photo_'+photo_index;
+        //                             var change_photo = '#change_photo_'+photo_index;
+        //                             var delete_photo = '#delete_photo_'+photo_index;
+        //                             $(ident_photo).attr('src', '/downloadElementFilesPhoto/'+full_file_name);
+        //                             $(change_photo).attr("name", new_file_name);
+        //                             $(delete_photo).attr("name", new_file_name);
+        //                         }
+        //
+        //                     } else {
+        //                         console.log('Error');
+        //                     }
+        //                 }
+        //             });
+        //
+        //         });
+        //
+        //     };
+        // }
 
         //отправка данных на сервер
         //var url = $("#formElement").attr("action");
