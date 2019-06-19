@@ -63,8 +63,7 @@ $(document).ready(function () {
             $.each(data, function (key, val) {
                 my_date.push(val);
             });
-                //elem = new Element(my_date[0], my_date[1], my_date[2], my_date[3], my_date[4], my_date[5], my_date[6], my_date[7],
-                //    my_date[8], my_date[9]);
+
                 elem.elId = my_date[0];
                 elem.nameElement = my_date[1];
                 elem.idNumb = my_date[2];
@@ -186,54 +185,17 @@ $(document).ready(function () {
         });
     }
 
-
-        //console.log(elem);
-
-    // include("../../resources/js/updateElement_2.js");
-    //
-    // function include(url) {
-    //     var script = document.createElement('script');
-    //     script.src = url;
-    //     document.getElementsByTagName('head')[0].appendChild(script);
-    // }
-
-    // var js = document.createElement('script');
-    // js.src = "../../resources/js/updateElement_2.js";
-    // document.body.appendChild(js);
-
-
-    //кнопка удалить файл
-
-       var id;
-       var photo_id;
-       var server_address;
-       $('.button7').click(function (i) {
-           console.log("button click");
-           id = '#delete_tech' + i;
-           photo_id = '#id_tech' + i;
-           $(this).each(function () {
-               server_address = $(photo_id).attr('src');
-               console.log("server_address = " + server_address);
-           });
-       });
-
-
-
 //---------------------------------------------------------------------------------------------------------------------
 // блок добавления инструмента
 
     //кнопка отменить
     $(".button4").click(function () {
-        //window.location.href="elements";
         window.history.back();
     });
 
 
     //кнопка принять
     $(".button5").click(function () {
-
-        console.log("element = " + elem.nameElement);
-        console.log("кнопка принять");
 
         var dataPlatesId = [];
         var dataToolsId = [];
@@ -247,16 +209,15 @@ $(document).ready(function () {
         var element_notation = $("#notation").val();
 
         var flag = "Ничего не менять";
-        if($('#setPlates').val() == flag){
+        if ($('#setPlates').val() == flag) {
             dataPlate = elem.plates;
-            console.log("plates without change = "+ elem.plates);
         } else {
             $('#setPlates').each(function () {
-                    dataPlatesId = $(this).val();
+                dataPlatesId = $(this).val();
             });
         }
 
-        if($('#setTools').val() == flag){
+        if ($('#setTools').val() == flag) {
             dataTool = elem.tools;
         } else {
             $('#setTools').each(function () {
@@ -264,7 +225,7 @@ $(document).ready(function () {
             });
         }
 
-        if($('#setMachines').val() == flag){
+        if ($('#setMachines').val() == flag) {
             dataMachine = elem.machines;
         } else {
             $('#setMachines').each(function () {
@@ -273,32 +234,27 @@ $(document).ready(function () {
         }
 
 
-        if(dataPlate === undefined) {
+        if (dataPlate === undefined) {
             dataPlate = createArrsForSendToServer(dataPlatesId, arrPlates, 'plateId');
         }
-        if(dataTool === undefined) {
+        if (dataTool === undefined) {
             dataTool = createArrsForSendToServer(dataToolsId, arrTools, 'toolId');
         }
-        if(dataMachine === undefined) {
+        if (dataMachine === undefined) {
             dataMachine = createArrsForSendToServer(dataMachineId, arrMachines, 'machId');
         }
 
         function createArrsForSendToServer(arrId, arrObj, id) {
             var resArr = [];
-            for(var i = 0; i < arrId.length; i++){
-                for(var j = 0; j < arrObj.length; j++){
-                    if(arrObj[j][id] == arrId[i]){
+            for (var i = 0; i < arrId.length; i++) {
+                for (var j = 0; j < arrObj.length; j++) {
+                    if (arrObj[j][id] == arrId[i]) {
                         resArr.push(arrObj[j]);
                     }
                 }
             }
             return resArr;
         }
-
-
-        // console.log(new Element(elem.elId, elem.nameElement, elem.idNumb, elem.technology, element_programm, element_setup, element_notation,
-        //     dataTool, dataPlate, dataMachine));
-
 
         var dataForm = {
             elId: elem.elId,
@@ -313,192 +269,78 @@ $(document).ready(function () {
             machines: dataMachine
         };
 
-
-
-        //проверяем, были ли добавлены файлы, если да - то добавляем их в конец списка фоток
-        //для этого нужно получить индекс файла из его имени и добавить файл с новым именем
-        //в котором будет указан последний +1 индекс
-        // var new_file_name = 0;
-        // var photo_index;
-        // add_files('.photos', '#photoAdd');
-        // add_files('.techs', '#techAdd');
-        // function add_files(param1, param2) {
-        //     var last_photo;
-        //     $(param1).each(function () {
-        //         last_photo = $(this).attr('src');
-        //         if(last_photo === undefined){}
-        //         else {
-        //             var id_photo = last_photo.substring(last_photo.lastIndexOf('-') + 1);
-        //             last_photo = last_photo.substring(0, last_photo.lastIndexOf('-'));
-        //             photo_index = last_photo.substring(last_photo.lastIndexOf('-') + 1);
-        //             photo_index++;
-        //             new_file_name = last_photo.substring(last_photo.lastIndexOf('/') + 1, last_photo.lastIndexOf('-')) + "-" + photo_index + "-" + id_photo;
-        //         }
-        //     });
-        //     if(last_photo !== undefined) {
-        //         upload_new_files(new_file_name, param2);
-        //         last_photo = undefined;
-        //     }
-        //     function upload_new_files(new_file_name, flag) {
-        //         var data = new FormData();
-        //         jQuery.each(jQuery(flag)[0].files, function (i, file) {
-        //             var fileExtension = 0;
-        //             console.log("fileExtension = " + fileExtension);
-        //             fileExtension = '.' + file.name.split('.').pop();
-        //             var full_file_name = new_file_name.concat(fileExtension);
-        //             alert("полное имя файла перед отправкой" + full_file_name);
-        //             data.append('file-' + i, file, full_file_name);
-        //
-        //
-        //             $.ajax({
-        //                 url: '/uploadFilesElements',
-        //                 data: data,
-        //                 cache: false,
-        //                 contentType: false,
-        //                 processData: false,
-        //                 type: 'POST',
-        //                 async: true,
-        //                 success: function (response) {
-        //                     if (response.Status === 200) {
-        //                         console.log(response.SucessfulList);
-        //                         if(param1 == '.photos') {
-        //                             alert("нужное имя файла = " + new_file_name);
-        //                             $('#updateElementPhoto').append("<div class='image__wrapper tableRow photo' style='font-weight: bolder; color: black'></div>" +
-        //                                 "<p><img id='id_photo_" + photo_index + "' class='bigImg minimized photos clp" + photo_index + "' alt='клик для увеличения' src='/downloadElementFilesPhoto/"+new_file_name+"' height='100'>" +
-        //                                 "<input id='change_photo_" + photo_index + "' type='button' class='button6 clp" + photo_index + "' value='Заменить' onclick='updateFiles(name, id)'>" +
-        //                                 "<input id='delete_photo_" + photo_index + "' type='button' class='button7 clp" + photo_index + "' value='Удалить' onclick='delFiles(name, id)'></p>");
-        //
-        //                             // var photo_1 = "${currentElement.nameElement}";
-        //                             // var photo_2 = "${currentElement.idNumb}";
-        //                             // var photo = "photo-"+photo_1+"-"+photo_2;
-        //                             // var path_photo = urlLit(photo,0);
-        //                             // var name_photo = path_photo+"-"+photo_index+"-"+${currentElement.elId};
-        //                             // var full_path_photo = "${pageContext.request.contextPath}/downloadElementFilesPhoto/" + path_photo+"-"+photo_index+"-"+${currentElement.elId};
-        //                             // console.log("full_path_photo = " + full_path_photo);
-        //                             var ident_photo = '#id_photo_'+photo_index;
-        //                             var change_photo = '#change_photo_'+photo_index;
-        //                             var delete_photo = '#delete_photo_'+photo_index;
-        //                             $(ident_photo).attr('src', '/downloadElementFilesPhoto/'+full_file_name);
-        //                             $(change_photo).attr("name", new_file_name);
-        //                             $(delete_photo).attr("name", new_file_name);
-        //                         }
-        //
-        //                     } else {
-        //                         console.log('Error');
-        //                     }
-        //                 }
-        //             });
-        //
-        //         });
-        //
-        //     };
-        // }
-
         //отправка данных на сервер
-        //var url = $("#formElement").attr("action");
+        var url = $("#formElement").attr("action");
 
 //отправка текстовой информации
-//         if (!empty) {
-//             jQuery.ajax({
-//                 url: url,
-//                 type: "POST",
-//                 data: JSON.stringify(dataForm),
-//                 contentType: 'application/json; charset=utf-8',
-//                 dataType: 'json',
-//                 success: function (res) {
-//                     console.log("My message " + res.message + " my id " + res.id);
+
+        jQuery.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(dataForm),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (res) {
+                console.log("My message " + res.message + " my id " + res.id);
+
+//если текст обработан и занесен в бд, сервер возвращает номер id для формирования уникального имени файла,
+//по которому будет сформирован путь к данному файлу в файловой системе сервера
+//в теории, можно было не передавать строкой id, а воспользоваться на сервере request.getSession().setAttribute();
+//происходит загрузка файлов
+//если загрузка прошла успешно, то последний элемент отображаем на странице
+                if (res.message === "success") {
+                    console.log("Данные загрузились");
+                    setTimeout(window.location.href = "elements", 1000);
+                } else {
+                    console.log("Error: " + res.message);
+                    $("#err").css("display", "block");
+                    $("#erMessage").html("Error: " + res.message);
+                }
+            }
+        });
+
+//функция отправки файлов серверу
+//         uplaod = function (name_file, flag) {
+//             var data = new FormData();
+//             jQuery.each(jQuery(flag)[0].files, function (i, file) {
+//                 var fileExtension = '.' + file.name.split('.').pop();
+//                 data.append('file-' + i, file, name_file.concat(fileExtension));
+//             });
 //
-// //если текст обработан и занесен в бд, сервер возвращает номер id для формирования уникального имени файла,
-// //по которому будет сформирован путь к данному файлу в файловой системе сервера
-// //в теории, можно было не передавать строкой id, а воспользоваться на сервере request.getSession().setAttribute();
-// //происходит загрузка файлов
-// //если загрузка прошла успешно, то последний элемент отображаем на странице
-//                     if (res.message === "success") {
-//                         // dataModel = urlLit(dataModel,0);
-//                         var file_name = urlLit(element_name + " " + element_idNumb, 0);
-//                         console.log("filename for download = "+file_name);
-//                         var flagPhoto = "#photo";
-//                         var flagTechnology = "#tech";
-//
-//                         //проверяем, были ли добавлены файлы, если да - то добавляем их в конец списка фоток
-//                         var last_photo;
-//                         $('.photo').each(function () {
-//                             last_photo = $('.src').get();
-//                             alert(last_photo);
-//                         });
-//
-//                         //setTimeout(uplaod(file_name, res.id, flagTechnology),1000);
-//                         //setTimeout(uplaod(file_name, res.id, flagPhoto),1000);
-//
-//                         console.log("Данные загрузились");
-//                         setTimeout(window.location.href = "elements", 1000);
-//                         //window.location.href = "elements";
+//             $.ajax({
+//                 url: '/uploadFilesElements',
+//                 data: data,
+//                 cache: false,
+//                 contentType: false,
+//                 processData: false,
+//                 type: 'POST',
+//                 async: true,
+//                 success: function (response) {
+//                     if (response.Status === 200) {
+//                         console.log(response.SucessfulList);
+//                         return;
 //                     } else {
-//                         console.log("Error: " + res.message);
-//                         $("#err").css("display", "block");
-//                         $("#erMessage").html("Error: " + res.message);
+//                         console.log('Error');
 //                     }
 //                 }
 //             });
-//         } else {
-//             alert("Заполните все поля");
-//         }
-
-        //
-        // $("#err").click(function () {
-        //     $(this).css("display", "none");
-        // });
-
-//функция отправки файлов серверу
-        uplaod = function(name_file, flag){
-            var data = new FormData();
-            jQuery.each(jQuery(flag)[0].files, function(i, file) {
-                var fileExtension = '.' + file.name.split('.').pop();
-                //var suffix_file = flag.substring(1);
-                //console.log("suffix file = "+suffix_file);
-                //var fileName = suffix_file+"-"+name_file+"-"+i+"-"+id;
-                alert(name_file.concat(fileExtension));
-                data.append('file-'+i, file, name_file.concat(fileExtension));
-            });
-
-            $.ajax({
-                url:'/uploadFilesElements',
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type:'POST',
-                async: true,
-                success: function(response){
-                    if(response.Status === 200){
-                        console.log(response.SucessfulList);
-                        return;
-                    }else{
-                        console.log('Error');
-                    }
-                }
-            });
-        };
-
-
+//         };
 
     });
 
-
-
 //-----------------------------------------------------------------
 
-    //функция транслитерации для формирования имени файла и пути к нему
-    function urlLit(w, v) {
-        var tr = 'a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
-        var ww = '';
-        w = w.toLowerCase();
-        for (var i = 0; i < w.length; ++i) {
-            var cc = w.charCodeAt(i);
-            var ch = (cc >= 1072 ? tr[cc - 1072] : w[i]);
-            if (ch.length < 3) ww += ch; else ww += eval(ch)[v];
-        }
-        return (ww.replace(/[^a-zA-Z0-9\-]/g, '-').replace(/[-]{2,}/gim, '-').replace(/^\-+/g, '').replace(/\-+$/g, ''));
-    }
+    // //функция транслитерации для формирования имени файла и пути к нему
+    // function urlLit(w, v) {
+    //     var tr = 'a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
+    //     var ww = '';
+    //     w = w.toLowerCase();
+    //     for (var i = 0; i < w.length; ++i) {
+    //         var cc = w.charCodeAt(i);
+    //         var ch = (cc >= 1072 ? tr[cc - 1072] : w[i]);
+    //         if (ch.length < 3) ww += ch; else ww += eval(ch)[v];
+    //     }
+    //     return (ww.replace(/[^a-zA-Z0-9\-]/g, '-').replace(/[-]{2,}/gim, '-').replace(/^\-+/g, '').replace(/\-+$/g, ''));
+    // }
 
 });

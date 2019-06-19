@@ -65,7 +65,7 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public void updateElement(Element element) {
-
+        elementDAO.updateElement(element);
     }
 
     @Override

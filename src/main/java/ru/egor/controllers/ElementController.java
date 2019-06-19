@@ -170,4 +170,16 @@ public class ElementController {
         return gson.toJson(new MyMessage("success delete"));
     }
 
+    @RequestMapping(value = "/updateElement", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateOneElement(@RequestBody String data){
+        logger.info("Start servlet '/updateElement'");
+        try {
+            elementService.updateElement(gson.fromJson(data, Element.class));
+        }catch (Exception ex){
+            logger.error("Error servlet '/updateElement'");
+            return gson.toJson(new MyMessage(ex.getMessage()));
+        }
+        return gson.toJson(new MyMessage("success"));
+    }
 }

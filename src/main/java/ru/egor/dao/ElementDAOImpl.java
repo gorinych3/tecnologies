@@ -53,7 +53,7 @@ public class ElementDAOImpl implements ElementDAO {
 
     @Override
     public void updateElement(Element element) {
-
+        sessionFactory.getCurrentSession().update(element);
     }
 
     @Override
