@@ -59,7 +59,6 @@ public class ElementServiceImpl implements ElementService {
     public int addElement(String data) {
         logger.info("start service addElement");
         Element element = gson.fromJson(data, Element.class);
-        System.out.println(element.toString());
         return elementDAO.addElement(element);
     }
 
@@ -139,7 +138,6 @@ public class ElementServiceImpl implements ElementService {
     public void deleteFile(String fileName, String filePath) {
         JsonObject jsonObject = new JsonParser().parse(fileName).getAsJsonObject();
         String fullFileName = jsonObject.get("file").getAsString();
-        System.out.println(fullFileName);
         final File file = new File(filePath+fullFileName);
         if(file.delete()) {
             logger.info("Фaйл yдaлeн");

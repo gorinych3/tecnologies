@@ -127,6 +127,8 @@ public class ElementController {
                 request.getSession().setAttribute("tech", tech.size());
             }
         }
+
+        //myTools.sort(Comparator.comparing(MyTool::getName));
         model.addAttribute("currentElement", element);
         model.addAttribute("currentTool", myTools);
         model.addAttribute("currentPlates", plates);
@@ -148,7 +150,6 @@ public class ElementController {
     @RequestMapping(value = "/updateElementPage")
     public String updateElementPage(Model model, HttpServletRequest request){
         logger.info("Запуск сервлета /updateElement");
-        System.out.println(request.getSession().getAttribute("element").toString());
         model.addAttribute("currentElement", request.getSession().getAttribute("element"));
         model.addAttribute("countPathPhoto", request.getSession().getAttribute("phot"));
         model.addAttribute("countPathTech", request.getSession().getAttribute("tech"));
