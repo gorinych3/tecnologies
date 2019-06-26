@@ -2,7 +2,6 @@ package ru.egor.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -11,8 +10,11 @@ public class MenuController {
     private final static Logger logger = Logger.getLogger(ElementController.class);
 
     @RequestMapping(value = "/")
-    public String index(){
+    public String index(/*@RequestParam(value = "error", required = false) String error, Model model*/){
         logger.info("Start servlet '/index'");
+//        if (error != null) {
+//            model.addAttribute("error", "Invalid username or password!");
+//        }
         return "index";
     }
 
@@ -23,7 +25,7 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/tools")
-    public String selectAllTools(Model model){
+    public String selectAllTools(){
         logger.info("Start servlet '/tools'");
         return "tools";
     }
@@ -56,5 +58,11 @@ public class MenuController {
     public String addElement(){
         logger.info("Start servlet '/addElementPage'");
         return "addElementPage";
+    }
+
+    @RequestMapping(value = "/login")
+    public String login(){
+        logger.info("Start servlet '/login'");
+        return "login";
     }
 }

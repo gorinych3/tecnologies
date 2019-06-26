@@ -1,4 +1,11 @@
 function getPhotoPlates(id, model, address) {
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+
     var ident = "#"+id;
     jQuery(ident).html("<img id='id"+id+"' class='bigImg' src='' width='150'>");
 

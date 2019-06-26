@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+
     $(".main").width($(window).width() - 400);
 
     var asslist = [];
@@ -70,6 +77,7 @@ $(document).ready(function () {
     function addRow(lastElement){
         if(lastElement!==0) {
             asslist.push({id: lastElement.elementId, model: lastElement.elementIdNumb});
+            // alert("")
             var insert = "<tr class='del' style='font-size: 1em'>" +
                 "<td>" + lastElement.elementName + "</td>" +
                 "<td class='model ssylka'>"+ lastElement.elementIdNumb+"</td>" +

@@ -1,4 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +12,10 @@
 <body>
 <header class="top">
     <img src="resources/images/logoTEMZ.png">
+    <%--<form action="<c:url value="/logout"/>" method="post">--%>
+        <%--<input type="submit" value="Logoff"/> (also clears any remember-me cookie)--%>
+        <%--<security:csrfInput/>--%>
+    <%--</form>--%>
 </header>
 <nav>
     <ul>

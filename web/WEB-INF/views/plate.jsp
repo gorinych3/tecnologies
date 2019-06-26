@@ -1,5 +1,7 @@
+<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +15,7 @@
 <body>
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
+    <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
@@ -46,7 +49,9 @@
     </div>
 
 
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
     <button id="del" class="button2" type="button">Удалить</button>
+    </sec:authorize>
     <div id="buttons" align="right">
     <button class="back" onclick="location.href='/plates';" type="button" >Назад</button>
     <button class="back" onclick="location.href='../..';" type="button" >На главную</button>

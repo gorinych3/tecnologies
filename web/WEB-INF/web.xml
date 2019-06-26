@@ -44,7 +44,7 @@
         <url-pattern>*.jpg</url-pattern>
     </servlet-mapping>
 
-        <!--<url-pattern>*.html</url-pattern>-->
+    <!--<url-pattern>*.html</url-pattern>-->
 
 
     <filter>
@@ -70,12 +70,12 @@
             <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
-    <!--<filter>-->
-        <!--<filter-name>springSecurityFilterChain</filter-name>-->
-        <!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>springSecurityFilterChain</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

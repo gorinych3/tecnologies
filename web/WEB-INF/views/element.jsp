@@ -5,9 +5,11 @@
   Time: 0:49
   To change this template use File | Settings | File Templates.
 --%>
+<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +24,7 @@
 <body>
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
+    <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
@@ -119,8 +122,12 @@
     <div id="platePhoto">
     </div>
 
+    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
     <button id="updateS" class="button2" type="button">Редактировать</button>
+    </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
     <button id="del" class="button2" type="button">Удалить</button>
+    </sec:authorize>
     <div id="buttons" align="right">
         <button class="back" onclick="location.href='/elements';" type="button" >Назад</button>
         <button class="back" onclick="location.href='../..';" type="button" >На главную</button>
@@ -135,6 +142,13 @@
 
 <script>
     $(document).ready(function () {
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
         for (var z = 0; z < ${countPathPhoto}; z++){
             $('#photo').append("<img id='id_photo"+z+"' class='bigImg minimized' alt='клик для увеличения' src='' height='150'>");
         }

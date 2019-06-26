@@ -5,9 +5,12 @@
   Time: 0:48
   To change this template use File | Settings | File Templates.
 --%>
+<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +24,7 @@
 
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
+    <sec:csrfMetaTags/>
 </header>
 <nav>
     <ul>
@@ -39,7 +43,7 @@
 <div id="tableContainer">
     <div id="tableRow">
         <section class="main2">
-            <form id="formElement" name="formElement" action="${pageContext.request.contextPath}/updateElement">
+            <form:form id="formElement" name="formElement" action="${pageContext.request.contextPath}/updateElement">
                 <div class="tableRow">
                     <p>Наименование:</p>
                     <p class="info">                     ${currentElement.nameElement}</p>
@@ -117,7 +121,7 @@
                 <span id="elid" hidden>${currentElement.elId}</span>
 
 
-            </form>
+            </form:form>
 
             <div class="tableRow">
                 <p>
@@ -170,6 +174,12 @@
 <script>
     $(document).ready(function () {
 
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
             for (var z = 0; z < ${countPathPhoto}; z++){
                 create_one_div_photo(z);
             }
@@ -201,7 +211,7 @@
             function create_one_div_tech(id_number_tech) {
                 $('#updateElementTechnology').append("<div class='image__wrapper tableRow  tech' style='font-weight: bolder; color: black;'></div>" +
                     "<p><img id='id_tech_"+id_number_tech+"' class='bigImg minimized techs clt"+id_number_tech+"' alt='клик для увеличения' src='' height='100'>"+
-                    "<input id='change_tech_"+id_number_tech+"' type='button' class='button6 clt"+id_number_tech+"' value='Заменить'>");
+                    "<input id='change_tech_"+id_number_tech+"' type='button' class='button6 clt"+id_number_tech+"' value='Заменить' onclick='updateFiles(name, id)'>");
 
                 var tech_1 = "${currentElement.nameElement}";
                 var tech_2 = "${currentElement.idNumb}";
@@ -259,6 +269,12 @@
 </script>
 <script>
     function updateFiles(name, id) {
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
 
         $('.fixForm').css('display', 'block');
         $("#formTool").css("display", "block");

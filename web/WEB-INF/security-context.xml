@@ -8,23 +8,52 @@
         http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--<http auto-config="true">-->
-        <!--<intercept-url pattern="/" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
-        <!--<intercept-url pattern="/list" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
-        <!--<intercept-url pattern="/selectAll" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
-        <!--<intercept-url pattern="/search*" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_ANONYMOUS')"/>-->
-        <!--<intercept-url pattern="/add*" access="hasRole('ROLE_ADMIN')"/>-->
-        <!--<intercept-url pattern="/update*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>-->
-        <!--<intercept-url pattern="/delete*" access="hasRole('ROLE_ADMIN')"/>-->
+    <http auto-config="true">
+        <!--<form-login login-processing-url="/static/j_spring_security_check" login-page="/login"-->
+                    <!--authentication-failure-url="/login?login_error=t"/>-->
+        <form-login/>
+        <http-basic/>
+        <logout logout-url="/logout" logout-success-url="/login.jsp" invalidate-session="true"/>
+        <intercept-url pattern="/" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/addPlates" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')"/>
+        <!--<intercept-url pattern="/updateElementPage" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')"/>-->
+        <!--<intercept-url pattern="/addElementPage" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')"/>-->
         <!--<anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />-->
-    <!--</http>-->
+        <!--<csrf disabled="true"/>-->
+    </http>
 
+    <global-method-security secured-annotations="enabled" />
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+                <user name="user" password="user" authorities="ROLE_USER"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+    <!--<http realm="JavaStudy example" use-expressions="false">-->
+        <!--<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<intercept-?xml versio="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<intercept-url pattern="/admin" access="ROLE_ADMIN"/>-->
+        <!--<intercept-url pattern="/exitUser*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<intercept-url pattern="/**" access="ROLE_USER"/>-->
+
+        <!--<form-login login-page="/login.jsp"-->
+                    <!--authentication-failure-url="/login.jsp?login_error=1"/>-->
+        <!--<http-basic/>-->
+        <!--<logout logout-success-url="/exitUser.jsp"/>-->
+        <!--<remember-me />-->
+        <!--<headers/>-->
+        <!--<csrf/>-->
+    <!--</http>-->
 
     <!--<authentication-manager>-->
         <!--<authentication-provider>-->
             <!--<user-service>-->
-                <!--<user name="admin" password="admin" authorities="ROLE_ADMIN"/>-->
-                <!--<user name="user" password="user" authorities="ROLE_USER"/>-->
+                <!--<user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />-->
+                <!--<user name="user" password="user" authorities="ROLE_USER" />-->
+                <!--<user name="guest" password="guest" authorities="ROLE_GUEST" />-->
             <!--</user-service>-->
         <!--</authentication-provider>-->
     <!--</authentication-manager>-->

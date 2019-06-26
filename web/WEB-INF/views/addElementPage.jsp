@@ -5,9 +5,12 @@
   Time: 1:56
   To change this template use File | Settings | File Templates.
 --%>
+<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +24,7 @@
 
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
+    <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
@@ -39,7 +43,7 @@
 <div id="tableContainer">
     <div id="tableRow">
         <section class="main">
-            <form id="formElement" name="formElement" action="${pageContext.request.contextPath}/addElement">
+            <form:form id="formElement" name="formElement" action="${pageContext.request.contextPath}/addElement">
                 <div class="tableRow">
                     <p>Наименование:</p>
                     <p>
@@ -125,7 +129,7 @@
                 </div>
 
 
-            </form>
+            </form:form>
 
         </section>
 

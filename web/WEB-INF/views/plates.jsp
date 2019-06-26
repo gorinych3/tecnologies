@@ -1,6 +1,9 @@
+<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +11,13 @@
     <title>Пластины</title>
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
+    <script src="../../resources/js/jquery.js"></script>
 
 </head>
 <body>
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
+    <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
@@ -67,7 +72,10 @@
                     <ul class="pagination justify-content-center"></ul>
                 </nav>
             </div>
+
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
             <input class="button2" type="button" value="Добавить">
+            </sec:authorize>
         </section>
 
         <aside>
@@ -80,7 +88,7 @@
 </div>
 
 <div class="fixForm">
-    <form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addPlates">
+    <form:form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addPlates">
         <div class="tableRow">
             <p>Наименование:</p>
             <p>
@@ -124,14 +132,13 @@
         </div>
 
 
-    </form>
+    </form:form>
 </div>
 
 <footer>
     Copyright © 2019 gorinych3 <br>
     Все права защищены.
 </footer>
-<script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 <script src="../../resources/js/plates.js"></script>
 <script>

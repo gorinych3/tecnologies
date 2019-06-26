@@ -23,7 +23,7 @@ import java.io.*;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "/")
+//@RequestMapping(value = "/")
 public class ElementController {
 
     private static final String FILE_PATH_ELEMENT = "C:/SaveImagesFromTechnology/Elements/";

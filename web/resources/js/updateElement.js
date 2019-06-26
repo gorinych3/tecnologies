@@ -1,4 +1,12 @@
 $(document).ready(function () {
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+
+
     $(".main").width($(window).width() - 400);
 
     var arrPlates = [];
@@ -209,7 +217,7 @@ $(document).ready(function () {
         var element_notation = $("#notation").val();
 
         var flag = "Ничего не менять";
-        if ($('#setPlates').val() == flag) {
+        if ($('#setPlates').val() == flag || $('#setPlates').val() == '') {
             dataPlate = elem.plates;
         } else {
             $('#setPlates').each(function () {
@@ -217,7 +225,7 @@ $(document).ready(function () {
             });
         }
 
-        if ($('#setTools').val() == flag) {
+        if ($('#setTools').val() == flag || $('#setTools').val() == '') {
             dataTool = elem.tools;
         } else {
             $('#setTools').each(function () {
@@ -225,7 +233,7 @@ $(document).ready(function () {
             });
         }
 
-        if ($('#setMachines').val() == flag) {
+        if ($('#setMachines').val() == flag || $('#setMachines').val() == '') {
             dataMachine = elem.machines;
         } else {
             $('#setMachines').each(function () {

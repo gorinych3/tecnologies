@@ -5,8 +5,10 @@
   Time: 15:18
   To change this template use File | Settings | File Templates.
 --%>
+<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +23,7 @@
 
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
+    <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
@@ -74,7 +77,10 @@
                     <ul class="pagination justify-content-center"></ul>
                 </nav>
             </div>
+
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
             <input class="button2" type="button" value="Добавить">
+            </sec:authorize>
 
         </section>
 
