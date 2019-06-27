@@ -1,4 +1,4 @@
-<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
+<%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -28,6 +28,12 @@
         <li class="sel" id="selected" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
+            <a href="javascript:formSubmit()"> Logout</a>
+            <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
+                <input type="hidden" name="${_csrf.parameterName}"     value="${_csrf.token}" />
+            </form>
+        </li>
     </ul>
 </nav>
 
@@ -141,6 +147,11 @@
 </footer>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 <script src="../../resources/js/plates.js"></script>
+<script>
+    function formSubmit() {
+        document.getElementById("logoutForm").submit();
+    }
+</script>
 <script>
     var table = '.list';
     $('#maxRows').on('change', function () {

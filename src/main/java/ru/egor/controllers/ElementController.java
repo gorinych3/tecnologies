@@ -23,7 +23,6 @@ import java.io.*;
 import java.util.*;
 
 @Controller
-//@RequestMapping(value = "/")
 public class ElementController {
 
     private static final String FILE_PATH_ELEMENT = "C:/SaveImagesFromTechnology/Elements/";
@@ -50,7 +49,7 @@ public class ElementController {
         try {
             id = elementService.addElement(data);
         }catch (Exception ex){
-            logger.error("Start servlet '/addTool'");
+            logger.error("Error servlet '/addTool'");
             return gson.toJson(new MyMessage(ex.getMessage()));
         }
         return gson.toJson(new MyMessage("success", id));
@@ -81,7 +80,6 @@ public class ElementController {
     @GetMapping("/downloadElementFilesPhoto/{fileName}")
     public ResponseEntity<InputStreamResource> downloadFileElementsPhoto(@PathVariable String fileName)throws IOException {
         logger.info("Start servlet '/download1/{fileName}'");
-        logger.info("fileName = " + fileName);
         File file = new File(FILE_PATH_ELEMENT+fileName+SUFFIX_PATH);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
@@ -114,7 +112,6 @@ public class ElementController {
         List <MyPath> pathes = myPathService.getMypathForOneElement(element.getElId());
         List<MyPath> photo = new ArrayList<>();
         List<MyPath> tech = new ArrayList<>();
-        List<MyPath> prog = new ArrayList<>();
         String pathPrefix = "";
         for(MyPath path : pathes){
             pathPrefix = path.getPathName().substring(path.getPathName().lastIndexOf('/')+1,path.getPathName().lastIndexOf('/')+5);
@@ -127,8 +124,6 @@ public class ElementController {
                 request.getSession().setAttribute("tech", tech.size());
             }
         }
-
-        //myTools.sort(Comparator.comparing(MyTool::getName));
         model.addAttribute("currentElement", element);
         model.addAttribute("currentTool", myTools);
         model.addAttribute("currentPlates", plates);
@@ -136,7 +131,6 @@ public class ElementController {
         model.addAttribute("countPath", pathes.size());
         model.addAttribute("countPathPhoto", photo.size());
         model.addAttribute("countPathTech", tech.size());
-
         return "element";
     }
 

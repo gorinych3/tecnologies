@@ -1,7 +1,7 @@
+<%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +12,7 @@
 <body>
 <header class="top">
     <img src="resources/images/logoTEMZ.png">
-    <%--<form action="<c:url value="/logout"/>" method="post">--%>
-        <%--<input type="submit" value="Logoff"/> (also clears any remember-me cookie)--%>
-        <%--<security:csrfInput/>--%>
-    <%--</form>--%>
+    
 </header>
 <nav>
     <ul>
@@ -26,6 +23,13 @@
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
+            <a href="javascript:formSubmit()"> Logout</a>
+            <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
+                <input type="hidden" name="${_csrf.parameterName}"     value="${_csrf.token}" />
+            </form>
+        </li>
+
     </ul>
 </nav>
 
@@ -71,5 +75,10 @@
 </footer>
 <script src="resources/js/jquery.js"></script>
 <script src="resources/js/my_script_tmz.js"></script>
+<script>
+    function formSubmit() {
+        document.getElementById("logoutForm").submit();
+    }
+</script>
 </body>
 </html>

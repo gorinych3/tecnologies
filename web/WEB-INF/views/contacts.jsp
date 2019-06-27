@@ -1,3 +1,5 @@
+<%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +21,12 @@
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" id="selected" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
+            <a href="javascript:formSubmit()"> Logout</a>
+            <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
+                <input type="hidden" name="${_csrf.parameterName}"     value="${_csrf.token}" />
+            </form>
+        </li>
     </ul>
 </nav>
 
@@ -37,5 +45,10 @@
 </footer>
 <script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/js/my_script_tmz.js"></script>
+<script>
+    function formSubmit() {
+        document.getElementById("logoutForm").submit();
+    }
+</script>
 </body>
 </html>

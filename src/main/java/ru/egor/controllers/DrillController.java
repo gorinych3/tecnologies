@@ -14,7 +14,7 @@ import ru.egor.service.MyToolService;
 @Controller
 public class DrillController {
 
-    private final static Logger logger = Logger.getLogger(ElementController.class);
+    private final static Logger logger = Logger.getLogger(DrillController.class);
 
     private Gson gson;
     private MyToolService myToolService;

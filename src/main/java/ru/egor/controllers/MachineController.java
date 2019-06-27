@@ -30,7 +30,7 @@ public class MachineController {
 
     private static final String FILE_PATH_MACHINES = "C:/SaveImagesFromTechnology/Images/Machines/";
     private static final String SUFFIX_PATH = ".jpg";
-    private final static Logger logger = Logger.getLogger(ElementController.class);
+    private final static Logger logger = Logger.getLogger(MachineController.class);
 
     private Gson gson;
     private MachineService machineService;
@@ -52,7 +52,7 @@ public class MachineController {
         try {
             id = machineService.addMachine(machine);
         }catch (Exception ex){
-            logger.error("Start servlet '/addMachine'");
+            logger.error("Error servlet '/addMachine'");
             return gson.toJson(new MyMessage(ex.getMessage()));
         }
         return gson.toJson(new MyMessage("success", id));

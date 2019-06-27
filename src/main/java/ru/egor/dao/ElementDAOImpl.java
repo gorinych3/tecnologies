@@ -21,7 +21,6 @@ public class ElementDAOImpl implements ElementDAO {
         this.myPathDAO = myPathDAO;
     }
 
-    //блок получения списков entity-------------------------------------------------------------------------------------
 
     @SuppressWarnings("unchecked")
     @Override

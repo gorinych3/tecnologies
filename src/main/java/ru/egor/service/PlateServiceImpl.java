@@ -1,6 +1,5 @@
 package ru.egor.service;
 
-import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -24,12 +23,10 @@ public class PlateServiceImpl implements PlateService {
 
     private final static Logger logger = Logger.getLogger(ElementServiceImpl.class);
 
-    private Gson gson;
     private PlateDAO plateDAO;
     private MyPathService myPathService;
 
-    public PlateServiceImpl(Gson gson, PlateDAO plateDAO, MyPathService myPathService) {
-        this.gson = gson;
+    public PlateServiceImpl(PlateDAO plateDAO, MyPathService myPathService) {
         this.plateDAO = plateDAO;
         this.myPathService = myPathService;
     }

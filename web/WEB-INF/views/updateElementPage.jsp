@@ -1,3 +1,4 @@
+<%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
 <%--
   Created by IntelliJ IDEA.
   User: Егор
@@ -5,7 +6,6 @@
   Time: 0:48
   To change this template use File | Settings | File Templates.
 --%>
-<%--<%@ include file="/WEB-INF/views/include.jsp" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -36,6 +36,12 @@
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
+            <a href="javascript:formSubmit()"> Logout</a>
+            <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
+                <input type="hidden" name="${_csrf.parameterName}"     value="${_csrf.token}" />
+            </form>
+        </li>
     </ul>
 </nav>
 
@@ -171,6 +177,11 @@
 <script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 <script src="../../resources/js/updateElement.js"></script>
+<script>
+    function formSubmit() {
+        document.getElementById("logoutForm").submit();
+    }
+</script>
 <script>
     $(document).ready(function () {
 

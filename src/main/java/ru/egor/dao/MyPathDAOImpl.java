@@ -76,11 +76,9 @@ public class MyPathDAOImpl implements MyPathDAO{
     @SuppressWarnings("unchecked")
     @Override
     public void deletePath(String fileName) {
-        //System.out.println("fileName = "+fileName);
         Query<MyPath> myPathQuery = sessionFactory.getCurrentSession().createQuery("from MyPath where pathName = :paramName");
         myPathQuery.setParameter("paramName", fileName);
         MyPath myPath = myPathQuery.getSingleResult();
-        //System.out.println(myPath.toString());
         sessionFactory.getCurrentSession().delete(myPath);
     }
 }

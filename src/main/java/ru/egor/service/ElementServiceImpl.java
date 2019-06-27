@@ -143,7 +143,7 @@ public class ElementServiceImpl implements ElementService {
             logger.info("Фaйл yдaлeн");
             myPathService.deletePath(filePath+fullFileName);
         } else {
-            logger.info("Фaйл yдaлить нe пoлyчилocь");
+            logger.error("Фaйл yдaлить нe пoлyчилocь");
              }
 
     }

@@ -7,14 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MenuController {
 
-    private final static Logger logger = Logger.getLogger(ElementController.class);
+    private final static Logger logger = Logger.getLogger(MenuController.class);
 
     @RequestMapping(value = "/")
-    public String index(/*@RequestParam(value = "error", required = false) String error, Model model*/){
+    public String index(){
         logger.info("Start servlet '/index'");
-//        if (error != null) {
-//            model.addAttribute("error", "Invalid username or password!");
-//        }
         return "index";
     }
 
@@ -60,9 +57,4 @@ public class MenuController {
         return "addElementPage";
     }
 
-    @RequestMapping(value = "/login")
-    public String login(){
-        logger.info("Start servlet '/login'");
-        return "login";
-    }
 }

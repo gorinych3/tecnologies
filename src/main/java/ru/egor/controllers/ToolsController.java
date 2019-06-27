@@ -30,7 +30,7 @@ public class ToolsController {
 
     private static final String FILE_PATH_TOOLS = "C:/SaveImagesFromTechnology/Images/Tools/";
     private static final String SUFFIX_PATH = ".jpg";
-    private final static Logger logger = Logger.getLogger(ElementController.class);
+    private final static Logger logger = Logger.getLogger(ToolsController.class);
 
     private Gson gson;
     private MyToolService myToolService;
@@ -51,7 +51,7 @@ public class ToolsController {
         try {
             id = myToolService.addTool(data);
         }catch (Exception ex){
-            logger.error("Start servlet '/addTool'");
+            logger.error("Error servlet '/addTool'");
             return gson.toJson(new MyMessage(ex.getMessage()));
         }
         return gson.toJson(new MyMessage("success", id));
@@ -105,7 +105,6 @@ public class ToolsController {
         model.addAttribute("currentTool", myTool);
         model.addAttribute("currentPlates", plates);
         model.addAttribute("countPath", pathes.size());
-        logger.info("countPath  " + pathes.size());
         return "tool";
     }
 

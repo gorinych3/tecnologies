@@ -32,7 +32,7 @@ public class PlateController {
 
     private static final String FILE_PATH = "C:/SaveImagesFromTechnology/Images/Plates/";
     private static final String SUFFIX_PATH = ".jpg";
-    private final static Logger logger = Logger.getLogger(ElementController.class);
+    private final static Logger logger = Logger.getLogger(PlateController.class);
 
     private final Gson gson;
     private PlateService plateService;
@@ -46,7 +46,6 @@ public class PlateController {
     }
 
     @RequestMapping(value = "/addPlates", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseBody
     public String addPlates(@RequestBody String data){
         int id;
@@ -55,7 +54,7 @@ public class PlateController {
         try {
             id = plateService.addPlate(plate);
         }catch (Exception ex){
-            logger.error("Start servlet '/addPlates'");
+            logger.error("Error servlet '/addPlates'");
             return gson.toJson(new MyMessage(ex.getMessage()));
         }
         return gson.toJson(new MyMessage("success", id));
