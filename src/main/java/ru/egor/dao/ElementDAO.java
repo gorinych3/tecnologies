@@ -1,4 +1,4 @@
-package ru.egor.dao;
+package ru.egor.DAO;
 
 import ru.egor.entity.*;
 
@@ -6,16 +6,60 @@ import java.util.List;
 
 public interface ElementDAO {
 
-    List<Element> getElements();
+    //блок получения списка entity--------------------------------------------------------------------------------------
+    List<Element> showAllElements();
 
+    List<MyTool> getMyTools();
+
+    List<Plate> showPlates();
+
+    List<MyPath> getMypathAll();
+
+    List<Machine> showMachine();
+
+
+    //блок получения entity по заданным параметрам----------------------------------------------------------------------
     List<Element> showElementByName(String name);
 
-    Element getElementById(int id);
+    Plate getPlateByModel(String model);
 
-    int addElement(Element element);
+    Plate getPlateById(int id);
 
-    void deleteElement(int id);
+    MyTool getToolById(int id);
 
+    Machine getMachineById(int id);
+
+    List<MyPath> getMypathForOnePlate(int plateId);
+
+    List<MyPath> getMypathForOneTool(int toolId);
+
+    List<MyPath> getMypathForOneMachine(int machId);
+
+
+    //блок добавления entity--------------------------------------------------------------------------------------------
+    void addElement(Element element);
+
+    int addPlate(Plate plate);
+
+    void addPathPlate(MyPath path);
+
+    int addTool(MyTool myTool);
+
+    int addMachine(Machine machine);
+
+
+    //блок удаления entity----------------------------------------------------------------------------------------------
+    void deleteElement(String name);
+
+    void deletePlateById(int plateId);
+
+    void deleteToolById(int toolId);
+
+    void deleteMachineById(int machId);
+
+
+
+    //блок редактирования entity----------------------------------------------------------------------------------------
     void updateElement(Element element);
 
 }

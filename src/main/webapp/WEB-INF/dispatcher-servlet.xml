@@ -23,6 +23,13 @@
     <bean id="gson" class="com.google.gson.Gson"/>
 
     <mvc:resources mapping="/resources/**" location="resources" />
-
+    <bean id="myProperties"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath*:filePath.properties</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>

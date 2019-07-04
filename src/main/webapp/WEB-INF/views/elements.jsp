@@ -27,7 +27,7 @@
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
+        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
         <li class="sel" id="selected" onclick="location.href='/elements'">Детали</li>
         <li class="sel" onclick="location.href='/tools'">Инструмент</li>
         <li class="sel" onclick="location.href='/drills'">Сверла</li>

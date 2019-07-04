@@ -1,4 +1,11 @@
 <%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: Егор
+  Date: 06.05.2019
+  Time: 15:18
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -8,24 +15,24 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
-    <title>Пластины</title>
+    <title>Инструмент</title>
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
-    <script src="../../resources/js/jquery.js"></script>
 
 </head>
 <body>
+
 <header class="top">
     <img src="../../resources/images/logoTEMZ.png">
     <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
+        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/tools'">Инструмент</li>
-        <li class="sel" onclick="location.href='/drills'">Сверла</li>
-        <li class="sel" id="selected" onclick="location.href='/plates'">Пластины</li>
+        <li class="sel" onclick="location.href='/tools'">Инструменты</li>
+        <li class="sel" id="selected" onclick="location.href='/drills'">Сверла</li>
+        <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
         <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
@@ -45,33 +52,31 @@
                 <div class="form-group mySearch">
                     <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
                 </div>
-            <h4>Отображать по</h4>
-            <div class="form-group">
-                <select name="state" id="maxRows" class="form-control" style="width:150px;">
-                    <option value="5000">Показать все</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="75">75</option>
-                    <option value="100">100</option>
-                </select>
+                <h4>Отображать по</h4>
+                <div class="form-group">
+                    <select name="state" id="maxRows" class="form-control" style="width:150px;">
+                        <option value="5000">Показать все</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
             </div>
-            </div>
-            <table class="list">
+            <table class="listTools">
                 <thead>
                 <tr class="zag">
                     <th>Наименование</th>
-                    <th>Модель (по паспорту)</th>
+                    <th>Модель (диаметр)</th>
                     <th>Тип</th>
-                    <th>Фото</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 </tbody>
-
             </table>
             <div class="pagination-container">
                 <nav>
@@ -82,27 +87,33 @@
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
             <input class="button2" type="button" value="Добавить">
             </sec:authorize>
+
         </section>
 
         <aside>
             <div id="err">
                 <p id="erMessage"></p>
             </div>
-                <img id="prim" src="">
+            <img id="prim" src="">
         </aside>
     </div>
 </div>
-
 <div class="fixForm">
-    <form:form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addPlates">
+    <form:form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addDrill">
         <div class="tableRow">
             <p>Наименование:</p>
             <p>
-                <input type="text" name="name" value="">
+                <select id="drill_name">
+                    <option disabled>Выберите инструмент</option>
+                    <option value="Центровка">Центровка</option>
+                    <option value="Сверло">Сверло</option>
+                    <option value="Развертка">Развертка</option>
+                    <option value="Фреза">Фреза</option>
+                </select>
             </p>
         </div>
         <div class="tableRow">
-            <p>Модель:</p>
+            <p>Модель (диаметр):</p>
             <p>
                 <input id="inMod" type="text" name="model" value="" placeholder="">
             </p>
@@ -114,17 +125,10 @@
             <p>
                 <select id="type">
                     <option disabled>Выберите тип</option>
-                    <option value="Правая">Правая</option>
-                    <option value="Левая">Левая</option>
-                    <option value="Универсальная">Универсальная</option>
+                    <option value="Правый">Правый</option>
+                    <option value="Левый">Левый</option>
+                    <option value="Перовое">Перовое</option>
                 </select>
-            </p>
-        </div>
-
-        <div class="tableRow">
-            <p>Фото:</p>
-            <p>
-                <input id="files" type="file" accept="image/*" multiple name="photo">
             </p>
         </div>
 
@@ -136,24 +140,26 @@
                 <input class="button4" type="button" value="Отменить">
             </p>
         </div>
-
-
     </form:form>
+
 </div>
+
+
 
 <footer>
     Copyright © 2019 gorinych3 <br>
     Все права защищены.
 </footer>
+<script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../resources/js/plates.js"></script>
+<script src="../../resources/js/my_drill.js"></script>
 <script>
     function formSubmit() {
         document.getElementById("logoutForm").submit();
     }
 </script>
 <script>
-    var table = '.list';
+    var table = '.listTools';
     $('#maxRows').on('change', function () {
         $('.pagination').html('');
         var trnum = 0;
@@ -196,13 +202,13 @@
         $("#search").keyup(function(){
             _this = this;
 
-            $.each($(".list tbody tr"), function() {
+            $.each($(".listTools tbody tr"), function() {
                 if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1) {
                     $(this).hide();
                 } else {
                     $(this).show();
                 }
-        });
+            });
         });
     });
 </script>

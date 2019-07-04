@@ -16,6 +16,7 @@ import ru.egor.dao.MyToolDAO;
 import ru.egor.entity.MyPath;
 import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,10 +26,8 @@ import java.util.*;
 @Service
 @EnableTransactionManagement(proxyTargetClass = true)
 @Transactional
-public class MyToolServiceImpl implements MyToolService{
-
+public class MyToolServiceImpl implements MyToolService {
     private final static Logger logger = Logger.getLogger(ElementServiceImpl.class);
-
     private Gson gson;
     private MyToolDAO myToolDAO;
     private PlateService plateService;
@@ -63,7 +62,7 @@ public class MyToolServiceImpl implements MyToolService{
         myTool.setPhoto(jsonObject.get("photo").getAsString());
         JsonArray plateNames = jsonObject.get("platesId").getAsJsonArray();
         Set<Plate> plates = new HashSet<>();
-        for (int i = 0; i < plateNames.size(); i++){
+        for (int i = 0; i < plateNames.size(); i++) {
             Plate plate = plateService.getPlateById(plateNames.get(i).getAsInt());
             plates.add(plate);
         }
@@ -92,32 +91,32 @@ public class MyToolServiceImpl implements MyToolService{
     @Override
     public Map<String, Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response, String filePath) {
         logger.info("Start service 'fileUpload'");
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         List<String> fileUploadedList = new ArrayList<String>();
-        Iterator<String> itr =  request.getFileNames();
-        MultipartFile mpf = null;
-        String fileName = "";
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile mpf;
+        String fileName;
         int id = 0;
-        String newFileName = "";
+        String newFileName;
 
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             MyPath path = new MyPath();
             mpf = request.getFile(itr.next());
-            try{
+            try {
                 fileName = mpf.getOriginalFilename();
-                id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
-                newFileName = filePath+fileName.replace(" ", "-");
+                id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-') + 1, fileName.lastIndexOf('.')));
+                newFileName = filePath + fileName.replace(" ", "-");
                 FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
                 fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
                 path.setPathName(newFileName);
-                path.setMytoolId(id);
+                path.setMyToolId(id);
                 myPathService.addPlatePath(path);
-            }catch(IOException e){
+            } catch (IOException e) {
                 logger.error(e);
             }
         }
         map.put("Status", 200);
-        map.put("SucessfulList", fileUploadedList);
+        map.put("SuccessfulList", fileUploadedList);
         return map;
     }
 }

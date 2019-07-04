@@ -26,7 +26,7 @@
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
+        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
         <li class="sel" onclick="location.href='/tools'">Инструменты</li>
         <li class="sel" onclick="location.href='/drills'">Сверла</li>
@@ -66,7 +66,7 @@
     </sec:authorize>
     <div id="buttons" align="right">
         <button class="back" onclick="location.href='/machines';" type="button" >Назад</button>
-        <button class="back" onclick="location.href='../..';" type="button" >На главную</button>
+        <button class="back" onclick="location.href='../../../../../../../';" type="button" >На главную</button>
     </div>
 </div>
 
@@ -99,7 +99,7 @@
         }
         for (var j = 0; j < ${countPath}; j++){
             var model = $('#number').html();
-            var path = urlLit(model,0);
+            var toolPath = urlLit(model,0);
             var full_path = "${pageContext.request.contextPath}/downloadMachineFiles/" + path+"-"+j+"-"+${currentMachine.machId};
             var ident = '#id'+j;
             $(ident).attr('src', full_path);

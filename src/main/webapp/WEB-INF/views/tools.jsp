@@ -28,10 +28,10 @@
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
+        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/tools'">Инструменты</li>
-        <li class="sel" id="selected" onclick="location.href='/drills'">Сверла</li>
+        <li class="sel" id="selected" onclick="location.href='/tools'">Инструмент</li>
+        <li class="sel" onclick="location.href='/drills'">Сверла</li>
         <li class="sel" onclick="location.href='/plates'">Пластины</li>
         <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
@@ -70,8 +70,10 @@
                 <thead>
                 <tr class="zag">
                     <th>Наименование</th>
-                    <th>Модель (диаметр)</th>
+                    <th>Модель (по паспорту)</th>
                     <th>Тип</th>
+                    <th>Пластины</th>
+                    <th>Фото</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -99,21 +101,15 @@
     </div>
 </div>
 <div class="fixForm">
-    <form:form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addDrill">
+    <form:form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addTool">
         <div class="tableRow">
             <p>Наименование:</p>
             <p>
-                <select id="drill_name">
-                    <option disabled>Выберите инструмент</option>
-                    <option value="Центровка">Центровка</option>
-                    <option value="Сверло">Сверло</option>
-                    <option value="Развертка">Развертка</option>
-                    <option value="Фреза">Фреза</option>
-                </select>
+                <input type="text" name="name" value="">
             </p>
         </div>
         <div class="tableRow">
-            <p>Модель (диаметр):</p>
+            <p>Модель:</p>
             <p>
                 <input id="inMod" type="text" name="model" value="" placeholder="">
             </p>
@@ -127,8 +123,27 @@
                     <option disabled>Выберите тип</option>
                     <option value="Правый">Правый</option>
                     <option value="Левый">Левый</option>
-                    <option value="Перовое">Перовое</option>
+                    <option value="Универсальный">Универсальный</option>
                 </select>
+            </p>
+        </div>
+
+        <div class="tableRow">
+            <p>
+                Выберите пластины:
+            </p>
+            <p>
+                <select id="addOptions" multiple name="plates[]">
+                    <option disabled>Выберите пластины</option>
+
+                </select>
+            </p>
+        </div>
+
+        <div class="tableRow">
+            <p>Фото:</p>
+            <p>
+                <input id="files" type="file" accept="image/*" multiple name="photo">
             </p>
         </div>
 
@@ -140,6 +155,8 @@
                 <input class="button4" type="button" value="Отменить">
             </p>
         </div>
+
+
     </form:form>
 
 </div>
@@ -152,7 +169,7 @@
 </footer>
 <script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../resources/js/my_drill.js"></script>
+<script src="../../resources/js/my_tools.js"></script>
 <script>
     function formSubmit() {
         document.getElementById("logoutForm").submit();

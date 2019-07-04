@@ -1,11 +1,4 @@
 <%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
-<%--
-  Created by IntelliJ IDEA.
-  User: Егор
-  Date: 17.05.2019
-  Time: 21:54
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -15,9 +8,10 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
-    <title>Станки</title>
+    <title>Пластины</title>
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
+    <script src="../../resources/js/jquery.js"></script>
 
 </head>
 <body>
@@ -27,12 +21,12 @@
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
+        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
         <li class="sel" onclick="location.href='/tools'">Инструмент</li>
         <li class="sel" onclick="location.href='/drills'">Сверла</li>
-        <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" id="selected" onclick="location.href='/machines'">Станки</li>
+        <li class="sel" id="selected" onclick="location.href='/plates'">Пластины</li>
+        <li class="sel" onclick="location.href='/machines'">Станки</li>
         <li class="sel" onclick="location.href='/contacts'">Контакты</li>
         <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
             <a href="javascript:formSubmit()"> Logout</a>
@@ -51,26 +45,26 @@
                 <div class="form-group mySearch">
                     <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице">
                 </div>
-                <h4>Отображать по</h4>
-                <div class="form-group">
-                    <select name="state" id="maxRows" class="form-control" style="width:150px;">
-                        <option value="5000">Показать все</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="75">75</option>
-                        <option value="100">100</option>
-                    </select>
-                </div>
+            <h4>Отображать по</h4>
+            <div class="form-group">
+                <select name="state" id="maxRows" class="form-control" style="width:150px;">
+                    <option value="5000">Показать все</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="75">75</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
             </div>
             <table class="list">
                 <thead>
                 <tr class="zag">
                     <th>Наименование</th>
                     <th>Модель (по паспорту)</th>
-                    <th>Идентификатор</th>
+                    <th>Тип</th>
                     <th>Фото</th>
                 </tr>
                 </thead>
@@ -84,6 +78,7 @@
                     <ul class="pagination justify-content-center"></ul>
                 </nav>
             </div>
+
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
             <input class="button2" type="button" value="Добавить">
             </sec:authorize>
@@ -93,33 +88,23 @@
             <div id="err">
                 <p id="erMessage"></p>
             </div>
-            <img id="prim" src="">
+                <img id="prim" src="">
         </aside>
     </div>
 </div>
 
 <div class="fixForm">
-    <form:form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addMachine">
+    <form:form id="formTool" name="formTool" action="${pageContext.request.contextPath}/addPlates">
         <div class="tableRow">
             <p>Наименование:</p>
             <p>
-                <select id="machine_name">
-                    <option disabled>Выберите станок</option>
-                    <option value="Многофункциональный токарный">Многофункциональный токарный</option>
-                    <option value="Автомат продольного точения">Автомат продольного точения</option>
-                </select>
+                <input type="text" name="name" value="">
             </p>
         </div>
         <div class="tableRow">
             <p>Модель:</p>
             <p>
-                <select id="inMod">
-                    <option disabled>Выберите модель</option>
-                    <option value="Spinner TC65-MC">Spinner TC65-MC</option>
-                    <option value="Spinner PD-C">Spinner PD-C</option>
-                    <option value="Unitec SL1693">Unitec SL1693</option>
-                    <option value="AccuWay UT-200">AccuWay UT-200</option>
-                </select>
+                <input id="inMod" type="text" name="model" value="" placeholder="">
             </p>
         </div>
         <div class="tableRow">
@@ -128,14 +113,10 @@
             </p>
             <p>
                 <select id="type">
-                    <option disabled>Выберите номер</option>
-                    <option value="470069">470069</option>
-                    <option value="470068">470068</option>
-                    <option value="470110">470110</option>
-                    <option value="470018">470018</option>
-                    <option value="470017">470017</option>
-                    <option value="470022">470022</option>
-                    <option value="470124">470124</option>
+                    <option disabled>Выберите тип</option>
+                    <option value="Правая">Правая</option>
+                    <option value="Левая">Левая</option>
+                    <option value="Универсальная">Универсальная</option>
                 </select>
             </p>
         </div>
@@ -164,9 +145,8 @@
     Copyright © 2019 gorinych3 <br>
     Все права защищены.
 </footer>
-<script src="../../resources/js/jquery.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../resources/js/my_machines.js"></script>
+<script src="../../resources/js/plates.js"></script>
 <script>
     function formSubmit() {
         document.getElementById("logoutForm").submit();
@@ -222,7 +202,7 @@
                 } else {
                     $(this).show();
                 }
-            });
+        });
         });
     });
 </script>
