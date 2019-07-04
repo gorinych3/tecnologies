@@ -325,13 +325,14 @@ table tbody tr td .hand{
 
     /* position: absolute; upd: 24.10.2016 */
     position: fixed;
-    max-width: 1100px;
+    max-width: 1000px;
     height: auto;
     z-index: 9999;
 }
 
 #magnify img {
     width: 100%;
+
 }
 
 /* затемняющий фон */

@@ -10,9 +10,9 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/dispatcher-servlet.xml
-            /WEB-INF/db-config.xml
-            /WEB-INF/security-context.xml
+            WEB-INF/dispatcher-servlet.xml
+            WEB-INF/db-config.xml
+            WEB-INF/security-context.xml
         </param-value>
     </context-param>
     <servlet>
