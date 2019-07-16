@@ -19,7 +19,7 @@
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
+        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
         <li class="sel" onclick="location.href='/tools'">Инструменты</li>
         <li class="sel" onclick="location.href='/drills'">Сверла</li>
@@ -60,7 +60,7 @@
     </sec:authorize>
     <div id="buttons" align="right">
     <button class="back" onclick="location.href='/plates';" type="button" >Назад</button>
-    <button class="back" onclick="location.href='../..';" type="button" >На главную</button>
+    <button class="back" onclick="location.href='../../../../../../../';" type="button" >На главную</button>
     </div>
 </div>
 

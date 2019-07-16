@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan(value = "ru.egor")
-@PropertySource("classpath:database.properties")
+@PropertySource("classpath:WEB-INF/database.properties")
 @ImportResource("classpath:security-context.xml")
 @EnableTransactionManagement
 public class TestConfig {

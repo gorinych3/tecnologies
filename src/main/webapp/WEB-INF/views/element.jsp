@@ -28,7 +28,7 @@
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
+        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
         <li class="sel" onclick="location.href='/elements'">Детали</li>
         <li class="sel" id="selected" onclick="location.href='/element'">Деталь</li>
         <li class="sel" onclick="location.href='/tools'">Инструменты</li>
@@ -136,7 +136,7 @@
     </sec:authorize>
     <div id="buttons" align="right">
         <button class="back" onclick="location.href='/elements';" type="button" >Назад</button>
-        <button class="back" onclick="location.href='../..';" type="button" >На главную</button>
+        <button class="back" onclick="location.href='../../../../../../../';" type="button" >На главную</button>
     </div>
 </div>
 
@@ -215,7 +215,6 @@
             $('.minimized').click(function(event) {
                 var i_path = $(this).attr('src');
                 $('body').append('<div id="overlay"></div><div id="magnify"><img src="'+i_path+'"><div id="close-popup"><i></i></div></div>');
-
                 $('#magnify').css({
                     left: 250,
                     top: 10
