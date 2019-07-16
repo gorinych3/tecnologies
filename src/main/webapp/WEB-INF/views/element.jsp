@@ -216,8 +216,8 @@
                 var i_path = $(this).attr('src');
                 $('body').append('<div id="overlay"></div><div id="magnify"><img src="'+i_path+'"><div id="close-popup"><i></i></div></div>');
                 $('#magnify').css({
-                    left: ($(document).width() - $('#magnify').outerWidth())/2,
-                    top: ($(window).height() - $('#magnify').outerHeight())/2
+                    left: 250,
+                    top: 10
                 });
                 $('#overlay, #magnify').fadeIn('fast');
             });

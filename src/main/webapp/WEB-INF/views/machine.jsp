@@ -99,7 +99,7 @@
         }
         for (var j = 0; j < ${countPath}; j++){
             var model = $('#number').html();
-            var toolPath = urlLit(model,0);
+            var path = urlLit(model,0);
             var full_path = "${pageContext.request.contextPath}/downloadMachineFiles/" + path+"-"+j+"-"+${currentMachine.machId};
             var ident = '#id'+j;
             $(ident).attr('src', full_path);
