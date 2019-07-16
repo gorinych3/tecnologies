@@ -1,7 +1,6 @@
 package ru.egor.service;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.log4j.Logger;
@@ -13,7 +12,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.dao.ElementDAO;
-import ru.egor.entity.*;
+import ru.egor.entity.Element;
+import ru.egor.entity.MyPath;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -41,7 +41,7 @@ public class ElementServiceImpl implements ElementService {
 
 
     @Override
-    public String getElements(){
+    public String getElements() {
         return gson.toJson(elementDAO.getElements());
     }
 
@@ -75,62 +75,62 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Map<String, Object> fileUploadElement(MultipartHttpServletRequest request, HttpServletResponse response, String filePath) {
         logger.info("Start service 'fileUploadElement'");
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         List<String> fileUploadedList = new ArrayList<String>();
-        Iterator<String> itr =  request.getFileNames();
+        Iterator<String> itr = request.getFileNames();
         MultipartFile mpf = null;
         String fileName = "";
         int id = 0;
         String newFileName = "";
 
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             MyPath path = new MyPath();
             mpf = request.getFile(itr.next());
-            try{
+            try {
                 fileName = mpf.getOriginalFilename();
-                logger.info("имя файла перед записью = "+fileName);
-                id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
-                newFileName = filePath+fileName.replace(" ", "-");
+                logger.info("имя файла перед записью = " + fileName);
+                id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-') + 1, fileName.lastIndexOf('.')));
+                newFileName = filePath + fileName.replace(" ", "-");
                 FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
                 fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
                 path.setPathName(newFileName);
                 path.setElementId(id);
                 myPathService.addPlatePath(path);
-            }catch(IOException e){
+            } catch (IOException e) {
                 logger.error(e);
             }
         }
         map.put("Status", 200);
-        map.put("SucessfulList", fileUploadedList);
+        map.put("SuccessfulList", fileUploadedList);
         return map;
     }
 
     @Override
     public Map<String, Object> fileChangeElement(MultipartHttpServletRequest request, HttpServletResponse response, String filePath) {
         logger.info("Start service 'fileChangeElement'");
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         List<String> fileUploadedList = new ArrayList<String>();
-        Iterator<String> itr =  request.getFileNames();
-        MultipartFile mpf = null;
-        String fileName = "";
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile mpf;
+        String fileName;
         int id = 0;
-        String newFileName = "";
+        String newFileName;
 
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             mpf = request.getFile(itr.next());
-            try{
+            try {
                 fileName = mpf.getOriginalFilename();
-                logger.info("имя файла перед изменением = "+fileName);
-                id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-')+1,fileName.lastIndexOf('.')));
-                newFileName = filePath+fileName.replace(" ", "-");
+                logger.info("имя файла перед изменением = " + fileName);
+                id = Integer.parseInt(fileName.substring(fileName.lastIndexOf('-') + 1, fileName.lastIndexOf('.')));
+                newFileName = filePath + fileName.replace(" ", "-");
                 FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(newFileName));
                 fileUploadedList.add(mpf.getOriginalFilename().replace(" ", "-"));
-            }catch(IOException e){
+            } catch (IOException e) {
                 logger.error(e);
             }
         }
         map.put("Status", 200);
-        map.put("SucessfulList", fileUploadedList);
+        map.put("SuccessfulList", fileUploadedList);
         return map;
     }
 
@@ -138,13 +138,13 @@ public class ElementServiceImpl implements ElementService {
     public void deleteFile(String fileName, String filePath) {
         JsonObject jsonObject = new JsonParser().parse(fileName).getAsJsonObject();
         String fullFileName = jsonObject.get("file").getAsString();
-        final File file = new File(filePath+fullFileName);
-        if(file.delete()) {
+        final File file = new File(filePath + fullFileName);
+        if (file.delete()) {
             logger.info("Фaйл yдaлeн");
-            myPathService.deletePath(filePath+fullFileName);
+            myPathService.deletePath(filePath + fullFileName);
         } else {
             logger.error("Фaйл yдaлить нe пoлyчилocь");
-             }
+        }
 
     }
 }

@@ -14,9 +14,7 @@ import java.util.List;
 @EnableTransactionManagement(proxyTargetClass = true)
 @Transactional
 public class MyPathServiceImpl implements MyPathService {
-
     private final static Logger logger = Logger.getLogger(ElementServiceImpl.class);
-
     private MyPathDAO myPathDAO;
 
     @Autowired

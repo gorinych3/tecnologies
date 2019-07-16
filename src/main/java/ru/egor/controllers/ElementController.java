@@ -13,19 +13,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.egor.entity.*;
-import ru.egor.otherclasses.MyMessage;
 import ru.egor.service.ElementService;
 import ru.egor.service.MyPathService;
+import ru.egor.util.FileProperties;
+import ru.egor.util.MyMessage;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class ElementController {
-
-    private static final String FILE_PATH_ELEMENT = "C:/SaveImagesFromTechnology/Elements/";
     private static final String SUFFIX_PATH = ".jpg";
 
     private final static Logger logger = Logger.getLogger(ElementController.class);
@@ -33,54 +37,55 @@ public class ElementController {
     private Gson gson;
     private ElementService elementService;
     private MyPathService myPathService;
+    private final FileProperties properties;
 
     @Autowired
-    public ElementController(Gson gson, ElementService elementService, MyPathService myPathService) {
+    public ElementController(Gson gson, ElementService elementService, MyPathService myPathService, FileProperties properties) {
         this.gson = gson;
         this.elementService = elementService;
         this.myPathService = myPathService;
+        this.properties = properties;
     }
 
     @RequestMapping(value = "/addElement", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public String addOneElement(@RequestBody String data){
+    public String addOneElement(@RequestBody String data) {
         logger.info("Start servlet '/addTool'");
         int id;
         try {
             id = elementService.addElement(data);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logger.error("Error servlet '/addTool'");
             return gson.toJson(new MyMessage(ex.getMessage()));
         }
         return gson.toJson(new MyMessage("success", id));
     }
 
-    @RequestMapping(value = "/getTxtDataElements",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+    @RequestMapping(value = "/getTxtDataElements", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public String getListElements() {
         logger.info("Start servlet '/getTxtDataElements'");
         return elementService.getElements();
     }
 
-    @RequestMapping(value="/uploadFilesElements")
+    @RequestMapping(value = "/uploadFilesElements")
     public @ResponseBody
-    Map<String,Object> elementFileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
+    Map<String, Object> elementFileUpload(MultipartHttpServletRequest request, HttpServletResponse response) {
         logger.info("Start servlet '/uploadFilesElements'");
-        return elementService.fileUploadElement(request, response, FILE_PATH_ELEMENT);
+        return elementService.fileUploadElement(request, response, properties.getElementsPath());
     }
 
-    @RequestMapping(value="/changeFilesElements")
+    @RequestMapping(value = "/changeFilesElements")
     public @ResponseBody
-    Map<String,Object> elementFileChange(MultipartHttpServletRequest request, HttpServletResponse response){
+    Map<String, Object> elementFileChange(MultipartHttpServletRequest request, HttpServletResponse response) {
         logger.info("Start servlet '/changeFilesElements'");
-        return elementService.fileChangeElement(request, response, FILE_PATH_ELEMENT);
+        return elementService.fileChangeElement(request, response, properties.getElementsPath());
     }
 
-    // Using ResponseEntity<InputStreamResource>
     @GetMapping("/downloadElementFilesPhoto/{fileName}")
-    public ResponseEntity<InputStreamResource> downloadFileElementsPhoto(@PathVariable String fileName)throws IOException {
+    public ResponseEntity<InputStreamResource> downloadFileElementsPhoto(@PathVariable String fileName) throws IOException {
         logger.info("Start servlet '/download1/{fileName}'");
-        File file = new File(FILE_PATH_ELEMENT+fileName+SUFFIX_PATH);
+        File file = new File(properties.getElementsPath() + fileName + SUFFIX_PATH);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
@@ -90,8 +95,8 @@ public class ElementController {
                 .body(resource);
     }
 
-    @RequestMapping(value = "/getelement/{id}",  method = RequestMethod.GET)
-    public String showOneElement(@PathVariable String id, HttpServletRequest request){
+    @RequestMapping(value = "/getelement/{id}", method = RequestMethod.GET)
+    public String showOneElement(@PathVariable String id, HttpServletRequest request) {
         logger.info("Start servlet '/getelement/{id}'");
         int elId = Integer.parseInt(id);
         Element element = elementService.getElementById(elId);
@@ -102,24 +107,24 @@ public class ElementController {
         return "forward:/element";
     }
 
-    @RequestMapping(value = "/element",  method = RequestMethod.GET)
-    public String showOneElement(HttpServletRequest request, Model model){
+    @RequestMapping(value = "/element", method = RequestMethod.GET)
+    public String showOneElement(HttpServletRequest request, Model model) {
         logger.info("Start servlet '//element'");
         Element element = (Element) request.getSession().getAttribute("element");
         List<MyTool> myTools = (List<MyTool>) request.getSession().getAttribute("elementTools");
         Set<Plate> plates = (Set<Plate>) request.getSession().getAttribute("elementPlates");
         Set<Machine> machines = (Set<Machine>) request.getSession().getAttribute("elementMachines");
-        List <MyPath> pathes = myPathService.getMypathForOneElement(element.getElId());
+        List<MyPath> pathes = myPathService.getMypathForOneElement(element.getElId());
         List<MyPath> photo = new ArrayList<>();
         List<MyPath> tech = new ArrayList<>();
         String pathPrefix = "";
-        for(MyPath path : pathes){
-            pathPrefix = path.getPathName().substring(path.getPathName().lastIndexOf('/')+1,path.getPathName().lastIndexOf('/')+5);
-            if(pathPrefix.equals("phot")){
+        for (MyPath path : pathes) {
+            pathPrefix = path.getPathName().substring(path.getPathName().lastIndexOf('/') + 1, path.getPathName().lastIndexOf('/') + 5);
+            if (pathPrefix.equals("phot")) {
                 photo.add(path);
                 request.getSession().setAttribute("phot", photo.size());
             }
-            if(pathPrefix.equals("tech")){
+            if (pathPrefix.equals("tech")) {
                 tech.add(path);
                 request.getSession().setAttribute("tech", tech.size());
             }
@@ -135,14 +140,14 @@ public class ElementController {
     }
 
     @RequestMapping(value = "/deleteElement/{id}")
-    public String deleteOneElement(@PathVariable String id){
+    public String deleteOneElement(@PathVariable String id) {
         logger.info("Start servlet '/deleteElement/{id}'");
         elementService.deleteElement(Integer.parseInt(id));
         return "redirect:/elements";
     }
 
     @RequestMapping(value = "/updateElementPage")
-    public String updateElementPage(Model model, HttpServletRequest request){
+    public String updateElementPage(Model model, HttpServletRequest request) {
         logger.info("Запуск сервлета /updateElement");
         model.addAttribute("currentElement", request.getSession().getAttribute("element"));
         model.addAttribute("countPathPhoto", request.getSession().getAttribute("phot"));
@@ -150,7 +155,7 @@ public class ElementController {
         return "updateElementPage";
     }
 
-    @RequestMapping(value = "/getTxtDataOneElement/{id}",produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+    @RequestMapping(value = "/getTxtDataOneElement/{id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public String getTxtDataOneElement(@PathVariable String id) {
         logger.info("Start servlet '/getTxtDataOneElement'");
@@ -159,19 +164,19 @@ public class ElementController {
 
     @RequestMapping(value = "/deleteFilesElements", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteFile(@RequestBody String data){
+    public String deleteFile(@RequestBody String data) {
         logger.info("Start servlet '/deleteFilesElements'");
-        elementService.deleteFile(data, FILE_PATH_ELEMENT);
+        elementService.deleteFile(data, properties.getElementsPath());
         return gson.toJson(new MyMessage("success delete"));
     }
 
     @RequestMapping(value = "/updateElement", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public String updateOneElement(@RequestBody String data){
+    public String updateOneElement(@RequestBody String data) {
         logger.info("Start servlet '/updateElement'");
         try {
             elementService.updateElement(gson.fromJson(data, Element.class));
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logger.error("Error servlet '/updateElement'");
             return gson.toJson(new MyMessage(ex.getMessage()));
         }

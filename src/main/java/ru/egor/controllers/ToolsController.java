@@ -3,6 +3,7 @@ package ru.egor.controllers;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import ru.egor.otherclasses.MyMessage;
+import ru.egor.util.FileProperties;
+import ru.egor.util.MyMessage;
 import ru.egor.entity.MyPath;
 import ru.egor.entity.MyTool;
 import ru.egor.entity.Plate;
@@ -27,20 +29,20 @@ import java.util.*;
 
 @Controller
 public class ToolsController {
-
-    private static final String FILE_PATH_TOOLS = "C:/SaveImagesFromTechnology/Images/Tools/";
     private static final String SUFFIX_PATH = ".jpg";
     private final static Logger logger = Logger.getLogger(ToolsController.class);
 
     private Gson gson;
     private MyToolService myToolService;
     private MyPathService myPathService;
+    private final FileProperties properties;
 
     @Autowired
-    public ToolsController(Gson gson, MyToolService myToolService, MyPathService myPathService) {
+    public ToolsController(Gson gson, MyToolService myToolService, MyPathService myPathService, FileProperties properties) {
         this.gson = gson;
         this.myToolService = myToolService;
         this.myPathService = myPathService;
+        this.properties = properties;
     }
 
     @RequestMapping(value = "/addTool", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
@@ -69,14 +71,14 @@ public class ToolsController {
     public @ResponseBody
     Map<String,Object> toolsFileUpload(MultipartHttpServletRequest request, HttpServletResponse response){
         logger.info("Start servlet '/uploadFilesTools'");
-        return myToolService.fileUpload(request, response, FILE_PATH_TOOLS);
+        return myToolService.fileUpload(request, response, properties.getToolPath());
     }
 
     // Using ResponseEntity<InputStreamResource>
     @GetMapping("/downloadToolsFiles/{fileName}")
     public ResponseEntity<InputStreamResource> downloadFileTools(@PathVariable String fileName) throws IOException {
         logger.info("Start servlet '/download1/{fileName}'");
-        File file = new File(FILE_PATH_TOOLS+fileName+SUFFIX_PATH);
+        File file = new File(properties.getToolPath()+fileName+SUFFIX_PATH);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
