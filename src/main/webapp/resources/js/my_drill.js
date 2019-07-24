@@ -25,7 +25,7 @@ $(document).ready(function () {
 
     function getJsonDrills() {
         var my_dateTools = [];
-        $.get("/getTxtDataTools", function (data2, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataTools", function (data2, status) {
             console.log("Status: " + status);
             $.each(data2, function (key, val) {   //берем строку json
                 for (var key1 in val) {

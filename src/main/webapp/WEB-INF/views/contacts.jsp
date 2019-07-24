@@ -6,21 +6,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Контакты</title>
-    <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/my_style_tmz.css">
 </head>
 <body>
 <header class="top">
-    <img src="../../resources/images/logoTEMZ.png">
+    <img src="${pageContext.request.contextPath}/resources/images/logoTEMZ.png">
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../..'">Главная</li>
-        <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/tools'">Инструмент</li>
-        <li class="sel" onclick="location.href='/drills'">Сверла</li>
-        <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/machines'">Станки</li>
-        <li class="sel" id="selected" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/'">Главная</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/elements'">Детали</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/tools'">Инструмент</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/drills'">Сверла</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/plates'">Пластины</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/machines'">Станки</li>
+        <li class="sel" id="selected" onclick="location.href='${pageContext.request.contextPath}/contacts'">Контакты</li>
         <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
             <a href="javascript:formSubmit()"> Logout</a>
             <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
@@ -43,8 +43,8 @@
     Copyright © 2019 gorinych3 <br>
     Все права защищены.
 </footer>
-<script src="../../resources/js/jquery.js"></script>
-<script src="../../resources/js/my_script_tmz.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/my_script_tmz.js"></script>
 <script>
     function formSubmit() {
         document.getElementById("logoutForm").submit();

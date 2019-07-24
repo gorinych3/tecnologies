@@ -15,25 +15,25 @@
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
     <title>Станок</title>
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/my_style_tmz.css">
 
 </head>
 <body>
 <header class="top">
-    <img src="../../resources/images/logoTEMZ.png">
+    <img src="${pageContext.request.contextPath}/resources/images/logoTEMZ.png">
     <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
-        <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/tools'">Инструменты</li>
-        <li class="sel" onclick="location.href='/drills'">Сверла</li>
-        <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/machines'">Станки</li>
-        <li class="sel" id="selected" onclick="location.href='/machine'">Станок</li>
-        <li class="sel" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/'">Главная</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/elements'">Детали</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/tools'">Инструменты</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/drills'">Сверла</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/plates'">Пластины</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/machines'">Станки</li>
+        <li class="sel" id="selected" onclick="location.href='${pageContext.request.contextPath}/machine'">Станок</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/contacts'">Контакты</li>
         <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
             <a href="javascript:formSubmit()"> Logout</a>
             <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
@@ -65,8 +65,8 @@
     <button id="del" class="button2" type="button">Удалить</button>
     </sec:authorize>
     <div id="buttons" align="right">
-        <button class="back" onclick="location.href='/machines';" type="button" >Назад</button>
-        <button class="back" onclick="location.href='../../../../../../../';" type="button" >На главную</button>
+        <button class="back" onclick="location.href='${pageContext.request.contextPath}/machines';" type="button" >Назад</button>
+        <button class="back" onclick="location.href='${pageContext.request.contextPath}/';" type="button" >На главную</button>
     </div>
 </div>
 
@@ -78,8 +78,8 @@
     Copyright © 2019 gorinych3 <br>
     Все права защищены.
 </footer>
-<script src="../../resources/js/jquery.js"></script>
-<script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script>
     function formSubmit() {
         document.getElementById("logoutForm").submit();
@@ -117,7 +117,7 @@
 
         $("#del").click(function () {
             if(confirm("Вы точно хотите удалить данный станок? Вся информация о нем будет удалена!!")){
-                window.location.href="/deleteMachine/".concat(${currentMachine.machId});
+                window.location.href="${pageContext.request.contextPath}/deleteMachine/".concat(${currentMachine.machId});
             }
         })
     });

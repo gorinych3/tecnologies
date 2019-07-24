@@ -35,7 +35,7 @@ $(document).ready(function () {
     function getJsonTools() {
         var my_dateTools = [];
         var arrPlate = [];
-        $.get("/getTxtDataTools", function (data2, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataTools", function (data2, status) {
             console.log("Status: " + status);
             $.each(data2, function (key, val) {   //берем строку json
                 for (var key1 in val) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
         var arrObj = [];
         var my_date = [];
         var arrPlates = [];
-        $.get("/getTxtDataPlate", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataPlate", function (data1, status) {
             console.log("Status: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -228,7 +228,7 @@ uplaod = function(model, id){
     });
 
     $.ajax({
-        url:'/uploadFilesTools',
+        url:'/tecnologies-1.0-SNAPSHOT/uploadFilesTools',
         data: data,
         cache: false,
         contentType: false,
@@ -256,7 +256,7 @@ uplaod = function(model, id){
             }
         }
         var newFileName = urlLit(((text + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
-         var down1 = "downloadToolsFiles/".concat(newFileName);
+         var down1 = "/tecnologies-1.0-SNAPSHOT/downloadToolsFiles/".concat(newFileName);
          $("#prim").attr('src', down1);
          $("#prim").css('display','block');
     });
@@ -270,7 +270,7 @@ uplaod = function(model, id){
                 id = asslist[n].id;
             }
         }
-        window.location.href="/gettool/".concat(id);
+        window.location.href="/tecnologies-1.0-SNAPSHOT/gettool/".concat(id);
     });
 //-----------------------------------------------------------------
 

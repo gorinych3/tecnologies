@@ -56,7 +56,7 @@ $(document).ready(function () {
     function getJsonElements() {
         var my_dateElements = [];
 
-        $.get("/getTxtDataElements", function (data2, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataElements", function (data2, status) {
             console.log("Status: " + status);
             $.each(data2, function (key, val) {   //берем строку json
                 for (var key1 in val) {
@@ -97,7 +97,7 @@ $(document).ready(function () {
 
     //кнопка добавить
     $(".button2").click(function () {
-        window.location.href="addElementPage";
+        window.location.href="/tecnologies-1.0-SNAPSHOT/addElementPage";
     });
 
 
@@ -112,7 +112,7 @@ $(document).ready(function () {
             }
         }
         var newFileName = urlLit((("photo-"+text_name+"-"+text_ident + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
-        var down1 = "downloadElementFilesPhoto/".concat(newFileName);
+        var down1 = "/tecnologies-1.0-SNAPSHOT/downloadElementFilesPhoto/".concat(newFileName);
         console.log("addres for download = "+down1);
         $("#prim").attr('src', down1);
         $("#prim").css('display','block');
@@ -130,7 +130,7 @@ $(document).ready(function () {
             }
         }
         console.log("id = " + id);
-        window.location.href="/getelement/".concat(id);
+        window.location.href="/tecnologies-1.0-SNAPSHOT/getelement/".concat(id);
     });
 
 

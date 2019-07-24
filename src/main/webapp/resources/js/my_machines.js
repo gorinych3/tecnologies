@@ -25,7 +25,7 @@ $(document).ready(function () {
     function getJsonAddToArray() {
         var arrObj = [];
         var my_date = [];
-        $.get("/getTxtDataMachines", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataMachines", function (data1, status) {
             console.log("Status: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -161,7 +161,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url:'/uploadFilesMachine',
+            url:'/tecnologies-1.0-SNAPSHOT/uploadFilesMachine',
             data: data,
             cache: false,
             contentType: false,
@@ -187,7 +187,7 @@ $(document).ready(function () {
             }
         }
         var newFileName = urlLit(((text + "-"+"0"+"_"+id).trim()).split('.').join("-"),0);
-        var down1 = "downloadMachineFiles/".concat(newFileName);
+        var down1 = "/tecnologies-1.0-SNAPSHOT/downloadMachineFiles/".concat(newFileName);
         $("#prim").attr('src', down1);
         $("#prim").css('display','block');
     });
@@ -201,7 +201,7 @@ $(document).ready(function () {
                 id = asslist[n].id;
             }
         }
-        window.location.href="/getMachine/".concat(id);
+        window.location.href="/tecnologies-1.0-SNAPSHOT/getMachine/".concat(id);
     });
 
 //функция транслитерации для формирования имени файла и пути к нему

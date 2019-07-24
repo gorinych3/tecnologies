@@ -61,7 +61,7 @@ $(document).ready(function () {
     // функция получает json, создает массив принимаемых объектов
     function getJsonAddToArrayElement() {
         var my_date = [];
-        $.get("/getTxtDataElements", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataElements", function (data1, status) {
             console.log("Status get elements: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -77,7 +77,7 @@ $(document).ready(function () {
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
     function getJsonAddToArrayPlates() {
         var my_date = [];
-        $.get("/getTxtDataPlate", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataPlate", function (data1, status) {
             console.log("Status get plates: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -101,7 +101,7 @@ $(document).ready(function () {
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
     function getJsonAddToArrayTools() {
         var my_date = [];
-        $.get("/getTxtDataTools", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataTools", function (data1, status) {
             console.log("Status get tools: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -144,7 +144,7 @@ $(document).ready(function () {
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
     function getJsonAddToArrayMachines() {
         var my_date = [];
-        $.get("/getTxtDataMachines", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataMachines", function (data1, status) {
             console.log("Status get machines: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -308,7 +308,7 @@ $(document).ready(function () {
             });
 
             $.ajax({
-                url:'/uploadFilesElements',
+                url:'/tecnologies-1.0-SNAPSHOT/uploadFilesElements',
                 data: data,
                 cache: false,
                 contentType: false,

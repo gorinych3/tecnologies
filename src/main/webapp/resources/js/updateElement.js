@@ -64,7 +64,7 @@ $(document).ready(function () {
     function getJsonElement() {
         var my_date = [];
         var id = $("#elid").html();
-        var url_get_el = "/getTxtDataOneElement/"+id;
+        var url_get_el = "/tecnologies-1.0-SNAPSHOT/getTxtDataOneElement/"+id;
 
         $.getJSON(url_get_el, function(data, status) {
             console.log("Status get element: " + status);
@@ -107,7 +107,7 @@ $(document).ready(function () {
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
     function getJsonAddToArrayPlates() {
         var my_date = [];
-        $.get("/getTxtDataPlate", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataPlate", function (data1, status) {
             console.log("Status get plates: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -131,7 +131,7 @@ $(document).ready(function () {
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
     function getJsonAddToArrayTools() {
         var my_date = [];
-        $.get("/getTxtDataTools", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataTools", function (data1, status) {
             console.log("Status get tools: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -174,7 +174,7 @@ $(document).ready(function () {
 //и передает массив в функцию построения таблицы для отображения выпадающего списка при добавлении инструмента
     function getJsonAddToArrayMachines() {
         var my_date = [];
-        $.get("/getTxtDataMachines", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataMachines", function (data1, status) {
             console.log("Status get machines: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -307,48 +307,6 @@ $(document).ready(function () {
             }
         });
 
-//функция отправки файлов серверу
-//         uplaod = function (name_file, flag) {
-//             var data = new FormData();
-//             jQuery.each(jQuery(flag)[0].files, function (i, file) {
-//                 var fileExtension = '.' + file.name.split('.').pop();
-//                 data.append('file-' + i, file, name_file.concat(fileExtension));
-//             });
-//
-//             $.ajax({
-//                 url: '/uploadFilesElements',
-//                 data: data,
-//                 cache: false,
-//                 contentType: false,
-//                 processData: false,
-//                 type: 'POST',
-//                 async: true,
-//                 success: function (response) {
-//                     if (response.Status === 200) {
-//                         console.log(response.SucessfulList);
-//                         return;
-//                     } else {
-//                         console.log('Error');
-//                     }
-//                 }
-//             });
-//         };
-
     });
-
-//-----------------------------------------------------------------
-
-    // //функция транслитерации для формирования имени файла и пути к нему
-    // function urlLit(w, v) {
-    //     var tr = 'a b v g d e ["zh","j"] z i y k l m n o p r s t u f h c ch sh ["shh","shch"] ~ y ~ e yu ya ~ ["jo","e"]'.split(' ');
-    //     var ww = '';
-    //     w = w.toLowerCase();
-    //     for (var i = 0; i < w.length; ++i) {
-    //         var cc = w.charCodeAt(i);
-    //         var ch = (cc >= 1072 ? tr[cc - 1072] : w[i]);
-    //         if (ch.length < 3) ww += ch; else ww += eval(ch)[v];
-    //     }
-    //     return (ww.replace(/[^a-zA-Z0-9\-]/g, '-').replace(/[-]{2,}/gim, '-').replace(/^\-+/g, '').replace(/\-+$/g, ''));
-    // }
 
 });

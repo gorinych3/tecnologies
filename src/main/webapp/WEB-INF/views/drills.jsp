@@ -16,25 +16,25 @@
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
     <title>Инструмент</title>
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/my_style_tmz.css">
 
 </head>
 <body>
 
 <header class="top">
-    <img src="../../resources/images/logoTEMZ.png">
+    <img src="${pageContext.request.contextPath}/resources/images/logoTEMZ.png">
     <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
-        <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" onclick="location.href='/tools'">Инструменты</li>
-        <li class="sel" id="selected" onclick="location.href='/drills'">Сверла</li>
-        <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/machines'">Станки</li>
-        <li class="sel" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/'">Главная</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/elements'">Детали</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/tools'">Инструменты</li>
+        <li class="sel" id="selected" onclick="location.href='${pageContext.request.contextPath}/drills'">Сверла</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/plates'">Пластины</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/machines'">Станки</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/contacts'">Контакты</li>
         <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
             <a href="javascript:formSubmit()"> Logout</a>
             <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
@@ -150,9 +150,9 @@
     Copyright © 2019 gorinych3 <br>
     Все права защищены.
 </footer>
-<script src="../../resources/js/jquery.js"></script>
-<script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../resources/js/my_drill.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/my_drill.js"></script>
 <script>
     function formSubmit() {
         document.getElementById("logoutForm").submit();

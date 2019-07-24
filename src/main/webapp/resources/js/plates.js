@@ -23,7 +23,7 @@ $(document).ready(function () {
     function getJsonAddToArray() {
         var arrObj = [];
         var my_date = [];
-        $.get("/getTxtDataPlate", function (data1, status) {
+        $.get("/tecnologies-1.0-SNAPSHOT/getTxtDataPlate", function (data1, status) {
             console.log("Status: " + status);
             $.each(data1, function (key, val) {
                 for (var key1 in val) {
@@ -158,7 +158,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url:'/uploadFiles',
+            url:'/tecnologies-1.0-SNAPSHOT/uploadFiles',
             data: data,
             cache: false,
             contentType: false,
@@ -177,7 +177,7 @@ $(document).ready(function () {
 //при переходе по ссылке получаем именя файла и отправляем запрос к серверу на подгрузку файла
     $('.list').on('click', 'tbody tr td:last-child', function(e) {
         var text = $(this).siblings('td').find('span').text();
-        var down1 = "download1/".concat(text);
+        var down1 = "/tecnologies-1.0-SNAPSHOT/download1/".concat(text);
         $("#prim").attr('src', down1);
         $("#prim").css('display','block');
     });
@@ -188,7 +188,7 @@ $(document).ready(function () {
         var span = text.substring(text.indexOf('>')+1, text.lastIndexOf('<'));
         var number_first = span.lastIndexOf('-');
         var id = span.substring(number_first+1);
-        window.location.href="/getplate/".concat(id);
+        window.location.href="/tecnologies-1.0-SNAPSHOT/getplate/".concat(id);
     });
 
 //функция транслитерации для формирования имени файла и пути к нему

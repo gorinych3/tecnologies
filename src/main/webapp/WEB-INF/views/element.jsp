@@ -15,27 +15,27 @@
 <head>
     <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
     <title>Деталь</title>
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/my_style_tmz.css">
-    <script src="../../resources/js/jquery.js"></script>
-    <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/my_style_tmz.css">
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 <body>
 <header class="top">
-    <img src="../../resources/images/logoTEMZ.png">
+    <img src="${pageContext.request.contextPath}/resources/images/logoTEMZ.png">
     <sec:csrfMetaTags />
 </header>
 <nav>
     <ul>
-        <li class="sel" onclick="location.href='../../../../../../../'">Главная</li>
-        <li class="sel" onclick="location.href='/elements'">Детали</li>
-        <li class="sel" id="selected" onclick="location.href='/element'">Деталь</li>
-        <li class="sel" onclick="location.href='/tools'">Инструменты</li>
-        <li class="sel" onclick="location.href='/drills'">Сверла</li>
-        <li class="sel" onclick="location.href='/plates'">Пластины</li>
-        <li class="sel" onclick="location.href='/machines'">Станки</li>
-        <li class="sel" onclick="location.href='/contacts'">Контакты</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/'">Главная</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/elements'">Детали</li>
+        <li class="sel" id="selected" onclick="location.href='${pageContext.request.contextPath}/element'">Деталь</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/tools'">Инструменты</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/drills'">Сверла</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/plates'">Пластины</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/machines'">Станки</li>
+        <li class="sel" onclick="location.href='${pageContext.request.contextPath}/contacts'">Контакты</li>
         <li class="sel" style="position: absolute; right: 10px; top: 155px"><c:url var="logoutUrl" value="/logout" />
             <a href="javascript:formSubmit()"> Logout</a>
             <form style="display: none" action="${logoutUrl}" method="post" id="logoutForm">
@@ -86,14 +86,14 @@
         </div>
 
         <div id="${t.toolId}"></div>
-        <div><script src="../../resources/js/getFilesPlates.js"></script>
+        <div><script src="${pageContext.request.contextPath}/resources/js/getFilesPlates.js"></script>
             <script language="JavaScript">
                 var name = "${t.name}";
                 console.log("name = " + name);
                 if ((name === "Сверло" || name === "Фреза" || name === "Центровка" || name === "Развертка")) {
                 } else {
                     console.log("Вызов функции получения файлов инструмента");
-                    getPhotoPlates(${t.toolId}, "${t.model}", "/downloadToolsFiles/")
+                    getPhotoPlates(${t.toolId}, "${t.model}", "${pageContext.request.contextPath}/downloadToolsFiles/")
                 }
             </script>
         </div>
@@ -117,9 +117,9 @@
         </div>
 
         <div id="${p.plateId}"></div>
-        <div><script src="../../resources/js/getFilesPlates.js"></script>
+        <div><script src="${pageContext.request.contextPath}/resources/js/getFilesPlates.js"></script>
             <script language="JavaScript">
-                getPhotoPlates(${p.plateId}, "${p.model}", "/download1/")</script>
+                getPhotoPlates(${p.plateId}, "${p.model}", "${pageContext.request.contextPath}/download1/")</script>
 
         </div>
 
@@ -135,8 +135,8 @@
     <button id="del" class="button2" type="button">Удалить</button>
     </sec:authorize>
     <div id="buttons" align="right">
-        <button class="back" onclick="location.href='/elements';" type="button" >Назад</button>
-        <button class="back" onclick="location.href='../../../../../../../';" type="button" >На главную</button>
+        <button class="back" onclick="location.href='${pageContext.request.contextPath}/elements';" type="button" >Назад</button>
+        <button class="back" onclick="location.href='${pageContext.request.contextPath}/';" type="button" >На главную</button>
     </div>
 </div>
 
@@ -201,14 +201,14 @@
 
         $("#del").click(function () {
             if(confirm("Вы точно хотите удалить данную деталь? Вся информация о ней будет удалена!!")){
-                window.location.href="/deleteElement/".concat(${currentElement.elId});
+                window.location.href="${pageContext.request.contextPath}/deleteElement/".concat(${currentElement.elId});
             }
         });
 
         // переход на страницу редактирования
 
         $("#updateS").click(function () {
-            window.location.href = "/updateElementPage";
+            window.location.href = "${pageContext.request.contextPath}/updateElementPage";
         });
 
         $(function(){
