@@ -85,7 +85,7 @@
                 <div class="tableRow">
                     <p>
                         Выберите инструмент:
-                        <img src="../../resources/images/Help.png" width="20px" border="0" title="Красным цветом отмечен уже выбранный инструмент.
+                        <img src="${pageContext.request.contextPath}/resources/images/Help.png" width="20px" border="0" title="Красным цветом отмечен уже выбранный инструмент.
                         Если вы желаете изменить список инструмента,
                         вам придется выбрать все необходимые инструменты">
                     </p>
@@ -99,7 +99,7 @@
                 <div class="tableRow">
                     <p>
                         Выберите пластины:
-                        <img src="../../resources/images/Help.png" width="20px" border="0" title="Красным цветом отмечены уже выбранные пластины.
+                        <img src="${pageContext.request.contextPath}/resources/images/Help.png" width="20px" border="0" title="Красным цветом отмечены уже выбранные пластины.
                         Если вы желаете изменить список пластин,
                         вам придется заново выбрать все необходимые пластины">
                     </p>
@@ -113,7 +113,7 @@
                 <div class="tableRow">
                     <p>
                         Выберите станки:
-                        <img src="../../resources/images/Help.png" width="20px" border="0" title="Красным цветом отмечены уже выбранные станки.
+                        <img src="${pageContext.request.contextPath}/resources/images/Help.png" width="20px" border="0" title="Красным цветом отмечены уже выбранные станки.
                         Если вы желаете изменить список станков,
                         вам придется заново выбрать все необходимые станки">
                     </p>
